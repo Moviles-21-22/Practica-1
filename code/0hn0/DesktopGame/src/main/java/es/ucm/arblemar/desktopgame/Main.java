@@ -1,7 +1,9 @@
 package es.ucm.arblemar.desktopgame;
-
+import es.ucm.arblemar.gamelogic.TipoCelda;
 public class Main {
     public static void main (String [] args){
-        System.out.println("Hola mundo");
+        TipoCelda t = TipoCelda.AZUL;
+
+        System.out.println("Celda: " + t + " / " + t.getValue());
     }
 }
