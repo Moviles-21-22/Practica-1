@@ -1,6 +1,8 @@
 package es.ucm.arblemar.desktopengine;
 
 
+import java.util.Vector;
+
 import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Input;
@@ -9,14 +11,20 @@ import es.ucm.arblemar.engine.Input;
 
 public class DesktopEngine implements Engine {
 
+
     private DesktopGraphics graphics;
-    private DesktopFont font;
+    private Vector<DesktopFont> fonts = new Vector<>();
     private DesktopInput input;
 
     public DesktopEngine(){
         String titulo = "TESTEO";
         graphics = new DesktopGraphics(titulo);
 
+        graphics.setColor(256, 1, 1, 255);
+        graphics.save();
+        //graphics.translate(0, 50);
+        graphics.fillRect(100, 100, 100, 100);
+        graphics.restore();
     }
 
     @java.lang.Override

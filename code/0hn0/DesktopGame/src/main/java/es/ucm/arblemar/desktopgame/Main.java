@@ -9,8 +9,9 @@ public class Main {
 
         System.out.println("Celda: " + t + " / " + t.getValue());
         // TODO: pasar el tamaño del tablero
-        //GameLogic game = new GameLogic(6);
+        GameLogic game = new GameLogic(6);
         DesktopEngine engine = new DesktopEngine();
+        game.initGame();
         //engine.run();
 
     }

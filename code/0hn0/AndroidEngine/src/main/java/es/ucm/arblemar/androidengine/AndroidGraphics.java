@@ -19,17 +19,27 @@ public class AndroidGraphics implements Graphics {
     }
 
     @Override
-    public void fillRect() {
+    public void fillRect(double x1, double y1, int width, int height) {
 
     }
 
     @Override
-    public void drawText() {
+    public void drawRect(double x, double y, int width, int height) {
+
+    }
+
+    @Override
+    public void drawText(String text, double x, double y) {
 
     }
 
     @Override
     public void drawCircle(float radio) {
+
+    }
+
+    @Override
+    public void setColor(float r, float g, float b, float a) {
 
     }
 
@@ -53,6 +63,21 @@ public class AndroidGraphics implements Graphics {
 
     @Override
     public void getMove() {
+
+    }
+
+    @Override
+    public void translate(double x, double y) {
+
+    }
+
+    @Override
+    public void save() {
+
+    }
+
+    @Override
+    public void restore() {
 
     }
 

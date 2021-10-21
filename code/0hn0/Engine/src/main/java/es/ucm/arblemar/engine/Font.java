@@ -12,11 +12,7 @@ public interface Font {
      */
     public void setText(String text);
     public void setPos(float x, float y);
-    //public void setPos(Vector2D pos);
     public void setSize(float x, float y);
-    //public void setSize(Vector2D size);
 
     public String getText();
-    //public Vector2D getPos();
-    //public Vector2D getSize();
 }
