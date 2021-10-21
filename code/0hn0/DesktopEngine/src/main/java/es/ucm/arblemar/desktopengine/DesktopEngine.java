@@ -1,40 +1,58 @@
 package es.ucm.arblemar.desktopengine;
 
+
+import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Input;
 
-public class DesktopEngine implements es.ucm.arblemar.engine.Engine {
+
+
+public class DesktopEngine implements Engine {
+
+    private DesktopGraphics graphics;
+    private DesktopFont font;
+    private DesktopInput input;
+
     public DesktopEngine(){
+        String titulo = "TESTEO";
+        graphics = new DesktopGraphics(titulo);
 
     }
 
-    @Override
-    public void update(double deltaTime){
+    @java.lang.Override
+    public void init() {
 
     }
 
-    @Override
-    public void handleInput(){
+
+    @java.lang.Override
+    public void update(double deltaTime) {
 
     }
 
-    @Override
-    public void render(){
+    @java.lang.Override
+    public void handleInput() {
 
     }
 
-    @Override
-    public void run(){
+    @java.lang.Override
+    public void render() {
 
     }
 
-    @Override
-    public Graphics getGraphics(){
-        return null;
+    @java.lang.Override
+    public void run() {
+
     }
 
-    @Override
-    public Input getInput(){
-        return null;
+
+    @java.lang.Override
+    public Graphics getGraphics() {
+        return graphics;
+    }
+
+    @java.lang.Override
+    public Input getInput() {
+        return input;
     }
 }

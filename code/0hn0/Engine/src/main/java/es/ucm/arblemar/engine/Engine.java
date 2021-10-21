@@ -5,6 +5,7 @@ public interface Engine {
     public void handleInput();
     public void render();
     public void run();
+    public void init();
 
     public Graphics getGraphics();
     public Input getInput();

@@ -1,4 +1,7 @@
 package es.ucm.arblemar.androidengine;
 
-public class AndroidInput {
+import es.ucm.arblemar.engine.Input;
+
+public class AndroidInput implements Input {
+
 }

@@ -1,4 +1,6 @@
 package es.ucm.arblemar.androidengine;
 
-public class AndroidImage {
+import es.ucm.arblemar.engine.Image;
+
+public class AndroidImage implements Image {
 }

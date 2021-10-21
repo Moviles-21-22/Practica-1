@@ -1,4 +1,6 @@
 package es.ucm.arblemar.desktopengine;
 
-public class DesktopInput {
+import es.ucm.arblemar.engine.Input;
+
+public class DesktopInput implements Input {
 }

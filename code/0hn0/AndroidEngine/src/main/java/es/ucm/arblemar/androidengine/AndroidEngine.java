@@ -1,12 +1,27 @@
 package es.ucm.arblemar.androidengine;
 
 import android.content.Context;
+
+import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Input;
 
-public class AndroidEngine implements es.ucm.arblemar.engine.Engine {
+public class AndroidEngine implements Engine {
+
+    private AndroidGraphics graphics;
+    private AndroidInput input;
+    private Thread renderThread;
+    volatile boolean running = false;
+
     public AndroidEngine(Context context){
 
+    }
+
+    @Override
+    public void init() {
+        //input = new AndroidInput();
+        //graphics = new AndroidGraphics(this, input);
+        //  ...
     }
 
     @Override
@@ -29,14 +44,15 @@ public class AndroidEngine implements es.ucm.arblemar.engine.Engine {
 
     }
 
+
     @Override
     public Graphics getGraphics(){
-        return null;
+        return graphics;
     }
 
     @Override
     public Input getInput(){
-        return null;
+        return input;
     }
 }
 
