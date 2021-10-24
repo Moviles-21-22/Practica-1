@@ -3,17 +3,24 @@ package es.ucm.arblemar.gamelogic;
 /**
  * Clase abstracta de las celdas
  */
+
+/**
+ * Comportamiento de la celda cuando se le da click
+ * @return Devuelve si la celda está bloqueada o no, de manera que
+ * las celdas rojas y azules iniciales no se puedan modificar, solo las
+ * que se hayan inicializado como grises
+ */
 public abstract class Celda {
-    protected Celda(TipoCelda t) {
+
+    // Determina si esta celda está bloqueada
+    protected boolean _lock = false;
+    protected TipoCelda _tipoCelda = TipoCelda.GRIS;
+
+    public Celda(TipoCelda t) {
         _tipoCelda = t;
     }
 
-    /**
-     * Comportamiento de la celda cuando se le da click
-     * @return Devuelve si la celda está bloqueada o no, de manera que
-     * las celdas rojas y azules iniciales no se puedan modificar, solo las
-     * que se hayan inicializado como grises
-     */
+
     protected abstract boolean Click();
 
     protected abstract void Init();
@@ -22,9 +29,8 @@ public abstract class Celda {
         return _tipoCelda;
     }
 
-    /**
-     * Atributos de Celda
-     */
-    protected boolean _lock = false;
-    protected TipoCelda _tipoCelda = TipoCelda.GRIS;
+    public boolean IsLock(){
+        return _lock;
+    }
+
 };

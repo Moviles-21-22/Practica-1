@@ -16,7 +16,6 @@ public class DesktopGraphics implements Graphics {
         screen = new DesktopScreen(titulo);
         screen.createScreen();
         show();
-
     }
 
     public void show() {

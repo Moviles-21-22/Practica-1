@@ -20,7 +20,7 @@ public class DesktopEngine implements Engine {
         String titulo = "TESTEO";
         graphics = new DesktopGraphics(titulo);
 
-        graphics.setColor(256, 1, 1, 255);
+        graphics.setColor(255, 1, 1, 255);
         graphics.save();
         //graphics.translate(0, 50);
         graphics.fillRect(100, 100, 100, 100);

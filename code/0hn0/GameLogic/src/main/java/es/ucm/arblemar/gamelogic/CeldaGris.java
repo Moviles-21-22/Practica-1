@@ -2,9 +2,11 @@ package es.ucm.arblemar.gamelogic;
 
 public class CeldaGris extends Celda{
 
-    CeldaGris(){
+    private int valor = 0;
+    CeldaGris(int _valor){
         super(TipoCelda.GRIS);
         _lock = false;
+        valor = _valor;
     }
 
     @Override

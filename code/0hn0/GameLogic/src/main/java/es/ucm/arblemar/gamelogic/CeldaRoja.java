@@ -1,11 +1,11 @@
 package es.ucm.arblemar.gamelogic;
 
-public class CeldaAzul extends Celda{
+public class CeldaRoja extends Celda{
 
     private int valor = 0;
 
-    CeldaAzul(int _valor){
-        super(TipoCelda.AZUL);
+    CeldaRoja(int _valor){
+        super(TipoCelda.ROJO);
         _lock = true;
         valor = _valor;
     }
@@ -25,9 +25,5 @@ public class CeldaAzul extends Celda{
         // avisa de alguna manera al tablero para que las rojas muestren icono de bloqueado
 
         return _lock;
-    }
-
-    public int getValue(){
-        return valor;
     }
 }
