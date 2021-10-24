@@ -1,6 +1,6 @@
 package es.ucm.arblemar.gamelogic;
 
-public class CeldaGris extends Celda{
+public class CeldaGris extends Celda {
 
     private int valor = 0;
     CeldaGris(int _valor){

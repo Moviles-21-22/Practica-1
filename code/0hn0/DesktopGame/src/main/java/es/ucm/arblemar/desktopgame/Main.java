@@ -7,12 +7,10 @@ public class Main {
     public static void main (String [] args){
         TipoCelda t = TipoCelda.AZUL;
 
-        System.out.println("Celda: " + t + " / " + t.getValue());
         // TODO: pasar el tamaño del tablero
-        GameLogic game = new GameLogic(6);
+        GameLogic game = new GameLogic(4);
         DesktopEngine engine = new DesktopEngine();
         game.initGame();
-        //engine.run();
-
-    }
+        engine.run();
+     }
 }

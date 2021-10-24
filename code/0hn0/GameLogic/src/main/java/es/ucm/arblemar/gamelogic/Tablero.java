@@ -1,27 +1,34 @@
 package es.ucm.arblemar.gamelogic;
 
 
-import com.sun.tools.javac.util.Pair;
 import java.util.Random;
 
 public class Tablero {
 
     int _size = 4;
     private int adyacentes = 0;
-    // Numero de celdas grises cambiadas de color
+
+    /*
+    * Número de celdas grises cambiadas de color
+    * */
+
     int contador = 0;
     private Celda[][] casillas;
     boolean [] locks;
     boolean rendirse = false;
 
     public Tablero(int size){
-        _size = 3;
+        _size = size;
+        /*
+        * Inicialización de las celdas en modo gris
+        * */
         casillas = new Celda[_size][_size];
         for(int i = 0 ; i < _size ; i++){
             for(int j = 0 ; j < _size ; j++){
                 casillas[i][j] = new CeldaGris(0);
             }
         }
+
         Init();
         RenderizaConsola();
     }
@@ -45,23 +52,29 @@ public class Tablero {
         }
     }
 
-    // Inicializa el tablero y asegura que tenga solución
+    /**
+    * Inicializa el tablero y asegura que tenga solución
+    */
     private void Init(){
         Random r = new Random();
 
-        //  Número de azules a poner
-        int circulosAzules = r.nextInt(_size - 1) + 1;
+        /**
+        * Número de azules a poner
+        */
+        int circulosAzules = r.nextInt(_size) + 1;
 
-        //  Bucle para poner los azules
+        /**
+         * Bucle para poner los azules
+         * */
         boolean azulesPuesto = false;
         //  Contador de cuantos azules se han puesto
         int contAzul = 0;
         while (!azulesPuesto){
-            int indX = r.nextInt(_size - 1) + 1;
-            int indY = r.nextInt(_size - 1) + 1;
+            int indX = r.nextInt(_size);
+            int indY = r.nextInt(_size);
             if(!casillas[indX][indY].IsLock()){
-                int valor = r.nextInt(_size - 1) + 1;
-                if(Valid(indX,indY,valor)){
+                int valor = r.nextInt(_size) + 1;
+                if(BlueValid(indX,indY,valor)){
                     //System.out.println("Pos " + indX + " " +indY);
                     casillas[indX][indY] = new CeldaAzul(valor);
                     casillas[indX][indY]._lock = true;
@@ -70,96 +83,93 @@ public class Tablero {
             }
             azulesPuesto = contAzul >= circulosAzules;
         }
+        System.out.println("Azules hecho");
 
         //  Número de rojos a poner
-        int circulosRojos = r.nextInt(_size - 1) + 1;
-        //  Bucle para poner los azules
-        boolean rojosPuesto = false;
-        //  Contador de cuantos azules se han puesto
-        int contRojos = 0;
-        while (!rojosPuesto){
-            int indX = r.nextInt(_size - 1) + 1;
-            int indY = r.nextInt(_size - 1) + 1;
-            if(!casillas[indX][indY].IsLock()){
-                int valor = r.nextInt(_size - 1) + 1;
-                if(Valid(indX,indY,valor)){
-                    //System.out.println("Pos " + indX + " " +indY);
-                    casillas[indX][indY] = new CeldaRoja(valor);
-                    casillas[indX][indY]._lock = true;
-                    contRojos++;
-                }
-            }
-            rojosPuesto = contRojos >= circulosRojos;
+        //int circulosRojos = r.nextInt(_size - 1) + 1;
+        ////  Bucle para poner los azules
+        //boolean rojosPuesto = false;
+        ////  Contador de cuantos azules se han puesto
+        //int contRojos = 0;
+        //while (!rojosPuesto){
+        //    int indX = r.nextInt(_size - 1) + 1;
+        //    int indY = r.nextInt(_size - 1) + 1;
+        //    if(!casillas[indX][indY].IsLock()){
+        //        int valor = r.nextInt(_size - 1) + 1;
+        //        if(BlueValid(indX,indY,valor)){
+        //            //System.out.println("Pos " + indX + " " +indY);
+        //            casillas[indX][indY] = new CeldaRoja(valor);
+        //            casillas[indX][indY]._lock = true;
+        //            contRojos++;
+        //        }
+        //    }
+        //    rojosPuesto = contRojos >= circulosRojos;
 
-        }
+        //}
+
     }
 
-    private boolean revisaAdyacentes(Vector2D coors, Vector2D dir, int valor){
-        int x = (int)coors._x;
-        int y = (int)coors._y;
-        coors._y += dir._y;
-        coors._x += dir._x;
-        boolean correcto = true;
-        while (correcto){
-            //  Me he salido por arriba entonces cambio de dirección
-            if(coors._y < 0){
-                coors._y = y + 1;
-                dir._y = 1;
-            }
-            //  Me he salido por la izquierda entonces cambio de dirección
-            else if(coors._x < 0){
-                coors._x = x + 1;
-                dir._x = 1;
-            }
-            //  Me he salido por abajo
-            else if(dir._y == 1 && coors._y >= _size){
-                return adyacentes > valor;
-            }
-            //  Me he salido por la derecha
-            else if(dir._x == 1 && coors._x >= _size){
-                return adyacentes > valor;
-            }
-            //  Hay casilla adyacente
-            else if(casillas[(int)coors._x][(int)coors._y].IsLock()){
-                adyacentes++;
-                coors._y += dir._y;
-                coors._x += dir._x;
-            }
-            //  Cambio de dirección en el eje y
-            else if(dir._y == -1){
-                dir._y = 1;
-                coors._y += dir._y + 1;
-            }
-            else if(dir._x == -1){
-                dir._x = 1;
-                coors._x += dir._x + 1;
-            }
-            //  No hay más posibilidades de adyacencia o no hay más adyacentes de las permitidas
-            else if(dir._y == 1 || dir._x == 1|| adyacentes > valor){
-                return false;
-            }
-        }
-       //Pair<String,Integer> v = new Pair<>("correcto",ady);
-        return adyacentes < valor;
-    }
-
-    //  Recorrer el rango del valor en el eje x e y, mientras la suma de los adyacentes
-    //  no sea mayor al valor, es correcto.
-    private boolean Valid(int x, int y, int valor){
+    /**
+    * Recorre el rango del valor en el eje x e y, mientras la suma de los adyacentes
+    * no sea mayor al valor, es correcto.
+    */
+    private boolean BlueValid(int x, int y, int valor){
         adyacentes = 0;
         Vector2D coors = new Vector2D(x,y);
-        Vector2D dir = new Vector2D(0,-1);
+        Vector2D [] dirs = new Vector2D[4];
 
-        if(!revisaAdyacentes(coors,dir,valor)){
-            dir._x = -1;
-            dir._y = 0;
-            coors._x = x;
-            coors._y = y;
-            revisaAdyacentes(coors,dir,valor);
+        /**
+        * Arriba (0), Abajo (1), Izquierda (2), Derecha (3)
+        */
+        dirs[0] = new Vector2D(0, -1);
+        dirs[1] = new Vector2D(0, 1);
+        dirs[2] = new Vector2D(-1, 0);
+        dirs[3] = new Vector2D(1, 0);
 
+        Vector2D currentDir = dirs[0];
+        int index = 0;
+        boolean finish = false;
+        while(!finish) {
+            /**
+             * Comprobación de si la casilla adyacente es gris o está fuera de los límites del grid
+             * para cambiar de dirección o parar de buscar cuando ya no haya más que comprobar
+             * */
+            if(coors._y < 0 || coors._y >= _size
+                || coors._x < 0 || coors._x >= _size
+                || !casillas[(int)coors._x][(int)coors._y].IsLock()) {
+                index++;
+                if(index < dirs.length) {
+                    // Reseteamos los valores para comprobar en la siguiente dirección
+                    currentDir = dirs[index];
+                    coors._x = x + currentDir._x;
+                    coors._y = y + currentDir._y;
+                }
+                else {
+                    finish = true;
+                }
+            }
+            /**
+             * Comprobación de si la casilla adyacente es azul
+             * */
+            else if(casillas[(int)coors._x][(int)coors._y].IsLock())
+            {
+                adyacentes++;
+                // Nos movemos a la siguiente casilla
+                coors._y += currentDir._y;
+                coors._x += currentDir._x;
+
+                /**
+                 *  Si hay más adyacentes que el valor de la celda azul, entonces no es válido
+                 *  Se termina la búsqueda
+                 */
+                finish = adyacentes > valor;
+            }
         }
 
-        return adyacentes > valor;
+        /**
+         * Si los adyacentes del círculo son menores o iguales
+         * que el valor que
+         * */
+        return adyacentes <= valor;
     }
-
 }

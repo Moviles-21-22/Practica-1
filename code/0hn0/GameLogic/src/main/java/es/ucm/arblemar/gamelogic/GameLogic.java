@@ -14,8 +14,7 @@ public class GameLogic {
 
     public GameLogic(int _tamTablero){
         tamTablero = _tamTablero;
-        tablero = new Tablero(4);
-
+        tablero = new Tablero(_tamTablero);
     }
 
     private void loadMainMenu(){
