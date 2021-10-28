@@ -22,7 +22,7 @@ public enum TipoPista {
      * punto en la celda de su izquierda, porque por la derecha (que es la única otra forma
      * de añadir visibles) no vamos a conseguir llegar al 2 nunca.
      */
-    PONER_ADYACENTE(2),
+    ADYACENTE_DONETE(2),
 
     //  Hay algunas pistas que pueden proporcionarse si el jugador se ha equivocado:
     /**
@@ -57,7 +57,6 @@ public enum TipoPista {
      * Un número que no ve suficientes puntos no está aún cerrado y solo tiene abierta una
      * dirección. Está cubierta por la pista 3.
      */
-
     AZUL_INCOMPLETA(7),
 
 

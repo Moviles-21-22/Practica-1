@@ -11,9 +11,8 @@ public class Tablero {
     private int _size = 4;
     private int adyacentes = 0;
     private Celda[][] casillas;
-    private Pair<Integer,Integer> [] indexAzules;
-    private Pair<Integer,Integer> [] indexRojos;
-
+    private Vector2[] indexAzules;
+    private Vector2[] indexRojos;
 
 
     public Tablero(int size){
@@ -61,7 +60,7 @@ public class Tablero {
         * Número de azules a poner
         */
         int circulosAzules = r.nextInt(_size) + 1;
-        indexAzules = new Pair[circulosAzules];
+        indexAzules = new Vector2[circulosAzules];
 
         /**
          * Bucle para poner los azules
@@ -78,7 +77,7 @@ public class Tablero {
                     //System.out.println("Pos " + indX + " " +indY);
                     casillas[indX][indY] = new CeldaAzul(valor);
                     casillas[indX][indY]._lock = true;
-                    indexAzules[contAzul] = new Pair<Integer, Integer>(indX,indY);
+                    indexAzules[contAzul] = new Vector2(indX,indY);
                     contAzul++;
                 }
             }
@@ -118,18 +117,18 @@ public class Tablero {
     */
     private boolean BlueValid(int x, int y, int valor){
         adyacentes = 0;
-        Vector2D coors = new Vector2D(x,y);
-        Vector2D [] dirs = new Vector2D[4];
+        Vector2 coors = new Vector2(x,y);
+        Vector2[] dirs = new Vector2[4];
 
         /**
         * Arriba (0), Abajo (1), Izquierda (2), Derecha (3)
         */
-        dirs[0] = new Vector2D(0, -1);
-        dirs[1] = new Vector2D(0, 1);
-        dirs[2] = new Vector2D(-1, 0);
-        dirs[3] = new Vector2D(1, 0);
+        dirs[0] = new Vector2(0, -1);
+        dirs[1] = new Vector2(0, 1);
+        dirs[2] = new Vector2(-1, 0);
+        dirs[3] = new Vector2(1, 0);
 
-        Vector2D currentDir = dirs[0];
+        Vector2 currentDir = dirs[0];
         int index = 0;
         boolean finish = false;
         while(!finish) {
@@ -179,18 +178,18 @@ public class Tablero {
 
     private boolean RedValid(int x, int y){
 
-        Vector2D coors = new Vector2D(x,y);
-        Vector2D [] dirs = new Vector2D[4];
+        Vector2 coors = new Vector2(x,y);
+        Vector2[] dirs = new Vector2[4];
 
         /**
          * Arriba (0), Abajo (1), Izquierda (2), Derecha (3)
          */
-        dirs[0] = new Vector2D(0, -1);
-        dirs[1] = new Vector2D(0, 1);
-        dirs[2] = new Vector2D(-1, 0);
-        dirs[3] = new Vector2D(1, 0);
+        dirs[0] = new Vector2(0, -1);
+        dirs[1] = new Vector2(0, 1);
+        dirs[2] = new Vector2(-1, 0);
+        dirs[3] = new Vector2(1, 0);
 
-        Vector2D currentDir = dirs[0];
+        Vector2 currentDir = dirs[0];
         int index = 0;
         //  Cantidad de salidas que tiene un azul
         int salidas = 0;
@@ -251,10 +250,11 @@ public class Tablero {
         return salidas <= dirs.length - 1;
     }
 
-    public Pair<Integer,Integer> [] GetIndexAzules(){
+    public Vector2 [] GetIndexAzules(){
         return indexAzules;
     }
-    public Pair<Integer,Integer> [] GetIndexRojas(){
+
+    public Vector2 [] GetIndexRojas(){
         return indexRojos;
     }
 

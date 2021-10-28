@@ -1,30 +1,42 @@
 package es.ucm.arblemar.gamelogic;
 
-import com.sun.tools.javac.util.Pair;
-
-import java.util.Random;
-
-import sun.tools.jconsole.Tab;
-
 public class Pistas {
-    private TipoPista pista;
+    private TipoPista _pista;
+    private Tablero _tab;
+    private Celda[][] _casillas;
+    private Vector2 []_indexAzules;
+    private int _size;
 
-    public Pistas(TipoPista _pista){
-        pista = _pista;
-    }
+    /**
+     * Arriba (0), Abajo (1), Izquierda (2), Derecha (3)
+     */
+    final Vector2[] _dirs = {
+        new Vector2(0, -1),
+        new Vector2(0, 1),
+        new Vector2(-1, 0),
+        new Vector2(1, 0)
+    };
+
+    public Pistas(){}
 
     TipoPista GetTipoPista(){
-        return  pista;
+        return _pista;
     }
 
-    public void GetPista(Tablero t,int choice){
+    public void GetPista(Tablero tab, int choice){
+        _tab = tab;
+        _casillas = _tab.GetCasillas();
+        _indexAzules = _tab.GetIndexAzules();
+        _size = _tab.GetSize();
 
+        // Se van recorriendo las pistas en un orden jerarquico, de manera
+        // que si no se encuentra la primera, se busca la siguiente pista
         switch (choice){
             case 0:
             {
-                Vector2D doneteIndex = DonetePista(t);
+                Vector2 doneteIndex = DonetePista();
                 if(doneteIndex._x == -1){
-                    GetPista(t,choice + 1);
+                    GetPista(_tab,choice + 1);
                 }
                 else{
                     // Feedback de la pista
@@ -33,9 +45,9 @@ public class Pistas {
             }
             case 1:
             {
-                Vector2D azulIncorrecto = AzulIncorrecto(t);
+                Vector2 azulIncorrecto = AzulIncorrecto();
                 if(azulIncorrecto._x == -1){
-                    GetPista(t,choice + 1);
+                    GetPista(_tab,choice + 1);
                 }
                 else{
                     // Feedback de la pista
@@ -49,30 +61,20 @@ public class Pistas {
         //return TipoPista.AZUL_AISLADA;
     }
 
-    Vector2D DonetePista(Tablero t){
-
-        Celda[][] casillas = t.GetCasillas();
-        Pair<Integer,Integer>[] indexAzules = t.GetIndexAzules();
-        int size = t.GetSize();
-
-        Vector2D donete = new Vector2D(-1,-1);
+    /**
+     * Si pusiéramos un punto azul en una celda vacía, superaríamos el número de visibles
+     * del número, y por tanto, debe ser una pared.
+     */
+    Vector2 AzulIncorrecto(){
+        Vector2 wrongBlue = new Vector2(-1,-1);
 
         int indexAz = 0;
         int adyacentes = 0;
 
 
-        Vector2D coors = new Vector2D(indexAzules[0].fst,indexAzules[0].snd);
-        Vector2D [] dirs = new Vector2D[4];
+        Vector2 coors = new Vector2(_indexAzules[0]._x, _indexAzules[0]._y);
 
-        /**
-         * Arriba (0), Abajo (1), Izquierda (2), Derecha (3)
-         */
-        dirs[0] = new Vector2D(0, -1);
-        dirs[1] = new Vector2D(0, 1);
-        dirs[2] = new Vector2D(-1, 0);
-        dirs[3] = new Vector2D(1, 0);
-
-        Vector2D currentDir = dirs[0];
+        Vector2 currentDir = _dirs[0];
         coors._x += currentDir._x;
         coors._y += currentDir._y;
 
@@ -83,26 +85,105 @@ public class Pistas {
              * Comprobación de si la casilla adyacente es gris o está fuera de los límites del grid
              * para cambiar de dirección o parar de buscar cuando ya no haya más que comprobar
              * */
-            if(coors._y < 0 || coors._y >= size
-                    || coors._x < 0 || coors._x >= size
-                    || !casillas[(int)coors._x][(int)coors._y].IsLock()
-                    || casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.ROJO) {
+            if(coors._y < 0 || coors._y >= _size
+                    || coors._x < 0 || coors._x >= _size
+                    || !_casillas[(int)coors._x][(int)coors._y].IsLock()
+                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.ROJO) {
                 index++;
-                if(index < dirs.length) {
+                if(index < _dirs.length) {
                     // Reseteamos los valores para comprobar en la siguiente dirección
-                    currentDir = dirs[index];
-                    coors._x = indexAzules[indexAz].fst + currentDir._x;
-                    coors._y = indexAzules[indexAz].snd + currentDir._y;
+                    currentDir = _dirs[index];
+                    coors._x = _indexAzules[indexAz]._x + currentDir._x;
+                    coors._y = _indexAzules[indexAz]._y + currentDir._y;
                 }
                 /**
                  * Nos quedamos sin azules para donetiar
                  */
-                else if(adyacentes == ((CeldaAzul)casillas[indexAzules[indexAz].fst][indexAzules[indexAz].fst]).getValue()){
-                    donete._x = indexAzules[indexAz].fst;
-                    donete._y = indexAzules[indexAz].snd;
+                else if(adyacentes > ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()){
+                    wrongBlue._x = _indexAzules[indexAz]._x;
+                    wrongBlue._y = _indexAzules[indexAz]._y;
                     finish = true;
                 }
-                else if(indexAz >= indexAzules.length){
+                else if(indexAz >= _indexAzules.length){
+                    wrongBlue._x = -1;
+                    wrongBlue._y = -1;
+                    finish = true;
+                }
+                else {
+                    indexAz++;
+                    adyacentes = 0;
+                    index = 0;
+                }
+            }
+            /**
+             * Comprobación de si la casilla adyacente es azul
+             * */
+            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL)
+            {
+                adyacentes++;
+                // Nos movemos a la siguiente casilla
+                coors._y += currentDir._y;
+                coors._x += currentDir._x;
+
+                /**
+                 *  Si hay más adyacentes que el valor de la celda azul, entonces no es válido
+                 *  Se termina la búsqueda
+                 */
+                finish = adyacentes > ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue();
+            }
+        }
+
+        /**
+         * Si los adyacentes del círculo son menores o iguales
+         * que el valor que
+         * */
+        return wrongBlue;
+    }
+
+    /**
+     * Si un número tiene ya visibles el número de celdas que dice, entonces se puede
+     * “cerrar”, es decir, poner paredes en los extremos.
+     * */
+    Vector2 DonetePista(){
+        Vector2 donete = new Vector2(-1,-1);
+
+        int indexAz = 0;
+        int adyacentes = 0;
+
+
+        Vector2 coors = new Vector2(_indexAzules[0]._x,_indexAzules[0]._y);
+
+        Vector2 currentDir = _dirs[0];
+        coors._x += currentDir._x;
+        coors._y += currentDir._y;
+
+        int index = 0;
+        boolean finish = false;
+        while(!finish) {
+            /**
+             * Comprobación de si la casilla adyacente es gris o está fuera de los límites del grid
+             * para cambiar de dirección o parar de buscar cuando ya no haya más que comprobar
+             * */
+            if(coors._y < 0 || coors._y >= _size
+                    || coors._x < 0 || coors._x >= _size
+                    || !_casillas[(int)coors._x][(int)coors._y].IsLock()
+                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.ROJO) {
+                index++;
+                if(index < _dirs.length) {
+                    // Reseteamos los valores para comprobar en la siguiente dirección
+                    currentDir = _dirs[index];
+                    coors._x = _indexAzules[indexAz]._x + currentDir._x;
+                    coors._y = _indexAzules[indexAz]._y + currentDir._y;
+                }
+                /**
+                 * Nos quedamos sin azules para donetiar
+                 */
+                else if(adyacentes == ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()){
+                    donete._x = _indexAzules[indexAz]._x;
+                    donete._y = _indexAzules[indexAz]._y;
+                    finish = true;
+                }
+                else if(indexAz >= _indexAzules.length){
                     donete._x = -1;
                     donete._y = -1;
                     finish = true;
@@ -116,7 +197,7 @@ public class Pistas {
             /**
              * Comprobación de si la casilla adyacente es azul
              * */
-            else if(casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL)
+            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL)
             {
                 adyacentes++;
                 // Nos movemos a la siguiente casilla
@@ -127,7 +208,7 @@ public class Pistas {
                  *  Si hay más adyacentes que el valor de la celda azul, entonces no es válido
                  *  Se termina la búsqueda
                  */
-                finish = adyacentes > ((CeldaAzul)casillas[indexAzules[indexAz].fst][indexAzules[indexAz].fst]).getValue();
+                finish = adyacentes > ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue();
             }
         }
 
@@ -138,62 +219,70 @@ public class Pistas {
         return donete;
     }
 
-    Vector2D AzulIncorrecto(Tablero t){
-
-        Celda[][] casillas = t.GetCasillas();
-        Pair<Integer,Integer>[] indexAzules = t.GetIndexAzules();
-        int size = t.GetSize();
-
-        Vector2D donete = new Vector2D(-1,-1);
-
+    /**
+     * Si no ponemos un punto en alguna celda vacía, entonces es imposible alcanzar el
+     * número.
+     */
+    Vector2 AdyacenteDonete(Tablero t){
+        Vector2 adyDonete = new Vector2(-1,-1);
         int indexAz = 0;
         int adyacentes = 0;
 
 
-        Vector2D coors = new Vector2D(indexAzules[0].fst,indexAzules[0].snd);
-        Vector2D [] dirs = new Vector2D[4];
+        Vector2 coors = new Vector2(_indexAzules[0]._x, _indexAzules[0]._y);
 
-        /**
-         * Arriba (0), Abajo (1), Izquierda (2), Derecha (3)
-         */
-        dirs[0] = new Vector2D(0, -1);
-        dirs[1] = new Vector2D(0, 1);
-        dirs[2] = new Vector2D(-1, 0);
-        dirs[3] = new Vector2D(1, 0);
-
-        Vector2D currentDir = dirs[0];
+        Vector2 currentDir = _dirs[0];
         coors._x += currentDir._x;
         coors._y += currentDir._y;
 
         int index = 0;
         boolean finish = false;
-        while(!finish) {
+
+        // Determina si la celda azul tiene solo una direccion
+        Vector2 oneDirection;
+        while (!finish)
+        {
             /**
-             * Comprobación de si la casilla adyacente es gris o está fuera de los límites del grid
-             * para cambiar de dirección o parar de buscar cuando ya no haya más que comprobar
-             * */
-            if(coors._y < 0 || coors._y >= size
-                    || coors._x < 0 || coors._x >= size
-                    || !casillas[(int)coors._x][(int)coors._y].IsLock()
-                    || casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.ROJO) {
-                index++;
-                if(index < dirs.length) {
-                    // Reseteamos los valores para comprobar en la siguiente dirección
-                    currentDir = dirs[index];
-                    coors._x = indexAzules[indexAz].fst + currentDir._x;
-                    coors._y = indexAzules[indexAz].snd + currentDir._y;
-                }
+             * Comprobamos si la celda azul tiene una direccion
+             */
+            oneDirection = OneDirection(_indexAzules[indexAz]);
+
+            // Si solo tiene una direccion, entonces la solucion es obvia
+            if(oneDirection._x != -1){
+                adyDonete = new Vector2(coors._x + oneDirection._x, coors._y + oneDirection._y);
+                finish = true;
+            }
+            else if(...){
+                // Un número no está cerrado y tiene varias direcciones, pero la suma alcanzable es el
+                //valor que hay que conseguir
+            }
+            else if(...){
+                // El caso contrario, con varias direcciones, se compueban las celdas alcanzables y aunque
+                // se pongan en azul las casillas grises, no llega al valor de la celda azul actual
+            }
+
+            if(index < _dirs.length) {
+                // Reseteamos los valores para comprobar en la siguiente dirección
+                currentDir = _dirs[index];
+                coors._x = _indexAzules[indexAz]._x + currentDir._x;
+                coors._y = _indexAzules[indexAz]._y + currentDir._y;
+                // Para saber si el azul tiene una sola direccion
+
+            }
+
+            index++;
+            if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.ROJO) {
                 /**
                  * Nos quedamos sin azules para donetiar
                  */
-                else if(adyacentes > ((CeldaAzul)casillas[indexAzules[indexAz].fst][indexAzules[indexAz].fst]).getValue()){
-                    donete._x = indexAzules[indexAz].fst;
-                    donete._y = indexAzules[indexAz].snd;
+                else if(adyacentes > ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()){
+                    wrongBlue._x = _indexAzules[indexAz]._x;
+                    wrongBlue._y = _indexAzules[indexAz]._y;
                     finish = true;
                 }
-                else if(indexAz >= indexAzules.length){
-                    donete._x = -1;
-                    donete._y = -1;
+                else if(indexAz >= _indexAzules.length){
+                    wrongBlue._x = -1;
+                    wrongBlue._y = -1;
                     finish = true;
                 }
                 else {
@@ -205,7 +294,7 @@ public class Pistas {
             /**
              * Comprobación de si la casilla adyacente es azul
              * */
-            else if(casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL)
+            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL)
             {
                 adyacentes++;
                 // Nos movemos a la siguiente casilla
@@ -216,14 +305,63 @@ public class Pistas {
                  *  Si hay más adyacentes que el valor de la celda azul, entonces no es válido
                  *  Se termina la búsqueda
                  */
-                finish = adyacentes > ((CeldaAzul)casillas[indexAzules[indexAz].fst][indexAzules[indexAz].fst]).getValue();
+                finish = adyacentes > ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue();
+            }
+        }
+        return adyDonete;
+    }
+
+    Vector2 OneDirection(Vector2 currAzul){
+        Vector2 oneDirection = new Vector2(-1, -1);
+        boolean finish = false;
+        int laterales = 0;
+        /**
+         * Arriba (0), Abajo (1), Izquierda (2), Derecha (3)
+         */
+        int i = 0;
+        while(!finish){
+            /*
+             * Si arriba es menor que size y arriba es (rojo o azul)
+             * Si abajo es mayor o igual que 0 y abajo es (rojo o azul)
+             * Si izquierda es mayor o igual que 0 e izquierda es (rojo o azul)
+             * Si derecha es menor que size y derecha es (rojo o azul)
+            *   entonces se suma laterales
+            * */
+            if(currAzul._y + _dirs[0]._y < _size && _casillas[(int)currAzul._x][(int)(currAzul._y + _dirs[0]._y)]._tipoCelda == TipoCelda.GRIS)
+            {
+                laterales++;
+                oneDirection = _dirs[0];
+            }
+            else if(currAzul._y + _dirs[1]._y >= 0 && _casillas[(int)currAzul._x][(int)(currAzul._y + _dirs[0]._y)]._tipoCelda == TipoCelda.GRIS)
+            {
+                laterales++;
+                oneDirection = _dirs[1];
+            }
+            else if(currAzul._x + _dirs[2]._x >= 0 && _casillas[(int)(currAzul._x + _dirs[2]._x)][(int)currAzul._y]._tipoCelda == TipoCelda.GRIS)
+            {
+                laterales++;
+                oneDirection = _dirs[2];
+            }
+            else if(currAzul._x + _dirs[3]._x < _size && _casillas[(int)(currAzul._x + _dirs[3]._x)][(int)currAzul._y]._tipoCelda == TipoCelda.GRIS)
+            {
+                laterales++;
+                oneDirection = _dirs[3];
+            }
+
+            i++;
+            if (laterales > 1 || i >= _dirs.length)
+            {
+                finish = true;
             }
         }
 
-        /**
-         * Si los adyacentes del círculo son menores o iguales
-         * que el valor que
-         * */
-        return donete;
+        // Si no hay solo una direccion entonces devolvemos (-1, -1)
+        if(laterales != 1)
+        {
+            oneDirection._x = -1;
+            oneDirection._y = -1;
+        }
+
+        return oneDirection;
     }
 }

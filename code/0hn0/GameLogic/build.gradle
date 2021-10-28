@@ -9,4 +9,5 @@ java {
 
 dependencies {
     implementation project(path: ':Engine')
+    implementation 'org.jetbrains:annotations-java5:15.0'
 }

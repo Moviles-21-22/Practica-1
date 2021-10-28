@@ -8,13 +8,11 @@ import es.ucm.arblemar.engine.Graphics;
 public class GameLogic {
 
     private Tablero tablero;
-    private int tamTablero;
     private Graphics graphics;
 
 
-    public GameLogic(int _tamTablero){
-        tamTablero = _tamTablero;
-        tablero = new Tablero(_tamTablero);
+    public GameLogic(int tamTablero){
+        tablero = new Tablero(tamTablero);
     }
 
     private void loadMainMenu(){
