@@ -57,11 +57,22 @@ public enum TipoPista {
      * Un número que no ve suficientes puntos no está aún cerrado y solo tiene abierta una
      * dirección. Está cubierta por la pista 3.
      */
-    AZUL_INCOMPLETA(7),
+    ONE_DIRECTION(7),
 
+    /**
+     * Un número no está cerrado y tiene varias direcciones, pero la suma alcanzable es el
+     * valor que hay que conseguir
+     * */
+    SUMA_ALCANZABLE(8),
 
+    /**
+     * En sentido opuesto, una celda de tipo número no está cerrada pero si se ponen en
+     * punto el resto de celdas vacías que tiene alcanzables no llegará a su valor, por lo
+     * que es un futuro error
+     * */
+    SUMA_MENOR(9),
 
-    MAX(9);
+    MAX(10);
 
     private int value;
     private TipoPista(int i) {

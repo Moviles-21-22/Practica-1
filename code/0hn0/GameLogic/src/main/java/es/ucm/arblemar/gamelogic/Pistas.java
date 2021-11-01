@@ -1,11 +1,17 @@
 package es.ucm.arblemar.gamelogic;
 
+import java.awt.Component;
+import java.util.Map.Entry;
+import java.util.Vector;
+import java.awt.Container;
+
 public class Pistas {
     private TipoPista _pista;
     private Tablero _tab;
     private Celda[][] _casillas;
     private Vector2 []_indexAzules;
     private int _size;
+    private Celda _celdaFeedback;
 
     /**
      * Arriba (0), Abajo (1), Izquierda (2), Derecha (3)
@@ -51,6 +57,17 @@ public class Pistas {
                 }
                 else{
                     // Feedback de la pista
+                }
+                break;
+            }
+            case 2:
+            {
+                TipoPista pista = AdyacenteDonete();
+                if(pista == TipoPista.MAX){
+                    GetPista(_tab,choice + 1);
+                }
+                else {
+                    // Feedback de la pista 9: la suma alcanzable
                 }
                 break;
             }
@@ -223,11 +240,11 @@ public class Pistas {
      * Si no ponemos un punto en alguna celda vacía, entonces es imposible alcanzar el
      * número.
      */
-    Vector2 AdyacenteDonete(Tablero t){
-        Vector2 adyDonete = new Vector2(-1,-1);
+    TipoPista AdyacenteDonete(){
+        //Vector2 adyDonete = new Vector2(-1,-1);
+        TipoPista feedback = TipoPista.MAX;
         int indexAz = 0;
         int adyacentes = 0;
-
 
         Vector2 coors = new Vector2(_indexAzules[0]._x, _indexAzules[0]._y);
 
@@ -242,77 +259,44 @@ public class Pistas {
         Vector2 oneDirection;
         while (!finish)
         {
-            /**
-             * Comprobamos si la celda azul tiene una direccion
-             */
+            TipoPista auxPista = EsSumaAlcanzable(_indexAzules[indexAz]);
             oneDirection = OneDirection(_indexAzules[indexAz]);
 
-            // Si solo tiene una direccion, entonces la solucion es obvia
-            if(oneDirection._x != -1){
-                adyDonete = new Vector2(coors._x + oneDirection._x, coors._y + oneDirection._y);
+            if(auxPista == TipoPista.SUMA_MENOR)
+            {
+                _celdaFeedback = (CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x];
+                feedback = auxPista;
                 finish = true;
             }
-            else if(...){
-                // Un número no está cerrado y tiene varias direcciones, pero la suma alcanzable es el
-                //valor que hay que conseguir
-            }
-            else if(...){
-                // El caso contrario, con varias direcciones, se compueban las celdas alcanzables y aunque
-                // se pongan en azul las casillas grises, no llega al valor de la celda azul actual
-            }
-
-            if(index < _dirs.length) {
-                // Reseteamos los valores para comprobar en la siguiente dirección
-                currentDir = _dirs[index];
-                coors._x = _indexAzules[indexAz]._x + currentDir._x;
-                coors._y = _indexAzules[indexAz]._y + currentDir._y;
-                // Para saber si el azul tiene una sola direccion
-
-            }
-
-            index++;
-            if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.ROJO) {
-                /**
-                 * Nos quedamos sin azules para donetiar
-                 */
-                else if(adyacentes > ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()){
-                    wrongBlue._x = _indexAzules[indexAz]._x;
-                    wrongBlue._y = _indexAzules[indexAz]._y;
-                    finish = true;
-                }
-                else if(indexAz >= _indexAzules.length){
-                    wrongBlue._x = -1;
-                    wrongBlue._y = -1;
-                    finish = true;
-                }
-                else {
-                    indexAz++;
-                    adyacentes = 0;
-                    index = 0;
-                }
-            }
-            /**
-             * Comprobación de si la casilla adyacente es azul
-             * */
-            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL)
+            else if(auxPista == TipoPista.SUMA_ALCANZABLE)
             {
-                adyacentes++;
-                // Nos movemos a la siguiente casilla
-                coors._y += currentDir._y;
-                coors._x += currentDir._x;
+                if(oneDirection._x > -1 && oneDirection._y > -1)
+                {
+                    feedback = TipoPista.ONE_DIRECTION;
+                }
+                else if(oneDirection._x == -1)
+                {
+                    feedback = auxPista;
+                }
 
-                /**
-                 *  Si hay más adyacentes que el valor de la celda azul, entonces no es válido
-                 *  Se termina la búsqueda
-                 */
-                finish = adyacentes > ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue();
+                _celdaFeedback = (CeldaAzul) _casillas[(int) _indexAzules[indexAz]._x][(int) _indexAzules[indexAz]._x];
+                finish = true;
+            }
+            // Si no, entonces pasamos al siguiente azul
+            else if(auxPista == TipoPista.MAX)
+            {
+
             }
         }
-        return adyDonete;
+
+        return feedback;
     }
 
+    /**
+     * Comprobamos si el azul tiene o más direcciones
+     */
     Vector2 OneDirection(Vector2 currAzul){
-        Vector2 oneDirection = new Vector2(-1, -1);
+        Vector2 oneDirection = new Vector2(-2, -2);
         boolean finish = false;
         int laterales = 0;
         /**
@@ -355,13 +339,80 @@ public class Pistas {
             }
         }
 
-        // Si no hay solo una direccion entonces devolvemos (-1, -1)
-        if(laterales != 1)
+        // En caso de que haya más de un lateral, entonces la componente X de
+        // oneDirection valdrá -1. En caso de que no haya laterales, i.e, está cerrado,
+        // la componente Y de oneDirection es -1
+        if(laterales > 1)
         {
             oneDirection._x = -1;
+        }
+        else if(laterales == 0)
+        {
             oneDirection._y = -1;
         }
 
         return oneDirection;
+    }
+
+    /**
+     * Comprobamos la suma de las celdas alcanzables (GRIS / AZUL) desde el azul actual.
+     * En caso de que la suma sea menor se devuelve TipoCelda.SUMA_MENOR.
+     * Si son iguales, TipoCelda.SUMA_ALCANZABLE
+     * Si no, TipoCelda.MAX
+     * */
+    TipoPista EsSumaAlcanzable(Vector2 vAzul)
+    {
+        int result = -1;
+        CeldaAzul celdaAzul = (CeldaAzul)_casillas[(int)vAzul._x][(int)vAzul._x];
+        boolean finish = false;
+        /**
+         * Arriba (0), Abajo (1), Izquierda (2), Derecha (3)
+         */
+        int sumaAdy = 0;
+        int index = 0;
+        Vector2 coors = new Vector2(vAzul._x, vAzul._y);
+        coors._x += _dirs[0]._x;
+        coors._y += _dirs[0]._y;
+
+        while(!finish) {
+            // Hemos comprobado todas las direcciones o la suma es mayor que el valor de la celda
+            if(sumaAdy > celdaAzul.getValue())
+            {
+                finish = true;
+            }
+            // Cambio de direccion
+            else if(coors._y < 0 || coors._y >= _size
+                    || coors._x < 0 || coors._x >= _size
+                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.ROJO)
+            {
+                index++;
+                // Reset
+                if(index < _dirs.length) {
+                    coors._x = vAzul._x + _dirs[index]._x;
+                    coors._y = vAzul._y + _dirs[index]._y;
+                }
+                else {
+                    finish = true;
+                }
+            }
+            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.GRIS
+                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL)
+            {
+                sumaAdy++;
+                coors._x += _dirs[index]._x;
+                coors._y += _dirs[index]._y;
+            }
+        }
+
+        if (sumaAdy < celdaAzul.getValue())
+        {
+            return TipoPista.SUMA_MENOR;
+        }
+        else if(sumaAdy == celdaAzul.getValue())
+        {
+            return  TipoPista.SUMA_ALCANZABLE;
+        }
+
+        return TipoPista.MAX;
     }
 }

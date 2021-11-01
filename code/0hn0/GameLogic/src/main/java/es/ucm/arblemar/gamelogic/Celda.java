@@ -4,13 +4,15 @@ package es.ucm.arblemar.gamelogic;
  * Clase abstracta de las celdas
  */
 
+import java.awt.Component;
+
 /**
  * Comportamiento de la celda cuando se le da click
  * @return Devuelve si la celda está bloqueada o no, de manera que
  * las celdas rojas y azules iniciales no se puedan modificar, solo las
  * que se hayan inicializado como grises
  */
-public abstract class Celda {
+public abstract class Celda extends Component {
 
     // Determina si esta celda está bloqueada
     protected boolean _lock = false;
