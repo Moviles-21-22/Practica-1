@@ -23,6 +23,7 @@ public class Pistas {
         new Vector2(1, 0)
     };
 
+
     public Pistas(){}
 
     TipoPista GetTipoPista(){
@@ -62,7 +63,7 @@ public class Pistas {
             }
             case 2:
             {
-                TipoPista pista = AdyacenteDonete();
+                TipoPista pista = BuscaPista();
                 if(pista == TipoPista.MAX){
                     GetPista(_tab,choice + 1);
                 }
@@ -240,7 +241,7 @@ public class Pistas {
      * Si no ponemos un punto en alguna celda vacía, entonces es imposible alcanzar el
      * número.
      */
-    TipoPista AdyacenteDonete(){
+    TipoPista BuscaPista(){
         //Vector2 adyDonete = new Vector2(-1,-1);
         TipoPista feedback = TipoPista.MAX;
         int indexAz = 0;
@@ -360,8 +361,7 @@ public class Pistas {
      * Si son iguales, TipoCelda.SUMA_ALCANZABLE
      * Si no, TipoCelda.MAX
      * */
-    TipoPista EsSumaAlcanzable(Vector2 vAzul)
-    {
+    TipoPista EsSumaAlcanzable(Vector2 vAzul) {
         int result = -1;
         CeldaAzul celdaAzul = (CeldaAzul)_casillas[(int)vAzul._x][(int)vAzul._x];
         boolean finish = false;
@@ -414,5 +414,25 @@ public class Pistas {
         }
 
         return TipoPista.MAX;
+    }
+
+    void MuestraPista(TipoPista currPista){
+        //switch (currPista){
+        //
+        //    case DONETE:
+        //    {
+        //
+        //        break;
+        //    }
+        //    case SUMA_MENOR:
+        //    {
+        //        break;
+        //    }
+        //
+        //
+        //    default:{
+        //        break;
+        //    }
+        //}
     }
 }

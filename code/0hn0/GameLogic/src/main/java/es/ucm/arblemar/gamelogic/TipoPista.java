@@ -75,7 +75,8 @@ public enum TipoPista {
     MAX(10);
 
     private int value;
-    private TipoPista(int i) {
+
+    TipoPista(int i) {
         this.value = i;
     }
     public int getValue(){
