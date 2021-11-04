@@ -3,8 +3,8 @@ package es.ucm.arblemar.gamelogic;
 public class CeldaGris extends Celda {
 
     private int valor = 0;
-    CeldaGris(int _valor){
-        super(TipoCelda.GRIS);
+    CeldaGris(int _valor,Vector2 ind){
+        super(TipoCelda.GRIS,ind);
         _lock = false;
         valor = _valor;
     }

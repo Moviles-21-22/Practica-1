@@ -11,7 +11,7 @@ public class Tablero {
     private Celda[][] casillas;
     private Vector2[] indexAzules;
     private Vector2[] indexRojos;
-    private Vector<Pistas> pistasEncontradas;
+    private Vector<Pista> gestorPistasEncontradas;
 
 
     public Tablero(int size){
@@ -22,7 +22,8 @@ public class Tablero {
         casillas = new Celda[_size][_size];
         for(int i = 0 ; i < _size ; i++){
             for(int j = 0 ; j < _size ; j++){
-                casillas[i][j] = new CeldaGris(0);
+                Vector2 ind = new Vector2(i,j);
+                casillas[i][j] = new CeldaGris(0,ind);
             }
         }
 
@@ -33,7 +34,7 @@ public class Tablero {
         //TODO:  existen algunos casos incorrectos
         InitRojas(r);
 
-        Pistas p = new Pistas(this);
+        GestorPistas p = new GestorPistas(this);
 
         RenderizaConsola();
     }
@@ -319,7 +320,7 @@ public class Tablero {
         return _size;
     }
 
-    public void AgregaPista(Pistas p){
-        pistasEncontradas.add(p);
+    public void AgregaPista(Pista p){
+        gestorPistasEncontradas.add(p);
     }
 }

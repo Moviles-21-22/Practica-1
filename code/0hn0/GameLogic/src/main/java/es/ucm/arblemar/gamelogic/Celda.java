@@ -17,9 +17,11 @@ public abstract class Celda extends Component {
     // Determina si esta celda está bloqueada
     protected boolean _lock = false;
     protected TipoCelda _tipoCelda = TipoCelda.GRIS;
+    protected Vector2 index;
 
-    public Celda(TipoCelda t) {
+    public Celda(TipoCelda t,Vector2 ind) {
         _tipoCelda = t;
+        index = ind;
     }
 
 
@@ -33,6 +35,10 @@ public abstract class Celda extends Component {
 
     public boolean IsLock(){
         return _lock;
+    }
+
+    public Vector2 getIndex(){
+        return index;
     }
 
 };
