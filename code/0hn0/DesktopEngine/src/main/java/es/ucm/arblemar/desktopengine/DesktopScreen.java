@@ -1,8 +1,12 @@
 package es.ucm.arblemar.desktopengine;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 public class DesktopScreen extends JFrame {
 
@@ -13,9 +17,9 @@ public class DesktopScreen extends JFrame {
     }
 
     public void createScreen(){
-        setSize(1000, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBackground(Color.black);
+        setSize(1000, 800);
+        setBackground(Color.BLACK);
         setVisible(true);
         setIgnoreRepaint(false);
         int intentos = 100;

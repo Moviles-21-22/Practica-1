@@ -8,9 +8,9 @@ public class Main {
         TipoCelda t = TipoCelda.AZUL;
 
         // TODO: pasar el tamaño del tablero
-        GameLogic game = new GameLogic(4);
+        //GameLogic game = new GameLogic(4);
         DesktopEngine engine = new DesktopEngine();
-        game.initGame();
+        //game.initGame();
         engine.run();
      }
 }
