@@ -1,17 +1,23 @@
 package es.ucm.arblemar.gamelogic;
 
-import java.awt.Component;
-import java.util.Map.Entry;
-import java.util.Vector;
-import java.awt.Container;
+
 
 public class Pistas {
+
+    //  Tipo de pista
     private TipoPista _pista;
-    private Tablero _tab;
+    //  Todas las celdas del grid
     private Celda[][] _casillas;
-    private Vector2 []_indexAzules;
-    private int _size;
+    //  Index de las celdas azules instanciadas
+    private Vector2 [] _indexAzules ;
+    //  Tamaño del tablero
+    private int _size ;
+    //  index que pertenece a esta pista
+    private Vector2 index;
+
     private Celda _celdaFeedback;
+
+
 
     /**
      * Arriba (0), Abajo (1), Izquierda (2), Derecha (3)
@@ -24,40 +30,39 @@ public class Pistas {
     };
 
 
-    public Pistas(){}
+    public Pistas(Tablero t){
 
-    TipoPista GetTipoPista(){
-        return _pista;
+        _casillas = t.GetCasillas();
+        _indexAzules = t.GetIndexAzules();
+        _size = t.GetSize();
+
+        for(int i = 0 ; i < 2; i++){
+            BuscaPistas(t,i);
+        }
     }
 
-    public void GetPista(Tablero tab, int choice){
-        _tab = tab;
-        _casillas = _tab.GetCasillas();
-        _indexAzules = _tab.GetIndexAzules();
-        _size = _tab.GetSize();
+    public void BuscaPistas(Tablero tab, int choice){
 
-        // Se van recorriendo las pistas en un orden jerarquico, de manera
-        // que si no se encuentra la primera, se busca la siguiente pista
         switch (choice){
             case 0:
             {
-                Vector2 doneteIndex = DonetePista();
-                if(doneteIndex._x == -1){
-                    GetPista(_tab,choice + 1);
-                }
-                else{
-                    // Feedback de la pista
+                //  Posición de la pista si es encontrada
+                Vector2 doneteIndex = PistaUno();
+
+                // Pista encontrada
+                if(doneteIndex._x != -1){
+                    index = doneteIndex;
+                    tab.AgregaPista(this);
                 }
                 break;
             }
             case 1:
             {
+                //  Posición de la pista si es encontrada
                 Vector2 azulIncorrecto = AzulIncorrecto();
                 if(azulIncorrecto._x == -1){
-                    GetPista(_tab,choice + 1);
-                }
-                else{
-                    // Feedback de la pista
+                    index = azulIncorrecto;
+                    tab.AgregaPista(this);
                 }
                 break;
             }
@@ -65,7 +70,6 @@ public class Pistas {
             {
                 TipoPista pista = BuscaPista();
                 if(pista == TipoPista.MAX){
-                    GetPista(_tab,choice + 1);
                 }
                 else {
                     // Feedback de la pista 9: la suma alcanzable
@@ -162,12 +166,12 @@ public class Pistas {
      * Si un número tiene ya visibles el número de celdas que dice, entonces se puede
      * “cerrar”, es decir, poner paredes en los extremos.
      * */
-    Vector2 DonetePista(){
+    Vector2 PistaUno(){
+
         Vector2 donete = new Vector2(-1,-1);
 
         int indexAz = 0;
         int adyacentes = 0;
-
 
         Vector2 coors = new Vector2(_indexAzules[0]._x,_indexAzules[0]._y);
 
@@ -178,13 +182,14 @@ public class Pistas {
         int index = 0;
         boolean finish = false;
         while(!finish) {
+
             /**
              * Comprobación de si la casilla adyacente es gris o está fuera de los límites del grid
              * para cambiar de dirección o parar de buscar cuando ya no haya más que comprobar
              * */
             if(coors._y < 0 || coors._y >= _size
                     || coors._x < 0 || coors._x >= _size
-                    || !_casillas[(int)coors._x][(int)coors._y].IsLock()
+                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.GRIS
                     || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.ROJO) {
                 index++;
                 if(index < _dirs.length) {
@@ -193,40 +198,40 @@ public class Pistas {
                     coors._x = _indexAzules[indexAz]._x + currentDir._x;
                     coors._y = _indexAzules[indexAz]._y + currentDir._y;
                 }
-                /**
-                 * Nos quedamos sin azules para donetiar
-                 */
-                else if(adyacentes == ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()){
-                    donete._x = _indexAzules[indexAz]._x;
-                    donete._y = _indexAzules[indexAz]._y;
-                    finish = true;
-                }
-                else if(indexAz >= _indexAzules.length){
-                    donete._x = -1;
-                    donete._y = -1;
-                    finish = true;
-                }
+                //  Pasamos al siguiente azul
                 else {
                     indexAz++;
                     adyacentes = 0;
                     index = 0;
+                    //  Me he quedado sin azules
+                    if(indexAz >= _indexAzules.length ){
+                        donete._x = -1;
+                        donete._y = -1;
+                        finish = true;
+                    }
                 }
             }
             /**
              * Comprobación de si la casilla adyacente es azul
              * */
-            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL)
-            {
+            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL) {
                 adyacentes++;
                 // Nos movemos a la siguiente casilla
                 coors._y += currentDir._y;
                 coors._x += currentDir._x;
 
+                //  Hemos encontrado las condiciones necesarias para esta pista (valor de la celda == al numero de adyacentes)
+                if (adyacentes >= ((CeldaAzul) _casillas[(int) _indexAzules[indexAz]._x][(int) _indexAzules[indexAz]._y]).getValue()) {
+                    donete._x = _indexAzules[indexAz]._x;
+                    donete._y = _indexAzules[indexAz]._y;
+                    finish = true;
+                }
+
                 /**
                  *  Si hay más adyacentes que el valor de la celda azul, entonces no es válido
                  *  Se termina la búsqueda
                  */
-                finish = adyacentes > ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue();
+                //finish = adyacentes >= ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue();
             }
         }
 
@@ -434,5 +439,9 @@ public class Pistas {
         //        break;
         //    }
         //}
+    }
+
+    TipoPista GetTipoPista(){
+        return _pista;
     }
 }

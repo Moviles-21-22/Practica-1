@@ -1,6 +1,7 @@
 package es.ucm.arblemar.gamelogic;
 
 import java.util.Random;
+import java.util.Vector;
 
 
 public class Tablero {
@@ -10,6 +11,7 @@ public class Tablero {
     private Celda[][] casillas;
     private Vector2[] indexAzules;
     private Vector2[] indexRojos;
+    private Vector<Pistas> pistasEncontradas;
 
 
     public Tablero(int size){
@@ -28,7 +30,11 @@ public class Tablero {
         //  Inicializamos los azules aleatoriamente y lo menos descartable
         InitAzules(r);
         //  Inicializamos los rojos aleatoriamente y lo menos descartable
+        //TODO:  existen algunos casos incorrectos
         InitRojas(r);
+
+        Pistas p = new Pistas(this);
+
         RenderizaConsola();
     }
 
@@ -52,7 +58,7 @@ public class Tablero {
     }
 
     /**
-    * Inicializa el tablero y asegura que tenga solución
+    * Inicializa las celdas azules
     */
     private void InitAzules(Random r){
         /**
@@ -120,8 +126,8 @@ public class Tablero {
     /**
     * Recorre el rango del valor en el eje x e y, mientras la suma de los adyacentes
     * no sea mayor al valor, es correcto.
+     * @return: Si colocar esta celda en la posición xy es válida, devuelve true
     */
-
     private boolean RojosValidos(int x, int y){
         boolean finish = false;
 
@@ -171,6 +177,7 @@ public class Tablero {
     /**
      * Recorre el rango del valor en el eje x e y, mientras la suma de los adyacentes
      * no sea mayor al valor, es correcto.
+     * @return: Si colocar esta celda en la posición xy es válida, devuelve true
      */
     private boolean AzulesValidos(int x, int y, int valor){
         adyacentes = 0;
@@ -236,7 +243,7 @@ public class Tablero {
 
     /**
      * Determina si una celda azul tiene posibles salidas
-     * @return: Si esta casilla azul tiene suficientes adyacentes
+     * @return: Si esta celda azul tiene suficientes adyacentes, devuelve true
      * */
     private boolean AzulConSalidas(float x, float y, int redX, int redY){
         boolean finish = false;
@@ -284,23 +291,35 @@ public class Tablero {
         return  elementos >= ((CeldaAzul)(casillas[(int)x][(int)y])).getValue();
     }
 
-
+    /**
+     * @return: Devuelve los index de todas las celdas azules instanciadas
+     * */
     public Vector2 [] GetIndexAzules(){
         return indexAzules;
     }
 
+    /**
+     * @return: Todos los index de las celdas rojas instanciadas
+     * */
     public Vector2 [] GetIndexRojas(){
         return indexRojos;
     }
 
+    /**
+     * @return: Todas las celdas instanciadas
+     * */
     public Celda[][] GetCasillas(){
         return casillas;
     }
 
     /**
-     * Devuelve el tamaño del tablero actual
+     * @return: El tamaño del tablero
      * */
     public int GetSize() {
         return _size;
+    }
+
+    public void AgregaPista(Pistas p){
+        pistasEncontradas.add(p);
     }
 }

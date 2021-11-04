@@ -76,10 +76,12 @@ public enum TipoPista {
 
     private int value;
 
-    TipoPista(int i) {
-        this.value = i;
-    }
     public int getValue(){
         return value;
     }
+
+    TipoPista(int i) {
+        this.value = i;
+    }
+
 }
