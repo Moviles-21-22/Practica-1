@@ -6,6 +6,7 @@ package es.ucm.arblemar.engine;
  * posición y contenido del texto que se va a mostrar
  */
 public interface Font {
+    public boolean init();
     /**
      * Muestra el texto por pantalla
      * @param text

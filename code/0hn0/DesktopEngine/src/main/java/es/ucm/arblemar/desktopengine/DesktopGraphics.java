@@ -3,6 +3,7 @@ package es.ucm.arblemar.desktopengine;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferStrategy;
 
 import es.ucm.arblemar.engine.Font;
 import es.ucm.arblemar.engine.Graphics;
@@ -10,22 +11,16 @@ import es.ucm.arblemar.engine.Image;
 import es.ucm.arblemar.engine.Vector2;
 
 public class DesktopGraphics implements Graphics {
-
-    private DesktopScreen screen;
-    private java.awt.Graphics graphics;
-    private AffineTransform old;
-
     public DesktopGraphics(String titulo){
-        // Creación de la ventana
-        screen = new DesktopScreen(titulo);
-        screen.createScreen();
-        show();
+        _titulo = titulo;
     }
 
-    public void show() {
-        graphics = screen.getStrategy().getDrawGraphics();
-        graphics.dispose();
-        screen.getStrategy().show();
+    @Override
+    public boolean init() {
+        // Creación de la ventana
+        _screen = new DesktopScreen(_titulo);
+
+        return _screen.init(1000, 800);
     }
 
     @Override
@@ -34,19 +29,27 @@ public class DesktopGraphics implements Graphics {
     }
 
     @Override
-    public Font newFont(String filename, Vector2 size, boolean isBold){
+    public Font newFont(String fileName, int size, boolean isBold){
+        Font newFont = new DesktopFont(fileName, size, isBold);
+
         return null;
     }
 
     @Override
     public void clear(int color){
-
+        _graphics = getStrategy().getDrawGraphics();
+        setColor(color);
+        _graphics.fillRect(0, 0, getWidth(), getHeight());
     }
 
     @Override
-    public void setColor(float r, float g, float b, float a) {
-        //Color c = new Color((int)r, (int)g, (int)b, (int)a);
-        graphics.setColor(Color.red);
+    public void setColor(int newColor) {
+        float r = ((newColor >> 24) & 0xff) / 255.0f;
+        float g = ((newColor >> 16) & 0xff) / 255.0f;
+        float b = ((newColor >> 8) & 0xff) / 255.0f;
+        float a = ((newColor >> 0) & 0xff) / 255.0f;
+        Color c = new Color(r, g, b, a);
+        _graphics.setColor(c);
     }
 
     @Override
@@ -60,7 +63,7 @@ public class DesktopGraphics implements Graphics {
 
     @Override
     public void drawRect(float x, float y, int width, int height) {
-        graphics.drawRect((int)x ,(int)y ,width ,height);
+        _graphics.drawRect((int)x ,(int)y ,width ,height);
     }
 
     @Override
@@ -70,33 +73,33 @@ public class DesktopGraphics implements Graphics {
 
     @Override
     public void drawText(String text, float x, float y) {
-        graphics.drawString(text,(int)x,(int)y);
+        _graphics.drawString(text,(int)x,(int)y);
     }
 
     @Override
     public void fillCircle(Vector2 centro, int radio){
-        graphics.fillOval(centro._x, centro._y, radio, radio);
+        _graphics.fillOval(centro._x, centro._y, radio, radio);
     }
 
     @Override
     public void fillRect(float x, float y, int width, int height) {
-        graphics.fillRect((int)x * getWidth() ,(int)y* getHeight() ,width* getWidth() ,height* getHeight() );
+        _graphics.fillRect((int)x * getWidth() ,(int)y* getHeight() ,width* getWidth() ,height* getHeight() );
     }
 
     @Override
     public int getWidth() {
-       return screen.getWidth();
+       return _screen.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return screen.getHeight();
+        return _screen.getHeight();
     }
 
     //=========METODOS-CONTROL-CANVAS===========
     @Override
     public void translate(float x, float y) {
-        graphics.translate((int)x, (int)y);
+        _graphics.translate((int)x, (int)y);
     }
 
     @Override
@@ -106,11 +109,24 @@ public class DesktopGraphics implements Graphics {
 
     @Override
     public void save() {
-        old = ((Graphics2D)graphics).getTransform();
+        _old = ((Graphics2D) _graphics).getTransform();
     }
 
     @Override
     public void restore() {
-        ((Graphics2D) graphics).setTransform(old);
+        ((Graphics2D) _graphics).setTransform(_old);
     }
+
+    public BufferStrategy getStrategy(){
+        return _screen.getStrategy();
+    }
+
+    public java.awt.Graphics getJavaGraphics(){
+        return _graphics;
+    }
+
+    private String _titulo;
+    private DesktopScreen _screen;
+    private java.awt.Graphics _graphics;
+    private AffineTransform _old;
 }

@@ -1,16 +1,23 @@
 package es.ucm.arblemar.desktopgame;
 import es.ucm.arblemar.desktopengine.DesktopEngine;
+import es.ucm.arblemar.engine.App;
 import es.ucm.arblemar.gamelogic.GameLogic;
 import es.ucm.arblemar.gamelogic.TipoCelda;
+import es.ucm.arblemar.gamelogic.estados.MainMenu;
 
 public class Main {
     public static void main (String [] args){
         TipoCelda t = TipoCelda.AZUL;
 
-        // TODO: pasar el tamaño del tablero
-        //GameLogic game = new GameLogic(4);
         DesktopEngine engine = new DesktopEngine();
-        //game.initGame();
+        // TODO: Lo primero sería cargar los assets
+        App mainMenu = new MainMenu(engine);
+
+        if(!engine.init(mainMenu, "TESTEO")){
+            System.out.println("Algo fue mal");
+            return;
+        }
+
         engine.run();
      }
 }

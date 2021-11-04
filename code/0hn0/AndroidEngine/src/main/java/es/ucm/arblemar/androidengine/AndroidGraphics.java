@@ -14,13 +14,19 @@ public class AndroidGraphics implements Graphics {
     public AndroidGraphics(Context context, AndroidInput i){
         screen = new AndroidScreen(context,this,i);
     }
+
+    @Override
+    public boolean init() {
+        return true;
+    }
+
     @Override
     public Image newImage(String name){
         return null;
     }
 
     @Override
-    public Font newFont(String filename, Vector2 size, boolean isBold){
+    public Font newFont(String filename, int size, boolean isBold){
         return null;
     }
 
@@ -35,7 +41,7 @@ public class AndroidGraphics implements Graphics {
     }
 
     @Override
-    public void setColor(float r, float g,float b, float a){
+    public void setColor(int color){
 
     }
 

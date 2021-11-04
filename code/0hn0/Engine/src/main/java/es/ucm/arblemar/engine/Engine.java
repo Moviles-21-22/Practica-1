@@ -1,11 +1,15 @@
 package es.ucm.arblemar.engine;
 
 public interface Engine {
-    public void update(double deltaTime);
-    public void handleInput();
-    public void render();
+    /**
+     * Inicializa el engine
+     * */
+    public boolean init(App initAp, String nameGame);
+    /**
+     * Bucle principal del juego. Encargado de actualizar render y update de los
+     * estados del juego, así como de llevar la cuenta del deltaTime
+     * */
     public void run();
-    public void init();
 
     public Graphics getGraphics();
     public Input getInput();

@@ -1,8 +1,10 @@
 package es.ucm.arblemar.desktopengine;
 
 
+import java.awt.image.BufferStrategy;
 import java.util.Vector;
 
+import es.ucm.arblemar.engine.App;
 import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Input;
@@ -10,57 +12,76 @@ import es.ucm.arblemar.engine.Vector2;
 
 
 public class DesktopEngine implements Engine {
-
-    private DesktopGraphics graphics;
-    private Vector<DesktopFont> fonts = new Vector<>();
-    private DesktopInput input;
-
     public DesktopEngine(){
-        String titulo = "TESTEO";
-        graphics = new DesktopGraphics(titulo);
-
-        graphics.save();
-        graphics.translate(0, 50);
-        graphics.setColor(255, 1, 1, 255);
-        graphics.fillRect(0, 0, 1000, 1000);
-        Vector2 v = new Vector2(500, 500);
-        graphics.fillCircle(v, 1000);
-        graphics.restore();
     }
 
-    @java.lang.Override
-    public void init() {
+    @Override
+    public boolean init(App initApp, String nameGame) {
+        _currentApp = initApp;
+        _graphics = new DesktopGraphics(nameGame);
 
+        return _currentApp.init() && _graphics.init();
     }
 
-
-    @java.lang.Override
-    public void update(double deltaTime) {
-
-    }
-
-    @java.lang.Override
-    public void handleInput() {
-
-    }
-
-    @java.lang.Override
-    public void render() {
-
-    }
-
-    @java.lang.Override
+    @Override
     public void run() {
+        BufferStrategy strategy = _graphics.getStrategy();
+        _lastFrameTime = System.nanoTime();
+
+        while(true) {
+            // Refresco del deltaTime
+            updateDeltaTime();
+
+            // Refresco del estado actual
+            // TODO: Faltaría el input
+            _currentApp.handleInput();
+            _currentApp.update(_deltaTime);
+
+            // Pintamos el frame con el BufferStrategy
+            do {
+                do {
+                    java.awt.Graphics graphics = strategy.getDrawGraphics();
+                    try {
+
+                        _currentApp.render();
+                    }
+                    finally {
+                        graphics.dispose();
+                    }
+                } while(strategy.contentsRestored());
+                strategy.show();
+            } while(strategy.contentsLost());
+        }
     }
 
-
-    @java.lang.Override
+    public void setApp(App newApp){
+        _currentApp = newApp;
+    }
+    @Override
     public Graphics getGraphics() {
-        return graphics;
+        return _graphics;
     }
 
-    @java.lang.Override
+    @Override
     public Input getInput() {
-        return input;
+        return _input;
     }
+
+    /**
+     * Cálculo del deltaTime
+     * */
+    private void updateDeltaTime(){
+        _currentTime = System.nanoTime();
+        long nanoElapsedTime = _currentTime - _lastFrameTime;
+        _lastFrameTime = _currentTime;
+        _deltaTime = (double) nanoElapsedTime / 1.0E9;
+    }
+
+    // VARIABLES
+    private long _lastFrameTime = 0;
+    private long _currentTime = 0;
+    private double _deltaTime = 0;
+    private App _currentApp;
+    private DesktopGraphics _graphics;
+    private DesktopInput _input;
 }

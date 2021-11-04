@@ -2,6 +2,11 @@ package es.ucm.arblemar.engine;
 
 public interface Graphics {
     /**
+     * Inicializa la interfaz gráfica
+     * @return false si algo ha ido mal
+     * */
+    boolean init();
+    /**
      * Carga una imagen almacenada en el contenedor de recursos de la aplicación a partir de su nombre
      * */
     Image newImage(String name);
@@ -9,15 +14,16 @@ public interface Graphics {
      * Crea una nueva fuente del tamaño especificado a partir de un fichero .ttf. Se indica si se desea o no fuente
      * en negrita
      * */
-    Font newFont(String filename, Vector2 size, boolean isBold);
+    Font newFont(String filename, int size, boolean isBold);
     /**
      * Borra el contenido completo de la ventana, rellenándolo con un color recibido como parámetro
      * */
     void clear(int color);
     /**
      * Actualiza el color de las operaciones de renderizado posteriores
+     * @param color se espera un color en hexadecimal
      * */
-    void setColor(float r, float g,float b, float a);
+    void setColor(int color);
     /**
      * Dibuja una imagen
      * */

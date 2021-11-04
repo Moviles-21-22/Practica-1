@@ -2,6 +2,7 @@ package es.ucm.arblemar.androidengine;
 
 import android.content.Context;
 
+import es.ucm.arblemar.engine.App;
 import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Input;
@@ -18,25 +19,12 @@ public class AndroidEngine implements Engine {
     }
 
     @Override
-    public void init() {
+    public boolean init(App initAp, String nameGame) {
         //input = new AndroidInput();
         //graphics = new AndroidGraphics(this, input);
         //  ...
-    }
 
-    @Override
-    public void update(double deltaTime){
-
-    }
-
-    @Override
-    public void handleInput(){
-
-    }
-
-    @Override
-    public void render(){
-
+        return true;
     }
 
     @Override

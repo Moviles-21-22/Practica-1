@@ -1,27 +1,26 @@
 package es.ucm.arblemar.desktopengine;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 
+import es.ucm.arblemar.engine.Font;
+
+/**
+ * Clase encargada de inicializar la ventana de Java
+ * */
 public class DesktopScreen extends JFrame {
-
-    private BufferStrategy strategy;
-
     public DesktopScreen(String titulo){
         super(titulo);
     }
 
-    public void createScreen(){
+    public boolean init(int winWidth, int winHeight){
+        setSize(winWidth, winHeight);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1000, 800);
-        setBackground(Color.BLACK);
         setVisible(true);
-        setIgnoreRepaint(false);
+        // Renderizado activo
+        setIgnoreRepaint(true);
+
         int intentos = 100;
         while (intentos-- > 0) {
             try {
@@ -30,18 +29,21 @@ public class DesktopScreen extends JFrame {
             } catch (Exception e) {
             }
         }
-        if (intentos == -1) {
+        if (intentos <= 0) {
             System.err.println("No pude crear la BufferStrategy");
-            return;
+            return false;
         } else {
 
             System.out.println("BufferStrategy tras " + (100 - intentos) + " intentos.");
         }
 
-        strategy = getBufferStrategy();
+        _strategy = getBufferStrategy();
+        return true;
     }
 
     public BufferStrategy getStrategy(){
-        return strategy;
+        return _strategy;
     }
+
+    private BufferStrategy _strategy;
 }
