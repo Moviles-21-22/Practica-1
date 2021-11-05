@@ -1,6 +1,7 @@
 package es.ucm.arblemar.gamelogic;
 
 
+import java.util.Vector;
 
 public class GestorPistas {
 
@@ -15,7 +16,7 @@ public class GestorPistas {
     //  index que pertenece a esta pista
     private Vector2 index;
 
-    private Celda _celdaFeedback;
+    private Vector<Vector2> _indexAzulesPuestas;
 
 
 
@@ -35,6 +36,7 @@ public class GestorPistas {
         _casillas = t.GetCasillas();
         _indexAzules = t.GetIndexAzules();
         _size = t.GetSize();
+        _indexAzulesPuestas = t.GetIndexAzulesPuestas();
 
         for(int i = 0 ; i < 2; i++){
             BuscaPistas(t,i);
@@ -108,6 +110,38 @@ public class GestorPistas {
                 }
                 break;
             }
+            case 6:{
+                indexFeedback = PistaSiete();
+                if(indexFeedback._y == -1){
+                    p = new Pista(TipoPista.ONE_DIRECTION,indexFeedback);
+                    tab.AgregaPista(p);
+                }
+                break;
+            }
+            case 7:{
+                indexFeedback = PistaOcho();
+                if(indexFeedback._y == -1){
+                    p = new Pista(TipoPista.SUMA_ALCANZABLE,indexFeedback);
+                    tab.AgregaPista(p);
+                }
+                break;
+            }
+            case 8:{
+                indexFeedback = PistaNueve();
+                if(indexFeedback._y == -1){
+                    p = new Pista(TipoPista.SUMA_MENOR,indexFeedback);
+                    tab.AgregaPista(p);
+                }
+                break;
+            }
+            case 9:{
+                indexFeedback = PistaDiez();
+                if(indexFeedback._y == -1){
+                    p = new Pista(TipoPista.PISTA_10,indexFeedback);
+                    tab.AgregaPista(p);
+                }
+                break;
+            }
             default:{
                 break;
             }
@@ -115,13 +149,115 @@ public class GestorPistas {
     }
 
     /**
-     * TODO falta toooodo todito
+     * En sentido opuesto, una celda de tipo número no está cerrada pero si se ponen en
+     * punto el resto de celdas vacías que tiene alcanzables no llegará a su valor, por lo
+     * que es un futuro error. Si no se incluye esta pista, el programa dará incorrectamente
+     * varias veces la pista 3 para al final terminar indicando el error de la 5.
      * */
-    private Vector2 PistaSeis(){
-        Vector2 celdaCerrada = new Vector2(-1,-1);
+    private  Vector2 PistaDiez(){
+        Vector2 azulIncompleto = new Vector2(-1,-1);
 
-        Vector2 celdaCoors = _casillas[0][0].getIndex();
-        Vector2 coors = new Vector2(celdaCoors._x , celdaCoors._y);
+        Vector2 coors = new Vector2(_indexAzules[0]._x, _indexAzules[0]._y);
+        Vector2 currentDir = _dirs[0];
+        coors._x += currentDir._x;
+        coors._y += currentDir._y;
+        //  Index que recorre las direcciones
+        int indexDir = 0;
+        //  Index que reccore las celdas azules
+        int indexAz = 0;
+        //  Numero de celdas grises que "ve"
+        int grisesAdy = 0;
+        //  Numero de celdas azules que "ve"
+        int azulesAdy = 0;
+
+        boolean finish = false;
+        while (!finish){
+            if(coors._y < 0 || coors._y >= _size
+                    || coors._x < 0 || coors._x >= _size
+                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.ROJO) {
+                indexDir++;
+
+                //  Cambio de dirección
+                if(indexDir < _dirs.length) {
+                    // Reseteamos los valores para comprobar en la siguiente dirección
+                    currentDir = _dirs[indexDir];
+                    coors._x = _indexAzules[indexAz]._x + currentDir._x;
+                    coors._y = _indexAzules[indexAz]._y + currentDir._y;
+                }
+                //  Al acabar de ver en todas las direcciones
+                //  He encontrado las condiciones necesarias para determinar que esta pista existe
+                else if((grisesAdy + azulesAdy) < ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()){
+                    azulIncompleto = _indexAzules[indexAz];
+                    finish = true;
+                }
+                //  Se acaban las direcciones, pasamos al siguiente azul y reiniciamos las direcciones
+                else {
+                    indexAz++;
+                    //  No quedan más azules para procesar
+                    if(indexAz >= _indexAzules.length){
+                        azulIncompleto._x = -1;
+                        azulIncompleto._y = -1;
+                        finish = true;
+                    }
+                    //  Reinicio de las direcciones para el siguiente azul
+                    else {
+                        grisesAdy = 0;
+                        indexDir = 0;
+                        azulesAdy = 0;
+                        currentDir = _dirs[indexDir];
+                        coors._x = _indexAzules[indexAz]._x + currentDir._x;
+                        coors._y = _indexAzules[indexAz]._y + currentDir._y;
+                    }
+                }
+            }
+            //  Encuentro una celda gris sigo en la misma dirección
+            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.GRIS
+            || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL ){
+
+                if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL){
+                    azulesAdy++;
+                }
+                else {
+                    grisesAdy++;
+                }
+
+                if((grisesAdy + azulesAdy) >= ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()){
+                    indexAz++;
+                    //  No quedan más azules para procesar
+                    if(indexAz >= _indexAzules.length){
+                        azulIncompleto._x = -1;
+                        azulIncompleto._y = -1;
+                        finish = true;
+                    }
+                    //  Reinicio de las direcciones para el siguiente azul
+                    else {
+                        grisesAdy = 0;
+                        azulesAdy = 0;
+                        indexDir = 0;
+                        currentDir = _dirs[indexDir];
+                        coors._x = _indexAzules[indexAz]._x + currentDir._x;
+                        coors._y = _indexAzules[indexAz]._y + currentDir._y;
+                    }
+                }
+                else{
+                    coors._y += currentDir._y;
+                    coors._x += currentDir._x;
+                }
+            }
+        }
+        return azulIncompleto;
+    }
+
+
+    /**
+     * Un número no está cerrado y tiene varias direcciones, pero la suma alcanzable es el
+     * valor que hay que conseguir. Basta con llenar el resto de celdas vacías para resolverlo.
+     * Está también cubierta por la pista 3.
+     * */
+    private Vector2 PistaNueve(){
+        Vector2 azulIncompleto = new Vector2(-1,-1);
+
+        Vector2 coors = new Vector2(_indexAzules[0]._x, _indexAzules[0]._y);
         Vector2 currentDir = _dirs[0];
         coors._x += currentDir._x;
         coors._y += currentDir._y;
@@ -131,6 +267,277 @@ public class GestorPistas {
         int indexAz = 0;
         //  Numero de celdas azules que "ve"
         int adyacentes = 0;
+        //  El numero de salidas que tiene esta celda
+        int salidas = 0;
+
+        boolean finish = false;
+        while (!finish){
+            if(coors._y < 0 || coors._y >= _size
+                    || coors._x < 0 || coors._x >= _size
+                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.ROJO) {
+                indexDir++;
+
+                //  Cambio de dirección
+                if(indexDir < _dirs.length) {
+                    // Reseteamos los valores para comprobar en la siguiente dirección
+                    currentDir = _dirs[indexDir];
+                    coors._x = _indexAzules[indexAz]._x + currentDir._x;
+                    coors._y = _indexAzules[indexAz]._y + currentDir._y;
+                }
+                //  Al acabar de ver las direcciones, compruebo de que tenga salidas y que el numero
+                //  de adyacentes sea menor que el valor de la celda.
+                //  He encontrado las condiciones necesarias para determinar que esta pista existe
+                else if(salidas > 1 && adyacentes == ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()){
+                    azulIncompleto = _indexAzules[indexAz];
+                    finish = true;
+                }
+                //  Se acaban las direcciones, pasamos al siguiente azul y reiniciamos las direcciones
+                else {
+                    indexAz++;
+                    //  No quedan más azules para procesar
+                    if(indexAz >= _indexAzules.length){
+                        azulIncompleto._x = -1;
+                        azulIncompleto._y = -1;
+                        finish = true;
+                    }
+                    //  Reinicio de las direcciones para el siguiente azul
+                    else {
+                        adyacentes = 0;
+                        indexDir = 0;
+                        salidas = 0;
+                        currentDir = _dirs[indexDir];
+                        coors._x = _indexAzules[indexAz]._x + currentDir._x;
+                        coors._y = _indexAzules[indexAz]._y + currentDir._y;
+                    }
+                }
+            }
+            //  Encuentro una celda gris, es una salida y cambio de dirección
+            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.GRIS){
+
+                salidas++;
+                indexDir++;
+                //  Cambio de dirección al encontrar una salida
+                if(indexDir < _dirs.length){
+                    currentDir = _dirs[indexDir];
+                    coors._x = _indexAzules[indexAz]._x + currentDir._x;
+                    coors._y = _indexAzules[indexAz]._y + currentDir._y;
+                }
+                //  Caso en el que la salida sea el ultimo caso posible de salida
+                else{
+                    //  He encontrado las condiciones necesarias para determinar que esta pista existe
+                    if(salidas > 1 && adyacentes == ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()){
+                        azulIncompleto = _indexAzules[indexAz];
+                        finish = true;
+                    }
+                    //  Paso al siguiente azul
+                    else{
+                        indexAz++;
+                        if(indexAz < _indexAzules.length){
+                            adyacentes = 0;
+                            indexDir = 0;
+                            salidas = 0;
+                            currentDir = _dirs[indexDir];
+                            coors._x = _indexAzules[indexAz]._x + currentDir._x;
+                            coors._y = _indexAzules[indexAz]._y + currentDir._y;
+                        }
+                        else {
+                            azulIncompleto._x = -1;
+                            azulIncompleto._y = -1;
+                            finish = true;
+                        }
+                    }
+                }
+            }
+            //  Si encontramos una celda azul, sumamos adyacente
+            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL)
+            {
+                adyacentes++;
+                // Pasamos al siguiente azul
+                if(adyacentes > ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()){
+                    indexAz++;
+                    //  Existen más azules
+                    if(indexAz < _indexAzules.length){
+                        adyacentes = 0;
+                        indexDir = 0;
+                        salidas = 0;
+                        currentDir = _dirs[indexDir];
+                        coors._x = _indexAzules[indexAz]._x + currentDir._x;
+                        coors._y = _indexAzules[indexAz]._y + currentDir._y;
+                    }
+                    //  No quedan más azules por procesar
+                    else {
+                        azulIncompleto._x = -1;
+                        azulIncompleto._y = -1;
+                        finish = true;
+                    }
+                }
+                // Nos movemos a la siguiente casilla en la misma dirección
+                else{
+                    coors._y += currentDir._y;
+                    coors._x += currentDir._x;
+                }
+            }
+        }
+        return azulIncompleto;
+    }
+
+    /**
+     * Un número que no ve suficientes puntos no está aún cerrado y solo tiene abierta una
+     * dirección. Está cubierta por la pista 3.
+     * */
+    private Vector2 PistaOcho(){
+        Vector2 azulIncompleto = new Vector2(-1,-1);
+
+        Vector2 coors = new Vector2(_indexAzules[0]._x, _indexAzules[0]._y);
+        Vector2 currentDir = _dirs[0];
+        coors._x += currentDir._x;
+        coors._y += currentDir._y;
+        //  Index que recorre las direcciones
+        int indexDir = 0;
+        //  Index que reccore las celdas azules
+        int indexAz = 0;
+        //  Numero de celdas azules que "ve"
+        int adyacentes = 0;
+        //  Determina si esta celda tiene una salida
+        boolean salida = false;
+
+        boolean finish = false;
+        while (!finish){
+            if(coors._y < 0 || coors._y >= _size
+                    || coors._x < 0 || coors._x >= _size
+                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.ROJO) {
+                indexDir++;
+
+                //  Cambio de dirección
+                if(indexDir < _dirs.length) {
+                    // Reseteamos los valores para comprobar en la siguiente dirección
+                    currentDir = _dirs[indexDir];
+                    coors._x = _indexAzules[indexAz]._x + currentDir._x;
+                    coors._y = _indexAzules[indexAz]._y + currentDir._y;
+                }
+                //  Al acabar de ver las direcciones, compruebo de que tenga salida y que el numero
+                //  de adyacentes sea menor que el valor de la celda.
+                //  He encontrado las condiciones necesarias para determinar que esta pista existe
+                else if(salida && adyacentes < ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()){
+                    azulIncompleto = _indexAzules[indexAz];
+                    finish = true;
+                }
+                //  Se acaban las direcciones, pasamos al siguiente azul y reiniciamos las direcciones
+                else {
+                    indexAz++;
+                    indexDir = 0;
+
+                    //  No quedan más azules para procesar
+                    if(indexAz >= _indexAzules.length){
+                        azulIncompleto._x = -1;
+                        azulIncompleto._y = -1;
+                        finish = true;
+                    }
+                    //  Reinicio de las direcciones para el siguiente azul
+                    else {
+                        adyacentes = 0;
+                        indexDir = 0;
+                        salida = false;
+                        currentDir = _dirs[indexDir];
+                        coors._x = _indexAzules[indexAz]._x + currentDir._x;
+                        coors._y = _indexAzules[indexAz]._y + currentDir._y;
+                    }
+                }
+            }
+            //  Encuentro una celda gris, es una salida.
+            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.GRIS){
+                //  Ya existe una salida encontrada anteriormente, descartada
+                if(salida){
+                    indexAz++;
+                    //  Si todavia quedan azules, pasamos al siguiente azul y reiniciamos las direcciones
+                    if(indexAz < _indexAzules.length){
+                        adyacentes = 0;
+                        indexDir = 0;
+                        salida = false;
+                        currentDir = _dirs[indexDir];
+                        coors._x = _indexAzules[indexAz]._x + currentDir._x;
+                        coors._y = _indexAzules[indexAz]._y + currentDir._y;
+                    }
+                    //  No quedan azules que procesar, pista no encontrada
+                    else {
+                        azulIncompleto._x = -1;
+                        azulIncompleto._y = -1;
+                        finish = true;
+                    }
+                }
+                //  Se encuentra una salida por primera vez
+                else{
+                    salida = true;
+                    indexDir++;
+                    //  Cambio de dirección al encontrar una salida
+                    if(indexDir < _dirs.length){
+                        currentDir = _dirs[indexDir];
+                        coors._x = _indexAzules[indexAz]._x + currentDir._x;
+                        coors._y = _indexAzules[indexAz]._y + currentDir._y;
+                    }
+                    //  Caso en el que la salida sea el ultimo caso posible de salida
+                    else{
+                        //  He encontrado las condiciones necesarias para determinar que esta pista existe
+                        if(adyacentes < ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()){
+                            azulIncompleto = _indexAzules[indexAz];
+                            finish = true;
+                        }
+                    }
+                }
+            }
+            //  Si encontramos una celda azul, sumamos adyacente
+            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL)
+            {
+                adyacentes++;
+                //  No he encontrado las condiciones necesarias para determinar que esta pista existe, descartada
+                if(adyacentes >= ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()){
+                    indexAz++;
+                    //  Si todavia quedan azules, pasamos al siguiente azul y reiniciamos las direcciones
+                    if(indexAz < _indexAzules.length){
+                        adyacentes = 0;
+                        indexDir = 0;
+                        salida = false;
+                        currentDir = _dirs[indexDir];
+                        coors._x = _indexAzules[indexAz]._x + currentDir._x;
+                        coors._y = _indexAzules[indexAz]._y + currentDir._y;
+                    }
+                    //  No quedan azules que procesar, pista no encontrada
+                    else {
+                        azulIncompleto._x = -1;
+                        azulIncompleto._y = -1;
+                        finish = true;
+                    }
+                }
+                // Nos movemos al siguiente azul
+                else{
+                    coors._y += currentDir._y;
+                    coors._x += currentDir._x;
+                }
+            }
+
+        }
+        return azulIncompleto;
+    }
+
+    /**
+     * En sentido opuesto, si hay una celda punto puesta por el usuario que está cerrada
+     * y no ve a ninguna otra, entonces se trata de un error por el mismo motivo.
+     * */
+    private Vector2 PistaSiete(){
+        //  Index de la celda con la pista
+        Vector2 AzulIncorrecto = new Vector2(-1,-1);
+        //  Index para moverse entre las casillas
+        int indexAzules = 0;
+        //  Coordenadas de la celda a recorrer
+        Vector2 celdaCoors = _indexAzulesPuestas.elementAt(indexAzules);
+        // Coordenadas de los adyacentes de la celda
+        Vector2 coors = new Vector2(celdaCoors._x , celdaCoors._y);
+        //  Dirección en la que se mueven las coordenadas
+        Vector2 currentDir = _dirs[0];
+        coors._x += currentDir._x;
+        coors._y += currentDir._y;
+        //  Index que recorre las direcciones
+        int indexDir = 0;
 
         boolean finish = false;
 
@@ -144,67 +551,116 @@ public class GestorPistas {
                 if(indexDir < _dirs.length) {
                     // Reseteamos los valores para comprobar en la siguiente dirección
                     currentDir = _dirs[indexDir];
-                    coors._x = _indexAzules[indexAz]._x + currentDir._x;
-                    coors._y = _indexAzules[indexAz]._y + currentDir._y;
+                    coors._x = celdaCoors._x + currentDir._x;
+                    coors._y = celdaCoors._y + currentDir._y;
 
                 }
-                //  Se acaban las direcciones, pasamos al siguiente azul y reiniciamos las direcciones
+                //  Se acaban las direcciones,
                 else {
-                    //  He encontrado las condiciones necesarias para determinar que esta pista existe
-                    if(adyacentes < ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()){
-                        celdaCerrada._x = _indexAzules[indexAz]._x;
-                        celdaCerrada._y = _indexAzules[indexAz]._y;
-                        finish = true;
-                    }
-                    else{
-                        indexAz++;
-                        indexDir = 0;
-
-                        //  No quedan más azules para procesar
-                        if(indexAz >= _indexAzules.length){
-                            celdaCerrada._x = -1;
-                            celdaCerrada._y = -1;
-                            finish = true;
-                        }
-                        //  Reinicio de las direcciones para el siguiente azul
-                        else {
-
-                            adyacentes = 0;
-                            currentDir = _dirs[indexDir];
-                            coors._x = _indexAzules[indexAz]._x + currentDir._x;
-                            coors._y = _indexAzules[indexAz]._y + currentDir._y;
-
-                        }
-                    }
-
-                }
-
-            }
-            //  Si encuentra una celda gris, pasamos al siguiente azul
-            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.GRIS){
-                indexAz++;
-                //  No quedan más azules para procesar
-                if(indexAz >= _indexAzules.length){
-                    celdaCerrada._x = -1;
-                    celdaCerrada._y = -1;
+                    //  He encontrado las condiciones necesarias para determinar que esta pista exista,
+                    //  Si logra llegar hasta aqui sin descartarse, significa que esta celda está cerrada
+                    //  y no "ve" ningún azul
+                    AzulIncorrecto = celdaCoors;
                     finish = true;
                 }
-                else{
-                    indexDir = 0;
-                    adyacentes = 0;
+            }
+            //  Si encontramos una celda azul o gris, se descarta y pasamos al siguiente
+            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL
+            || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.GRIS) {
+                indexAzules++;
+                //  No quedan más celdas que procesar
+                if(indexAzules >= _size ){
+                    AzulIncorrecto._x = -1;
+                    AzulIncorrecto._y = -1;
+                    finish = true;
+                    continue;
+                }
+                //  Reiniciamos las direcciones
+                indexDir = 0;
+                currentDir = _dirs[indexDir];
+                celdaCoors = _indexAzulesPuestas.elementAt(indexAzules);
+                coors._x = celdaCoors._x + currentDir._x;
+                coors._y = celdaCoors._y + currentDir._y;
+            }
+        }
+        return AzulIncorrecto;
+    }
+
+
+    /**
+     * Si una celda está vacía y cerrada y no ve ninguna celda azul, entonces es pared (todos
+     * los puntos azules deben ver al menos a otro).
+     *      Recorre las todas las celdas
+     * */
+    private Vector2 PistaSeis(){
+        //  Index de la celda con la pista
+        Vector2 celdaCerrada = new Vector2(-1,-1);
+        //  Index para moverse entre las casillas
+        Vector2 indexCeldas = new Vector2(0,0);
+        //  Coordenadas de la celda a recorrer
+        Vector2 celdaCoors = _casillas[(int)indexCeldas._x][(int)indexCeldas._y].getIndex();
+        // Coordenadas de los adyacentes de la celda
+        Vector2 coors = new Vector2(celdaCoors._x , celdaCoors._y);
+        //  Dirección en la que se mueven las coordenadas
+        Vector2 currentDir = _dirs[0];
+        coors._x += currentDir._x;
+        coors._y += currentDir._y;
+        //  Index que recorre las direcciones
+        int indexDir = 0;
+
+
+        boolean finish = false;
+
+        while (!finish){
+            if(coors._y < 0 || coors._y >= _size
+                    || coors._x < 0 || coors._x >= _size
+                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.ROJO) {
+                indexDir++;
+
+                //  Cambio de dirección
+                if(indexDir < _dirs.length) {
+                    // Reseteamos los valores para comprobar en la siguiente dirección
                     currentDir = _dirs[indexDir];
-                    coors._x = _indexAzules[indexAz]._x + currentDir._x;
-                    coors._y = _indexAzules[indexAz]._y + currentDir._y;
+                    coors._x = celdaCoors._x + currentDir._x;
+                    coors._y = celdaCoors._y + currentDir._y;
+
+                }
+                //  Se acaban las direcciones,
+                else {
+                    //  He encontrado las condiciones necesarias para determinar que esta pista existe
+                    //  Si logra llegar hasta aqui sin descartarse, significa que esta celda está cerrada
+                    //  y no "ve" ningún azul
+                    celdaCerrada = celdaCoors;
+                    finish = true;
                 }
             }
+            //  Si encuentra una celda gris, seguimos buscando en la misma dirección
+            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.GRIS){
+                coors._x =+ currentDir._x;
+                coors._y =+ currentDir._y;
+            }
+            //  Si encontramos una celda azul, se descarta
             else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL)
             {
-                adyacentes++;
-                // Nos movemos a la siguiente casilla
-                coors._y += currentDir._y;
-                coors._x += currentDir._x;
+                indexCeldas._x++;
+                if(indexCeldas._x >= _size ){
+                    indexCeldas._x = 0;
+                    indexCeldas._y++;
+                    //  No quedan más celdas para procesar
+                    if(indexCeldas._y >= _size){
+                        celdaCerrada._x = -1;
+                        celdaCerrada._y = -1;
+                        finish = true;
+                        continue;
+                    }
+                }
+                //  Reiniciamos las direcciones
+                indexDir = 0;
+                currentDir = _dirs[indexDir];
+                celdaCoors = _casillas[(int)indexCeldas._x][(int)indexCeldas._y].getIndex();
+                coors._x = celdaCoors._x + currentDir._x;
+                coors._y = celdaCoors._y + currentDir._y;
             }
-
         }
         return celdaCerrada;
     }
@@ -633,57 +1089,57 @@ public class GestorPistas {
      * Si no ponemos un punto en alguna celda vacía, entonces es imposible alcanzar el
      * número.
      */
-    private TipoPista BuscaPista(){
-        //Vector2 adyDonete = new Vector2(-1,-1);
-        TipoPista feedback = TipoPista.MAX;
-        int indexAz = 0;
-        int adyacentes = 0;
-
-        Vector2 coors = new Vector2(_indexAzules[0]._x, _indexAzules[0]._y);
-
-        Vector2 currentDir = _dirs[0];
-        coors._x += currentDir._x;
-        coors._y += currentDir._y;
-
-        int index = 0;
-        boolean finish = false;
-
-        // Determina si la celda azul tiene solo una direccion
-        Vector2 oneDirection;
-        while (!finish)
-        {
-            TipoPista auxPista = EsSumaAlcanzable(_indexAzules[indexAz]);
-            oneDirection = OneDirection(_indexAzules[indexAz]);
-
-            if(auxPista == TipoPista.SUMA_MENOR)
-            {
-                _celdaFeedback = (CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x];
-                feedback = auxPista;
-                finish = true;
-            }
-            else if(auxPista == TipoPista.SUMA_ALCANZABLE)
-            {
-                if(oneDirection._x > -1 && oneDirection._y > -1)
-                {
-                    feedback = TipoPista.ONE_DIRECTION;
-                }
-                else if(oneDirection._x == -1)
-                {
-                    feedback = auxPista;
-                }
-
-                _celdaFeedback = (CeldaAzul) _casillas[(int) _indexAzules[indexAz]._x][(int) _indexAzules[indexAz]._x];
-                finish = true;
-            }
-            // Si no, entonces pasamos al siguiente azul
-            else if(auxPista == TipoPista.MAX)
-            {
-
-            }
-        }
-
-        return feedback;
-    }
+//    private TipoPista BuscaPista(){
+//        //Vector2 adyDonete = new Vector2(-1,-1);
+//        TipoPista feedback = TipoPista.MAX;
+//        int indexAz = 0;
+//        int adyacentes = 0;
+//
+//        Vector2 coors = new Vector2(_indexAzules[0]._x, _indexAzules[0]._y);
+//
+//        Vector2 currentDir = _dirs[0];
+//        coors._x += currentDir._x;
+//        coors._y += currentDir._y;
+//
+//        int index = 0;
+//        boolean finish = false;
+//
+//        // Determina si la celda azul tiene solo una direccion
+//        Vector2 oneDirection;
+//        while (!finish)
+//        {
+//            TipoPista auxPista = EsSumaAlcanzable(_indexAzules[indexAz]);
+//            oneDirection = OneDirection(_indexAzules[indexAz]);
+//
+//            if(auxPista == TipoPista.SUMA_MENOR)
+//            {
+//                _celdaFeedback = (CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x];
+//                feedback = auxPista;
+//                finish = true;
+//            }
+//            else if(auxPista == TipoPista.SUMA_ALCANZABLE)
+//            {
+//                if(oneDirection._x > -1 && oneDirection._y > -1)
+//                {
+//                    feedback = TipoPista.ONE_DIRECTION;
+//                }
+//                else if(oneDirection._x == -1)
+//                {
+//                    feedback = auxPista;
+//                }
+//
+//                _celdaFeedback = (CeldaAzul) _casillas[(int) _indexAzules[indexAz]._x][(int) _indexAzules[indexAz]._x];
+//                finish = true;
+//            }
+//            // Si no, entonces pasamos al siguiente azul
+//            else if(auxPista == TipoPista.MAX)
+//            {
+//
+//            }
+//        }
+//
+//        return feedback;
+//    }
 
     /**
      * Comprobamos si el azul tiene o más direcciones

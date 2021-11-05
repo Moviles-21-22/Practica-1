@@ -2,12 +2,10 @@ package es.ucm.arblemar.gamelogic;
 
 public class CeldaRoja extends Celda{
 
-    private int valor = 0;
 
-    CeldaRoja(int _valor){
-        super(TipoCelda.ROJO);
+    CeldaRoja(Vector2 ind){
+        super(TipoCelda.ROJO,ind);
         _lock = true;
-        valor = _valor;
     }
 
     @Override

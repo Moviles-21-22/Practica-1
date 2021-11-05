@@ -72,7 +72,10 @@ public enum TipoPista {
      * */
     SUMA_MENOR(9),
 
-    MAX(10);
+
+    PISTA_10(10),
+
+    MAX(11);
 
     private int value;
 

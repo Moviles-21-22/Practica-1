@@ -8,10 +8,18 @@ public class Tablero {
 
     private int _size;
     private int adyacentes = 0;
+    //  Contiene todas las celdas de todos los tipos del tablero
     private Celda[][] casillas;
-    private Vector2[] indexAzules;
-    private Vector2[] indexRojos;
-    private Vector<Pista> gestorPistasEncontradas;
+    //  Index de las celdas azules puestas por el juego
+    private Vector2[] indexAzulesOriginales;
+    //  Index de las celdas rojas puestas por el juego
+    private Vector2[] indexRojosOriginales;
+    //  Index de las celdas azules puestas por el jugador
+    private Vector<Vector2> indexAzulesPuestas;
+    //  Index de las celdas rojas puestas por el jugador
+    private Vector<Vector2> indexRojasPuestas;
+    //  Vector de todas las pistas encontradas en el tablero
+    private Vector<Pista> pistasEncontradas;
 
 
     public Tablero(int size){
@@ -66,7 +74,7 @@ public class Tablero {
         * Número de azules a poner
         */
         int circulosAzules = r.nextInt(_size) + 1;
-        indexAzules = new Vector2[circulosAzules];
+        indexAzulesOriginales = new Vector2[circulosAzules];
 
         /**
          * Bucle para poner los azules
@@ -83,7 +91,7 @@ public class Tablero {
                 if(AzulesValidos(indX,indY,valor)){
                     casillas[indX][indY] = new CeldaAzul(valor);
                     casillas[indX][indY]._lock = true;
-                    indexAzules[contAzul] = new Vector2(indX,indY);
+                    indexAzulesOriginales[contAzul] = new Vector2(indX,indY);
                     contAzul++;
                 }
             }
@@ -101,7 +109,7 @@ public class Tablero {
 
         //  Número de rojos a poner
         int circulosRojos = r.nextInt(_size) + 1;
-        indexRojos = new Vector2[circulosRojos];
+        indexRojosOriginales = new Vector2[circulosRojos];
 
         //  Bucle para poner los rojos
         boolean rojosPuesto = false;
@@ -112,9 +120,10 @@ public class Tablero {
             int indY = r.nextInt(_size);
             if(!casillas[indX][indY].IsLock()){
                 if(RojosValidos(indX,indY)){
-                    casillas[indX][indY] = new CeldaRoja(-1);
+                    Vector2 ind = new Vector2(indX,indY);
+                    casillas[indX][indY] = new CeldaRoja(ind);
                     casillas[indX][indY]._lock = true;
-                    indexRojos[contRojos] = new Vector2(indX,indY);
+                    indexRojosOriginales[contRojos] = new Vector2(indX,indY);
                     contRojos++;
                 }
             }
@@ -293,17 +302,40 @@ public class Tablero {
     }
 
     /**
+     * Agrega una celda azul en el tablero
+     * */
+    public void AgregaCeldaAzul(Vector2 ind){
+        indexAzulesPuestas.add(ind);
+        casillas[(int)ind._x][(int)ind._y] = new CeldaAzul(-1);
+    }
+
+    /**
+     * Agrega una celda azul en el tablero
+     * */
+    public void AgregaCeldaRoja(Vector2 ind){
+        indexRojasPuestas.add(ind);
+        casillas[(int)ind._x][(int)ind._y] = new CeldaRoja(ind);
+    }
+
+    /**
      * @return: Devuelve los index de todas las celdas azules instanciadas
      * */
     public Vector2 [] GetIndexAzules(){
-        return indexAzules;
+        return indexAzulesOriginales;
+    }
+
+    /**
+     * @return: Devuelve los index de todas las celdas azules instanciadas
+     * */
+    public Vector<Vector2> GetIndexAzulesPuestas(){
+        return indexAzulesPuestas;
     }
 
     /**
      * @return: Todos los index de las celdas rojas instanciadas
      * */
     public Vector2 [] GetIndexRojas(){
-        return indexRojos;
+        return indexRojosOriginales;
     }
 
     /**
@@ -321,6 +353,6 @@ public class Tablero {
     }
 
     public void AgregaPista(Pista p){
-        gestorPistasEncontradas.add(p);
+        pistasEncontradas.add(p);
     }
 }
