@@ -11,6 +11,8 @@ public interface Engine {
      * */
     public void run();
 
+    public boolean initNewApp(App newApp);
+
     public Graphics getGraphics();
     public Input getInput();
 }

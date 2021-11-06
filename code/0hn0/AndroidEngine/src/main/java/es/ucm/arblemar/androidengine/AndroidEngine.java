@@ -32,6 +32,11 @@ public class AndroidEngine implements Engine {
 
     }
 
+    @Override
+    public boolean initNewApp(App newApp) {
+        return false;
+    }
+
 
     @Override
     public Graphics getGraphics(){

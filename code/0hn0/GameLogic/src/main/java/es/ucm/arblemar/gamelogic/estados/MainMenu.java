@@ -9,6 +9,7 @@ import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Input.TouchEvent;
 import es.ucm.arblemar.engine.Vector2;
+import es.ucm.arblemar.gamelogic.assets.Assets;
 
 
 public class MainMenu implements App {
@@ -38,6 +39,13 @@ public class MainMenu implements App {
 
         g.setColor(0x00FF00FF);
         g.fillCircle(new Vector2(500, 500), 50);
+
+        // Ponemos el rótulo (si conseguimos cargar la fuente)
+        if (Assets.molle != null) {
+            g.setColor(0X000000FF);
+            g.setFont(Assets.molle);
+            g.drawText("RENDERIZADO ACTIVO", 100, 100);
+        }
     }
 
     @Override

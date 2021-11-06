@@ -9,12 +9,12 @@ public interface Graphics {
     /**
      * Carga una imagen almacenada en el contenedor de recursos de la aplicación a partir de su nombre
      * */
-    Image newImage(String name);
+    Image newImage(String name, int w, int h);
     /**
      * Crea una nueva fuente del tamaño especificado a partir de un fichero .ttf. Se indica si se desea o no fuente
      * en negrita
      * */
-    Font newFont(String filename, int size, boolean isBold);
+    Font newFont(String filename, int size, boolean isBold) throws Exception;
     /**
      * Borra el contenido completo de la ventana, rellenándolo con un color recibido como parámetro
      * */
@@ -24,6 +24,11 @@ public interface Graphics {
      * @param color se espera un color en hexadecimal
      * */
     void setColor(int color);
+    /**
+     * Actualiza la fuente de las operaciones de renderizado posteriores
+     * @param font se espera una fuente tipo Font
+     * */
+    void setFont(Font font);
     /**
      * Dibuja una imagen
      * */

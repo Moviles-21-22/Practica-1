@@ -58,9 +58,12 @@ public class DesktopEngine implements Engine {
         }
     }
 
-    public void setApp(App newApp){
+    @Override
+    public boolean initNewApp(App newApp){
         _currentApp = newApp;
+        return _currentApp.init();
     }
+
     @Override
     public Graphics getGraphics() {
         return _graphics;

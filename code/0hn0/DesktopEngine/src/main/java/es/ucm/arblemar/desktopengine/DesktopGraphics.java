@@ -30,15 +30,19 @@ public class DesktopGraphics implements Graphics, ComponentListener {
     }
 
     @Override
-    public Image newImage(String name){
-        return null;
+    public Image newImage(String name, int w, int h) {
+        Image newImage = new DesktopImage("./recursos/sprites/" + name, w, h);
+        if (!newImage.init())
+            return null;
+        return newImage;
     }
 
     @Override
-    public Font newFont(String fileName, int size, boolean isBold){
-        Font newFont = new DesktopFont(fileName, size, isBold);
-
-        return null;
+    public Font newFont(String name, int size, boolean isBold) throws Exception {
+        Font newFont = new DesktopFont("./recursos/fonts/" + name, size, isBold);
+        if (!newFont.init())
+            throw new Exception();
+        return newFont;
     }
 
     @Override
@@ -56,6 +60,11 @@ public class DesktopGraphics implements Graphics, ComponentListener {
         float a = ((newColor >> 0) & 0xff) / 255.0f;
         Color c = new Color(r, g, b, a);
         _graphics.setColor(c);
+    }
+
+    @Override
+    public void setFont(Font font) {
+        _graphics.setFont(((DesktopFont) font).getJavaFont());
     }
 
     @Override

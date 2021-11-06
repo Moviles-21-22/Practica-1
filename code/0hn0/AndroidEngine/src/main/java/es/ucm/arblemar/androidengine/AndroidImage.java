@@ -9,6 +9,11 @@ public class AndroidImage implements Image {
     }
 
     @Override
+    public boolean init() {
+        return false;
+    }
+
+    @Override
     public int getHeight() {
         return 0;
     }

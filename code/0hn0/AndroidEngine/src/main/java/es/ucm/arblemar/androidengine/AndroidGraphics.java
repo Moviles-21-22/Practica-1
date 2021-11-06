@@ -21,7 +21,7 @@ public class AndroidGraphics implements Graphics {
     }
 
     @Override
-    public Image newImage(String name){
+    public Image newImage(String name, int w, int h){
         return null;
     }
 
@@ -43,6 +43,11 @@ public class AndroidGraphics implements Graphics {
     @Override
     public void setColor(int color){
 
+    }
+
+    @Override
+    public void setFont(Font font) {
+        
     }
 
     @Override

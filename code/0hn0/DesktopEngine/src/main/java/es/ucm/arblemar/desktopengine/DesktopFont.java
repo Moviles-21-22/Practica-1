@@ -6,7 +6,7 @@ import java.io.InputStream;
 import es.ucm.arblemar.engine.Font;
 
 public class DesktopFont implements Font {
-    public DesktopFont(String fileName, int size, boolean isBold){
+    public DesktopFont(String fileName, int size, boolean isBold) {
         _fileName = fileName;
         _size = size;
         _isBold = isBold;
@@ -19,10 +19,9 @@ public class DesktopFont implements Font {
         }
         catch (Exception e) {
             // Ouch. No está.
-            System.err.println("Error cargando la fuente: " + e);
+            System.err.println("Error: " + e);
             return false;
         }
-
         return true;
     }
 
@@ -44,6 +43,10 @@ public class DesktopFont implements Font {
     @Override
     public String getText() {
         return null;
+    }
+
+    public java.awt.Font getJavaFont() {
+        return _javaFont;
     }
 
     java.awt.Font _javaFont;

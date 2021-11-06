@@ -6,20 +6,14 @@ import es.ucm.arblemar.engine.Font;
 import es.ucm.arblemar.engine.Graphics;
 
 public class GameLogic {
-
     private Tablero tablero;
     private Graphics graphics;
-
 
     public GameLogic(int tamTablero){
         tablero = new Tablero(tamTablero);
     }
 
-    private void loadMainMenu(){
-
-    }
-
-    public void initGame(){
+    public void initGame() {
         //initResources();
         //tablero = new Tablero(tamTablero);
         //graphics.setColor(125, 125, 125, 255);
@@ -28,11 +22,6 @@ public class GameLogic {
         //graphics.fillRect(0, 0, 640, 100);
         //graphics.restore();
     }
-
-    private void initResources(){
-
-    }
-
 
 
 }

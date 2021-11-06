@@ -1,8 +1,6 @@
 package es.ucm.arblemar.gamelogic;
 
-public class CeldaRoja extends Celda{
-
-
+public class CeldaRoja extends Celda {
     CeldaRoja(Vector2 ind){
         super(TipoCelda.ROJO,ind);
         _lock = true;
