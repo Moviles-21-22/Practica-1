@@ -1,13 +1,20 @@
 package es.ucm.arblemar.gamelogic.estados;
-import java.awt.Color;
+import java.util.List;
+
+
+import java.util.ArrayList;
 
 import es.ucm.arblemar.engine.App;
 import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Graphics;
+import es.ucm.arblemar.engine.Input.TouchEvent;
 import es.ucm.arblemar.engine.Vector2;
 
 
 public class MainMenu implements App {
+
+
+
     public MainMenu(Engine engine){
         _mainEngine = engine;
     }
@@ -35,7 +42,28 @@ public class MainMenu implements App {
 
     @Override
     public void handleInput() {
+        List<TouchEvent> events = _mainEngine.getInput().GetTouchEvents();
 
+        for(int i = 0 ; i < events.size() ; i++){
+            TouchEvent currEvent = events.get(i);
+            Vector2 eventPos = new Vector2(currEvent.x, currEvent.y);
+            switch (currEvent.type){
+                case TouchEvent.touchDown:{
+
+                    break;
+                }
+                case TouchEvent.touchUp:{
+                    break;
+                }
+            }
+        }
+    }
+
+
+
+
+    private boolean inside(Vector2 pos){
+        return false;
     }
 
     Engine _mainEngine;

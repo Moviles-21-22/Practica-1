@@ -89,7 +89,8 @@ public class Tablero {
                 //  Inicializamos el valor de la celda de forma aleatoria
                 int valor = r.nextInt(_size) + 1;
                 if(AzulesValidos(indX,indY,valor)){
-                    casillas[indX][indY] = new CeldaAzul(valor);
+                    Vector2 ind = new Vector2(indX,indY);
+                    casillas[indX][indY] = new CeldaAzul(valor,ind);
                     casillas[indX][indY]._lock = true;
                     indexAzulesOriginales[contAzul] = new Vector2(indX,indY);
                     contAzul++;
@@ -306,7 +307,7 @@ public class Tablero {
      * */
     public void AgregaCeldaAzul(Vector2 ind){
         indexAzulesPuestas.add(ind);
-        casillas[(int)ind._x][(int)ind._y] = new CeldaAzul(-1);
+        casillas[(int)ind._x][(int)ind._y] = new CeldaAzul(-1,ind);
     }
 
     /**

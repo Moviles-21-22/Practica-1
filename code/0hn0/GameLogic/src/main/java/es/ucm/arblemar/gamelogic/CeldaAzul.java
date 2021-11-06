@@ -4,8 +4,8 @@ public class CeldaAzul extends Celda {
 
     private int valor = 0;
 
-    CeldaAzul(int _valor){
-        super(TipoCelda.AZUL);
+    CeldaAzul(int _valor, Vector2 ind){
+        super(TipoCelda.AZUL,ind);
         _lock = true;
         valor = _valor;
     }

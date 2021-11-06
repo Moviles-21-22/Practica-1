@@ -2,6 +2,8 @@ package es.ucm.arblemar.desktopengine;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
 
@@ -10,7 +12,7 @@ import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Image;
 import es.ucm.arblemar.engine.Vector2;
 
-public class DesktopGraphics implements Graphics {
+public class DesktopGraphics implements Graphics, ComponentListener {
     public DesktopGraphics(String titulo){
         _titulo = titulo;
     }
@@ -19,8 +21,12 @@ public class DesktopGraphics implements Graphics {
     public boolean init() {
         // Creación de la ventana
         _screen = new DesktopScreen(_titulo);
-
+        _screen.addComponentListener(this);
         return _screen.init(1000, 800);
+    }
+
+    public DesktopScreen getScreen(){
+        return _screen;
     }
 
     @Override
@@ -129,4 +135,24 @@ public class DesktopGraphics implements Graphics {
     private DesktopScreen _screen;
     private java.awt.Graphics _graphics;
     private AffineTransform _old;
+
+    @Override
+    public void componentResized(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void componentMoved(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void componentShown(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void componentHidden(ComponentEvent e) {
+
+    }
 }

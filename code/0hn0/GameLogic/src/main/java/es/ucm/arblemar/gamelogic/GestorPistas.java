@@ -38,7 +38,7 @@ public class GestorPistas {
         _size = t.GetSize();
         _indexAzulesPuestas = t.GetIndexAzulesPuestas();
 
-        for(int i = 0 ; i < 2; i++){
+        for(int i = 0 ; i < TipoPista.MAX.getValue(); i++){
             BuscaPistas(t,i);
         }
     }
