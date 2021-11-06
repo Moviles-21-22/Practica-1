@@ -18,7 +18,7 @@ public class LoadAssets implements App {
         try {
             Graphics graphics = _mainEngine.getGraphics();
             //Assets.close = graphics.newImage("close.png", 1, 1);
-            Assets.molle = graphics.newFont("Molle-Regular.ttf", 32, false);
+            Assets.molle = graphics.newFont("Molle-Regular.ttf", 50, false);
 
             App mainMenu = new MainMenu(_mainEngine);
             return _mainEngine.initNewApp(mainMenu);

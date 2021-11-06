@@ -19,12 +19,8 @@ public class DesktopEngine implements Engine {
     public boolean init(App initApp, String nameGame) {
         _currentApp = initApp;
         _input = new DesktopInput(this);
-        _graphics = new DesktopGraphics(nameGame);
-        _graphics.init();
-        _graphics.getScreen().addMouseListener(_input);
-        _graphics.getScreen().addMouseMotionListener(_input);
-        return true;
-        //return _currentApp.init() && _graphics.init();
+        _graphics = new DesktopGraphics(nameGame, this);
+        return _currentApp.init() && _graphics.init() && _input.init();
     }
 
     @Override

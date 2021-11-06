@@ -7,13 +7,15 @@ import java.awt.event.ComponentListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
 
+import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Font;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Image;
 import es.ucm.arblemar.engine.Vector2;
 
 public class DesktopGraphics implements Graphics, ComponentListener {
-    public DesktopGraphics(String titulo){
+    public DesktopGraphics(String titulo, Engine engine){
+        _mainEngine = engine;
         _titulo = titulo;
     }
 
@@ -22,6 +24,8 @@ public class DesktopGraphics implements Graphics, ComponentListener {
         // Creación de la ventana
         _screen = new DesktopScreen(_titulo);
         _screen.addComponentListener(this);
+        _screen.addMouseListener((DesktopInput) _mainEngine.getInput());
+        _screen.addMouseMotionListener((DesktopInput) _mainEngine.getInput());
         return _screen.init(1000, 800);
     }
 
@@ -111,7 +115,26 @@ public class DesktopGraphics implements Graphics, ComponentListener {
         return _screen.getHeight();
     }
 
-    //=========METODOS-CONTROL-CANVAS===========
+    @Override
+    public void componentResized(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void componentMoved(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void componentShown(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void componentHidden(ComponentEvent e) {
+
+    }
+
     @Override
     public void translate(float x, float y) {
         _graphics.translate((int)x, (int)y);
@@ -140,28 +163,10 @@ public class DesktopGraphics implements Graphics, ComponentListener {
         return _graphics;
     }
 
+    // VARIABLES
+    private Engine _mainEngine;
     private String _titulo;
     private DesktopScreen _screen;
     private java.awt.Graphics _graphics;
     private AffineTransform _old;
-
-    @Override
-    public void componentResized(ComponentEvent e) {
-
-    }
-
-    @Override
-    public void componentMoved(ComponentEvent e) {
-
-    }
-
-    @Override
-    public void componentShown(ComponentEvent e) {
-
-    }
-
-    @Override
-    public void componentHidden(ComponentEvent e) {
-
-    }
 }

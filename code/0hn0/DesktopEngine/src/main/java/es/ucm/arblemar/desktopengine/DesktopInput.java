@@ -7,23 +7,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.ucm.arblemar.engine.Engine;
+import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Input;
 
 public class DesktopInput implements Input, MouseListener, MouseMotionListener {
 
-    private Engine engine;
+    private Engine _mainEngine;
     //  Lista de los eventos que maneja deskopPc
     private List<TouchEvent> events;
 
     public DesktopInput(Engine e){
         super();
-        engine = e;
+        _mainEngine = e;
         events = new ArrayList<>();
-
     }
 
     public DesktopInput GetInput(){
         return this;
+    }
+
+    @Override
+    public boolean init() {
+        return true;
     }
 
     @Override
