@@ -35,9 +35,9 @@ public class MainMenu implements App {
     public void render() {
         // Estas van siempre en tos lados
         Graphics g = _mainEngine.getGraphics();
-        g.clear(0xFF0000FF);
+        g.clear(0xAA0010FF);
 
-        g.setColor(0x00FF00FF);
+        g.setColor(0x00AA10FF);
         g.fillCircle(new Vector2(500, 500), 50);
 
         // Ponemos el rótulo (si conseguimos cargar la fuente)

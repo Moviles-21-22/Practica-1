@@ -6,16 +6,18 @@ import java.io.InputStream;
 import es.ucm.arblemar.engine.Font;
 
 public class DesktopFont implements Font {
-    public DesktopFont(String fileName, int size, boolean isBold) {
+    public DesktopFont(String fileName, float size, boolean isBold) {
         _fileName = fileName;
         _size = size;
         _isBold = isBold;
     }
 
     @Override
-    public boolean init(){
+    public boolean init() {
         try (InputStream is = new FileInputStream(_fileName)) {
+            //_javaFont = new java.awt.Font(_fileName, java.awt.Font.ITALIC, _size);
             _javaFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, is);
+            setSize(_size);
         }
         catch (Exception e) {
             // Ouch. No está.
@@ -36,8 +38,8 @@ public class DesktopFont implements Font {
     }
 
     @Override
-    public void setSize(float x, float y) {
-
+    public void setSize(float newSize) {
+        _javaFont = _javaFont.deriveFont(newSize);
     }
 
     @Override
@@ -51,6 +53,6 @@ public class DesktopFont implements Font {
 
     java.awt.Font _javaFont;
     String _fileName;
-    int _size;
+    float _size;
     boolean _isBold;
 }

@@ -19,7 +19,7 @@ public class AndroidFont implements Font {
     }
 
     @Override
-    public void setSize(float x, float y) {
+    public void setSize(float newSize) {
 
     }
 

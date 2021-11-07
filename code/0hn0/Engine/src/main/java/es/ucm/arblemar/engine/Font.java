@@ -13,7 +13,7 @@ public interface Font {
      */
     public void setText(String text);
     public void setPos(float x, float y);
-    public void setSize(float x, float y);
+    public void setSize(float newSize);
 
     public String getText();
 }
