@@ -36,7 +36,7 @@ public class AndroidGraphics implements Graphics {
     }
 
     @Override
-    public void drawImage(Image image){
+    public void drawImage(Image image, int x, int y){
 
     }
 

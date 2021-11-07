@@ -9,7 +9,7 @@ public interface Graphics {
     /**
      * Carga una imagen almacenada en el contenedor de recursos de la aplicación a partir de su nombre
      * */
-    Image newImage(String name, int w, int h);
+    Image newImage(String name, int w, int h) throws Exception;
     /**
      * Crea una nueva fuente del tamaño especificado a partir de un fichero .ttf. Se indica si se desea o no fuente
      * en negrita
@@ -32,7 +32,7 @@ public interface Graphics {
     /**
      * Dibuja una imagen
      * */
-    void drawImage(Image image);
+    void drawImage(Image image, int x, int y);
     /**
      * Dibuja una línea desde el P(x1, y1) hasta Q(x2, y2) con un color
      * */

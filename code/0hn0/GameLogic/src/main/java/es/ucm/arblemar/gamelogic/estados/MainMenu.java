@@ -46,6 +46,10 @@ public class MainMenu implements App {
             g.setFont(Assets.molle);
             g.drawText("RENDERIZADO ACTIVO", 100, 100);
         }
+
+        if (Assets.close != null) {
+            g.drawImage(Assets.close, 200, 200);
+        }
     }
 
     @Override

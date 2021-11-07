@@ -17,8 +17,13 @@ public class LoadAssets implements App {
     public boolean init() {
         try {
             Graphics graphics = _mainEngine.getGraphics();
-            //Assets.close = graphics.newImage("close.png", 1, 1);
+
+            //Sprites
+            Assets.close = graphics.newImage("close.png", 30, 30);
+
+            //Fuentes
             Assets.molle = graphics.newFont("Molle-Regular.ttf", 36, false);
+            Assets.josefinSans = graphics.newFont("JosefinSans-Bold.ttf", 36, true);
 
             App mainMenu = new MainMenu(_mainEngine);
             return _mainEngine.initNewApp(mainMenu);

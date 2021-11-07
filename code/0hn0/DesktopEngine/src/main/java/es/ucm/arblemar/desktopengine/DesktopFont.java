@@ -15,7 +15,6 @@ public class DesktopFont implements Font {
     @Override
     public boolean init() {
         try (InputStream is = new FileInputStream(_fileName)) {
-            //_javaFont = new java.awt.Font(_fileName, java.awt.Font.ITALIC, _size);
             _javaFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, is);
             setSize(_size);
         }
@@ -40,6 +39,7 @@ public class DesktopFont implements Font {
     @Override
     public void setSize(float newSize) {
         _javaFont = _javaFont.deriveFont(newSize);
+        //Es necesario hacer _graphic.setFont después de llamar al setSize
     }
 
     @Override
