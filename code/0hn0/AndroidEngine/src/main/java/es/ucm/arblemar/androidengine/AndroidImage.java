@@ -19,6 +19,11 @@ public class AndroidImage implements Image {
     }
 
     @Override
+    public void setSize(int newWidth, int newHeight) {
+
+    }
+
+    @Override
     public int getWidth() {
         return 0;
     }

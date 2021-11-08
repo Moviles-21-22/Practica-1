@@ -11,4 +11,6 @@ public interface Image {
      * Devuelve el alto de la imagen
      * */
     int getHeight();
+
+    public void setSize(int newWidth, int newHeight);
 }

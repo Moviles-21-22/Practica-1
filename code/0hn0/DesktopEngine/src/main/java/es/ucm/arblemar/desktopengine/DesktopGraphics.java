@@ -74,7 +74,7 @@ public class DesktopGraphics implements Graphics, ComponentListener {
 
     @Override
     public void drawImage(Image image, int x, int y) {
-        _graphics.drawImage(((DesktopImage) image).getBuffImage(), 20, 100, ((DesktopImage) image).getWidth(), ((DesktopImage) image).getHeight(), null);
+        _graphics.drawImage(((DesktopImage) image).getBuffImage(), x, y, ((DesktopImage) image).getWidth(), ((DesktopImage) image).getHeight(), null);
     }
 
     @Override

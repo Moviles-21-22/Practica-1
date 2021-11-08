@@ -1,6 +1,5 @@
 package es.ucm.arblemar.desktopengine;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
@@ -25,7 +24,6 @@ public class DesktopImage implements Image {
     public boolean init(){
         try (InputStream is = new FileInputStream(_fileName)) {
             _javaImage = ImageIO.read(new File(_fileName));
-            //_javaImage = new BufferedImage(_width, _heigth, TYPE_INT_ARGB);
             _javaImage = resize(_width, _heigth);
         }
         catch (Exception e) {
@@ -47,14 +45,19 @@ public class DesktopImage implements Image {
         return _width;
     }
 
+    @Override
+    public void setSize(int newWidth, int newHeight) {
+        _javaImage = resize(newWidth, newHeight);
+    }
+
     private BufferedImage resize(int newW, int newH) {
-        int w = _javaImage.getWidth();
-        int h = _javaImage.getHeight();
-        BufferedImage dimg = new BufferedImage(newW, newH, TYPE_INT_ARGB);
+        _width = newW;
+        _heigth = newH;
+        BufferedImage dimg = new BufferedImage(_width, _heigth, TYPE_INT_ARGB);
         Graphics2D g = dimg.createGraphics();
         g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
                 RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        g.drawImage(_javaImage, 0, 0, newW, newH,null);
+        g.drawImage(_javaImage, 0, 0, _width, _heigth,null);
         g.dispose();
         return dimg;
     }

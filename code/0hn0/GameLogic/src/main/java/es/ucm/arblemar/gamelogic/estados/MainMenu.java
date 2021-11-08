@@ -68,15 +68,17 @@ public class MainMenu implements App {
             Assets.josefinSans32.setSize(size);
             g.setColor(0XAAAEC0FF);
             g.drawText("A game by Q42", (float)(g.getWidth() / 2) - (size * 7/2), (float)(g.getHeight() / 2) + (size * 15/2));
-            g.drawText("Created by Martin Kool", (float)(g.getWidth() / 2) - (size * 7/2), (float)(g.getHeight() / 2) + (size * 9));
+            g.drawText("Created by Martin Kool", (float)(g.getWidth() / 2) - (size * 5), (float)(g.getHeight() / 2) + (size * 9));
         }
 
-        ////Ponemos la imagen de la empresa (si conseguimos cargar la imagen)
-        //if (Assets.q42 != null) {
-        //    float size = (float)g.getHeight() / 10;
-        //    g.drawImage(Assets.q42, (int)((g.getWidth() / 2) - (size * 7/2)), (int)((g.getHeight() / 2) + (size * 9)));
-        //}
-//
+        //Ponemos la imagen de la empresa (si conseguimos cargar la imagen)
+        if (Assets.q42 != null) {
+            int size = g.getHeight() / 2;
+            Assets.q42.setSize(40, 80);
+            //(g.getWidth() / 2) - (size * 5), (g.getWidth() / 2) - (size * 5)
+            g.drawImage(Assets.q42, 200,200);
+        }
+
         //if (Assets.close != null) {
         //    g.drawImage(Assets.close, 200, 200);
         //}
