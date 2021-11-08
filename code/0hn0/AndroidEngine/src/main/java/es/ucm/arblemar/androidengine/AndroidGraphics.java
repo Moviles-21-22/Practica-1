@@ -71,7 +71,7 @@ public class AndroidGraphics implements Graphics {
     }
 
     @Override
-    public void fillCircle(Vector2 centro, int radio){
+    public void fillCircle(Vector2 centro, int dm){
 
     }
 

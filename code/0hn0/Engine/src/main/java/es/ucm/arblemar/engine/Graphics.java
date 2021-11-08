@@ -31,6 +31,8 @@ public interface Graphics {
     void setFont(Font font);
     /**
      * Dibuja una imagen
+     * @param x posición X en pantalla
+     * @param y posición Y en pantalla
      * */
     void drawImage(Image image, int x, int y);
     /**
@@ -47,12 +49,15 @@ public interface Graphics {
     void drawCircle(Vector2 centro, float radio);
     /**
      * Renderiza texto
+     * @param text texto a mostrar
+     * @param x posición X en pantalla
+     * @param y posición Y en pantalla
      * */
     void drawText(String text, float x, float y);
     /**
      * Rellena un circulo con un color específico
      * */
-    void fillCircle(Vector2 centro, int radio);
+    void fillCircle(Vector2 centro, int dm);
     /**
      * Rellena un rectángulo de un color específico
      * */

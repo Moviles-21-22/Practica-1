@@ -20,10 +20,12 @@ public class LoadAssets implements App {
 
             //Sprites
             Assets.close = graphics.newImage("close.png", 30, 30);
+            Assets.q42 = graphics.newImage("q42.png", 30, 30);
 
             //Fuentes
-            Assets.molle = graphics.newFont("Molle-Regular.ttf", 36, false);
-            Assets.josefinSans = graphics.newFont("JosefinSans-Bold.ttf", 36, true);
+            Assets.molle = graphics.newFont("Molle-Regular.ttf", 32, false);
+            Assets.josefinSans32 = graphics.newFont("JosefinSans-Bold.ttf", 32, true);
+            Assets.josefinSans64 = graphics.newFont("JosefinSans-Bold.ttf", 64, true);
 
             App mainMenu = new MainMenu(_mainEngine);
             return _mainEngine.initNewApp(mainMenu);

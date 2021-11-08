@@ -97,8 +97,8 @@ public class DesktopGraphics implements Graphics, ComponentListener {
     }
 
     @Override
-    public void fillCircle(Vector2 centro, int radio){
-        _graphics.fillOval(centro._x, centro._y, radio, radio);
+    public void fillCircle(Vector2 centro, int dm){
+        _graphics.fillOval(centro._x, centro._y, dm, dm);
     }
 
     @Override

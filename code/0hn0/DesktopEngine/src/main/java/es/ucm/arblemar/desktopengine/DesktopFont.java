@@ -33,13 +33,11 @@ public class DesktopFont implements Font {
 
     @Override
     public void setPos(float x, float y) {
-
     }
 
     @Override
     public void setSize(float newSize) {
         _javaFont = _javaFont.deriveFont(newSize);
-        //Es necesario hacer _graphic.setFont después de llamar al setSize
     }
 
     @Override

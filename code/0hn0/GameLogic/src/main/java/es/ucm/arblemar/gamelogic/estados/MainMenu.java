@@ -28,28 +28,58 @@ public class MainMenu implements App {
 
     @Override
     public void update(double deltaTime) {
-
+        //Assets.molle.setSize(10);
     }
 
     @Override
     public void render() {
         // Estas van siempre en tos lados
         Graphics g = _mainEngine.getGraphics();
-        g.clear(0xAA0010FF);
+        g.clear(0xFFFFFFFF);
 
-        g.setColor(0x00AA10FF);
-        g.fillCircle(new Vector2(500, 500), 50);
+        //Círculo azul
+        g.setColor(0x1CC0E0FF);
+        int tam = g.getHeight() / 4;
+        int margin = tam / 20;
+        g.fillCircle(new Vector2((g.getWidth() / 2) - (tam + margin), (g.getHeight() / 2) - (tam / 2)), tam);
+        //Círculo rojo
+        g.setColor(0xFF384BFF);
+        g.fillCircle(new Vector2((g.getWidth() / 2) + margin, (g.getHeight() / 2) - (tam / 2)), tam);
 
         // Ponemos el rótulo (si conseguimos cargar la fuente)
         if (Assets.molle != null) {
-            g.setColor(0X000000FF);
+            g.setColor(0X333333FF);
             g.setFont(Assets.molle);
-            g.drawText("RENDERIZADO ACTIVO", 100, 100);
+            float size = (float)g.getHeight() / 6;
+            Assets.molle.setSize(size);
+            g.drawText("Oh no", (float)(g.getWidth() / 2) - (size * 24/17), (float)(g.getHeight() / 2) - (size * 24/17));
+        }
+        // Ponemos el primer texto de debajo (si conseguimos cargar la fuente)
+        if (Assets.josefinSans64 != null) {
+            g.setFont(Assets.josefinSans64);
+            float size = (float)g.getHeight() / 20;
+            Assets.josefinSans64.setSize(size);
+            g.drawText("It's 0h h1's companion!", (float)(g.getWidth() / 2) - (size * 9/2), (float)(g.getHeight() / 2) + (size * 9/2));
+        }
+        // Ponemos los otros dos textos de debajo (si conseguimos cargar la fuente)
+        if (Assets.josefinSans32 != null) {
+            g.setFont(Assets.josefinSans32);
+            float size = (float)g.getHeight() / 26;
+            Assets.josefinSans32.setSize(size);
+            g.setColor(0XAAAEC0FF);
+            g.drawText("A game by Q42", (float)(g.getWidth() / 2) - (size * 7/2), (float)(g.getHeight() / 2) + (size * 15/2));
+            g.drawText("Created by Martin Kool", (float)(g.getWidth() / 2) - (size * 7/2), (float)(g.getHeight() / 2) + (size * 9));
         }
 
-        if (Assets.close != null) {
-            g.drawImage(Assets.close, 200, 200);
-        }
+        ////Ponemos la imagen de la empresa (si conseguimos cargar la imagen)
+        //if (Assets.q42 != null) {
+        //    float size = (float)g.getHeight() / 10;
+        //    g.drawImage(Assets.q42, (int)((g.getWidth() / 2) - (size * 7/2)), (int)((g.getHeight() / 2) + (size * 9)));
+        //}
+//
+        //if (Assets.close != null) {
+        //    g.drawImage(Assets.close, 200, 200);
+        //}
     }
 
     @Override
