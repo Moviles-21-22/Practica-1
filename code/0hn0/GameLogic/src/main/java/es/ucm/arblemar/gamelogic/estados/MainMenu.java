@@ -73,10 +73,10 @@ public class MainMenu implements App {
 
         //Ponemos la imagen de la empresa (si conseguimos cargar la imagen)
         if (Assets.q42 != null) {
-            int size = g.getHeight() / 2;
-            Assets.q42.setSize(40, 80);
+            int size = g.getHeight() / 15;
+            Assets.q42.setSize(size + (size / 3), size);
             //(g.getWidth() / 2) - (size * 5), (g.getWidth() / 2) - (size * 5)
-            g.drawImage(Assets.q42, 200,200);
+            g.drawImage(Assets.q42, (g.getWidth() / 2) - (size * 1 / 2), (g.getHeight() / 2) + (size * 11 / 2));
         }
 
         //if (Assets.close != null) {

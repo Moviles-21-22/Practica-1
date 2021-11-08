@@ -2,7 +2,6 @@ package es.ucm.arblemar.desktopengine;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.geom.AffineTransform;
@@ -36,7 +35,7 @@ public class DesktopGraphics implements Graphics, ComponentListener {
 
     @Override
     public Image newImage(String name, int w, int h) throws Exception {
-        Image newImage = new DesktopImage("./recursos/sprites/" + name, w, h);
+        Image newImage = new DesktopImage("./recursos/sprites/" + name, h, w);
         if (!newImage.init())
             throw new Exception();
         return newImage;

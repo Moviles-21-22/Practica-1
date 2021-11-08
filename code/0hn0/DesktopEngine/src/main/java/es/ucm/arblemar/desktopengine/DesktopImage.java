@@ -53,7 +53,7 @@ public class DesktopImage implements Image {
     private BufferedImage resize(int newW, int newH) {
         _width = newW;
         _heigth = newH;
-        BufferedImage dimg = new BufferedImage(_width, _heigth, TYPE_INT_ARGB);
+            BufferedImage dimg = new BufferedImage(_width, _heigth, TYPE_INT_ARGB);
         Graphics2D g = dimg.createGraphics();
         g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
                 RenderingHints.VALUE_INTERPOLATION_BILINEAR);
