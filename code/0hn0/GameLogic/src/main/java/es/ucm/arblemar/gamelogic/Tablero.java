@@ -30,7 +30,7 @@ public class Tablero {
         for(int i = 0 ; i < _size ; i++){
             for(int j = 0 ; j < _size ; j++){
                 Vector2 ind = new Vector2(i,j);
-                casillas[i][j] = new CeldaGris(0,ind);
+                casillas[i][j] = new CeldaGris(ind);
             }
         }
 

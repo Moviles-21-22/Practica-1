@@ -100,7 +100,7 @@ public class AndroidGraphics implements Graphics {
 
     @Override
     public Rect scale(float x, float y, float w, float h){
-
+        return  null;
     }
 
     @Override

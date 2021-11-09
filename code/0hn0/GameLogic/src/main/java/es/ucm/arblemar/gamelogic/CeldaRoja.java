@@ -1,14 +1,11 @@
 package es.ucm.arblemar.gamelogic;
 
+import java.awt.Graphics;
+
 public class CeldaRoja extends Celda {
     CeldaRoja(Vector2 ind){
         super(TipoCelda.ROJO,ind);
         _lock = true;
-    }
-
-    @Override
-    protected void Init(){
-
     }
 
     /**
@@ -22,4 +19,10 @@ public class CeldaRoja extends Celda {
 
         return _lock;
     }
+
+    @Override
+    public void render(Graphics g) {
+
+    }
+
 }

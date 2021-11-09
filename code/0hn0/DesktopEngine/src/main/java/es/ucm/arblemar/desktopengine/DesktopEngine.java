@@ -20,7 +20,7 @@ public class DesktopEngine implements Engine {
         _currentApp = initApp;
         _input = new DesktopInput(this);
         _graphics = new DesktopGraphics(nameGame, this);
-        return _currentApp.init() && _graphics.init() && _input.init();
+        return _graphics.init() && _input.init() && _currentApp.init();
     }
 
     @Override
@@ -33,7 +33,6 @@ public class DesktopEngine implements Engine {
             updateDeltaTime();
 
             // Refresco del estado actual
-            // TODO: Faltaría el input
             _currentApp.handleInput();
             _currentApp.update(_deltaTime);
 
@@ -56,6 +55,7 @@ public class DesktopEngine implements Engine {
 
     @Override
     public boolean initNewApp(App newApp){
+        // Borrar estado anterior?
         _currentApp = newApp;
         return _currentApp.init();
     }

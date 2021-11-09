@@ -1,5 +1,7 @@
 package es.ucm.arblemar.gamelogic;
 
+import java.awt.Graphics;
+
 public class CeldaAzul extends Celda {
 
     private int valor = 0;
@@ -10,10 +12,6 @@ public class CeldaAzul extends Celda {
         valor = _valor;
     }
 
-    @Override
-    protected void Init(){
-
-    }
 
     /**
      * Se hace grande y pequeño para indicar que no se puede modificar
@@ -27,7 +25,13 @@ public class CeldaAzul extends Celda {
         return _lock;
     }
 
+    @Override
+    public void render(Graphics g) {
+
+    }
+
     public int getValue(){
         return valor;
     }
+
 }

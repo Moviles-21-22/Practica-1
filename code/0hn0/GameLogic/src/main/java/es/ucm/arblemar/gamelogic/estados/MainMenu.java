@@ -1,18 +1,21 @@
 package es.ucm.arblemar.gamelogic.estados;
-import java.util.List;
-
-
+import java.awt.Rectangle;
 import java.util.ArrayList;
-
+import java.util.List;
 import es.ucm.arblemar.engine.App;
 import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Input.TouchEvent;
 import es.ucm.arblemar.engine.Vector2;
+import es.ucm.arblemar.gamelogic.GameObject;
+import es.ucm.arblemar.gamelogic.Texto;
 import es.ucm.arblemar.gamelogic.assets.Assets;
 
 
 public class MainMenu implements App {
+    //  Lista con todos los objectos de la escena
+    private List<GameObject> gameObjects;
+
     public MainMenu(Engine engine){
         _mainEngine = engine;
     }
@@ -20,16 +23,31 @@ public class MainMenu implements App {
     @Override
     public boolean init() {
         // TODO: Aquí se iniciarian cosas de la lógica del mainMenu
+        try{
+            gameObjects = new ArrayList<>();
+            Graphics g = _mainEngine.getGraphics();
+
+            Rectangle tRect = new Rectangle(g.getWidth() / 2,g.getHeight() / 2,100,50);
+            Texto t = new Texto(tRect,0X333333FF,Assets.josefinSans32,100,00);
+            t.setTexto("JUGAR");
+            t.setInteractive();
+            gameObjects.add(t);
+
+        }
+        catch (Exception e){
+            return false;
+        }
         return true;
     }
 
     @Override
     public void update(double deltaTime) {
-        //Assets.molle.setSize(10);
+
     }
 
     @Override
     public void render() {
+
         // Estas van siempre en tos lados
         Graphics g = _mainEngine.getGraphics();
         g.clear(0xFFFFFFFF);
@@ -57,6 +75,8 @@ public class MainMenu implements App {
             float size = (float)g.getHeight() / 20;
             Assets.josefinSans64.setSize(size);
             g.drawText("It's 0h h1's companion!", (float)(g.getWidth() / 2) - (size * 9/2), (float)(g.getHeight() / 2) + (size * 9/2));
+
+
         }
         // Ponemos los otros dos textos de debajo (si conseguimos cargar la fuente)
         if (Assets.josefinSans32 != null) {
@@ -76,9 +96,33 @@ public class MainMenu implements App {
         //if (Assets.close != null) {
         //    g.drawImage(Assets.close, 200, 200);
         //}
+
+        // TODO: implementar los cambios de ventana como arriba
+        for(GameObject obj : gameObjects){
+            if(((Texto)obj) != null){
+                switch (obj.getId()){
+                    case 00:{    // Testeo
+                        float width = (float)g.getWidth() / 10;
+                        float height = (float)g.getHeight() / 20;
+                        Rectangle tRect = new Rectangle((g.getWidth() / 2),(g.getHeight() / 2) ,(int)width, (int)height);
+                        ((Texto)obj).setRect(tRect);
+                        //((Texto)obj).setSize(Math.min(width,height));
+                        ((Texto)obj).render(g);
+                        break;
+                    }
+                    case 01:{
+                        break;
+                    }
+                }
+            }
+            else {
+
+            }
+        }
     }
 
     @Override
+    //  Gestiona las colisiones del ratón con los objetos de la escena
     public void handleInput() {
         List<TouchEvent> events = _mainEngine.getInput().GetTouchEvents();
 
@@ -87,22 +131,37 @@ public class MainMenu implements App {
             Vector2 eventPos = new Vector2(currEvent.x, currEvent.y);
             switch (currEvent.type){
                 case TouchEvent.touchDown:{
-
+                    GameObject obj = getObjectClicked(eventPos);
+                    if(obj != null){
+                        //  Testeo
+                        SelectionMenu sMenu = new SelectionMenu(_mainEngine);
+                        _mainEngine.initNewApp(sMenu);
+                    }
                     break;
                 }
-                case TouchEvent.touchUp:{
+                default:{
                     break;
                 }
             }
         }
     }
 
-
-
-
-    private boolean inside(Vector2 pos){
-        return false;
+    // Devuelve el objecto que ha sido pulsado
+    private GameObject getObjectClicked(Vector2 eventPos){
+        boolean encontrado = false;
+        int gameObjIndex = 0;
+        while (!encontrado && gameObjIndex < gameObjects.size()){
+            if(gameObjects.get(gameObjIndex).isClicked(eventPos)){
+                encontrado = true;
+                return gameObjects.get(gameObjIndex);
+            }
+            else{
+                gameObjIndex++;
+            }
+        }
+        return null;
     }
+
 
     Engine _mainEngine;
 }
