@@ -38,7 +38,7 @@ public interface Graphics {
     /**
      * Dibuja una línea desde el P(x1, y1) hasta Q(x2, y2) con un color
      * */
-    void drawLine(float x1, float y1, float x2, float y2);
+    void drawLine(Vector2 P, Vector2 Q);
     /**
      * Dibuja un rectángulo con un color específico
      * */
@@ -77,9 +77,10 @@ public interface Graphics {
      * */
     void translate(float x, float y);
     /**
-     *
-     * @return*/
-    Rect scale(float x, float  y, float w, float h);
+     *  Escala un rectángulo a partir de una posición y un tamaño
+     *  en función del tamaño de la ventana
+     * @return Devuelve el rectángulo escalado*/
+    Rect scaleRect(Vector2 winSize, Vector2 pos, Vector2 size);
     /**
      *
      * */

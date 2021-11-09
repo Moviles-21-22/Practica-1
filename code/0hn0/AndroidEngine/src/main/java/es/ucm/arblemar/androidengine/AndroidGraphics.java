@@ -52,7 +52,7 @@ public class AndroidGraphics implements Graphics {
     }
 
     @Override
-    public void drawLine(float x1, float y1, float x2, float y2){
+    public void drawLine(Vector2 P, Vector2 Q){
 
     }
 
@@ -99,7 +99,7 @@ public class AndroidGraphics implements Graphics {
     }
 
     @Override
-    public Rect scale(float x, float y, float w, float h){
+    public Rect scaleRect(Vector2 winSize, Vector2 pos, Vector2 size){
         return  null;
     }
 

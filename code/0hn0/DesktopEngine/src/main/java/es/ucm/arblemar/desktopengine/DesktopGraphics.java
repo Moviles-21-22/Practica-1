@@ -7,26 +7,24 @@ import java.awt.event.ComponentListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
 
+import es.ucm.arblemar.engine.AbstractGraphics;
 import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Font;
-import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Image;
 import es.ucm.arblemar.engine.Rect;
 import es.ucm.arblemar.engine.Vector2;
 
-public class DesktopGraphics implements Graphics, ComponentListener {
+public class DesktopGraphics extends AbstractGraphics {
     public DesktopGraphics(String titulo, Engine engine){
+        super(600, 400);
         _mainEngine = engine;
         _titulo = titulo;
-        _wLogWindow = 600;
-        _hLogWindow = 400;
     }
 
     @Override
     public boolean init() {
         // Creación de la ventana
         _screen = new DesktopScreen(_titulo);
-        _screen.addComponentListener(this);
         _screen.addMouseListener((DesktopInput) _mainEngine.getInput());
         _screen.addMouseMotionListener((DesktopInput) _mainEngine.getInput());
         return _screen.init(1000, 800);
@@ -76,12 +74,19 @@ public class DesktopGraphics implements Graphics, ComponentListener {
 
     @Override
     public void drawImage(Image image, int x, int y) {
-        Rect rect = scale(x, y, image.getWidth(), image.getHeight());
-        _graphics.drawImage(((DesktopImage) image).getBuffImage(), (int)rect.x1(), (int)rect.y1(), (int)rect.getWidth(), (int)rect.getHeight(), null);
+        Rect rect = scaleRect(new Vector2(getWidth(), getHeight()),
+                                new Vector2(x, y),
+                                new Vector2(image.getWidth(), image.getHeight()));
+        _graphics.drawImage(((DesktopImage) image).getBuffImage(),
+                                (int)rect.x1(),
+                                (int)rect.y1(),
+                                (int)rect.getWidth(),
+                                (int)rect.getHeight(), null);
     }
 
     @Override
-    public void drawLine(float x1, float y1, float x2, float y2) {
+    public void drawLine(Vector2 P, Vector2 Q) {
+        _graphics.drawLine((int)P._x, (int)P._y, (int)Q._x, (int)Q._y);
     }
 
     @Override
@@ -120,41 +125,6 @@ public class DesktopGraphics implements Graphics, ComponentListener {
     }
 
     @Override
-    public void componentResized(ComponentEvent e) {
-
-    }
-
-    @Override
-    public void componentMoved(ComponentEvent e) {
-
-    }
-
-    @Override
-    public void componentShown(ComponentEvent e) {
-
-    }
-
-    @Override
-    public void componentHidden(ComponentEvent e) {
-
-    }
-
-    @Override
-    public void translate(float x, float y) {
-        _graphics.translate((int)x, (int)y);
-    }
-
-    @Override
-    public Rect scale(float x, float y, float w, float h) {
-        float xLogImg = _screen.getWidth() * x / _wLogWindow;
-        float yLogImg = _screen.getHeight() * y / _hLogWindow;
-        float wLogImg = _screen.getWidth() * w / _wLogWindow;
-        float hLogImg = _screen.getHeight() * h / _hLogWindow;
-
-        return new Rect(xLogImg, yLogImg, wLogImg, hLogImg);
-    }
-
-    @Override
     public void save() {
         _old = ((Graphics2D) _graphics).getTransform();
     }
@@ -164,6 +134,7 @@ public class DesktopGraphics implements Graphics, ComponentListener {
         ((Graphics2D) _graphics).setTransform(_old);
     }
 
+    //---------------------------------------//
     public BufferStrategy getStrategy(){
         return _screen.getStrategy();
     }
@@ -178,7 +149,4 @@ public class DesktopGraphics implements Graphics, ComponentListener {
     private DesktopScreen _screen;
     private java.awt.Graphics _graphics;
     private AffineTransform _old;
-
-    private float _wLogWindow;
-    private float _hLogWindow;
 }

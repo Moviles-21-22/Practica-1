@@ -1,99 +1,34 @@
 package es.ucm.arblemar.engine;
 
-public class AbstractGraphics implements Graphics {
+import java.awt.Graphics2D;
 
-    @Override
-    public boolean init() {
-        return false;
-    }
-
-    @Override
-    public Image newImage(String name, int w, int h) throws Exception {
-        return null;
-    }
-
-    @Override
-    public Font newFont(String filename, int size, boolean isBold) throws Exception {
-        return null;
-    }
-
-    @Override
-    public void clear(int color) {
-
-    }
-
-    @Override
-    public void setColor(int color) {
-
-    }
-
-    @Override
-    public void setFont(Font font) {
-
-    }
-
-    @Override
-    public void drawImage(Image image, int x, int y) {
-
-    }
-
-    @Override
-    public void drawLine(float x1, float y1, float x2, float y2) {
-
-    }
-
-    @Override
-    public void drawRect(float x, float y, int width, int height) {
-
-    }
-
-    @Override
-    public void drawCircle(Vector2 centro, float radio) {
-
-    }
-
-    @Override
-    public void drawText(String text, float x, float y) {
-
-    }
-
-    @Override
-    public void fillCircle(Vector2 centro, int dm) {
-
-    }
-
-    @Override
-    public void fillRect(float x, float y, int width, int height) {
-
-    }
-
-    @Override
-    public int getWidth() {
-        return 0;
-    }
-
-    @Override
-    public int getHeight() {
-        return 0;
+public abstract class AbstractGraphics implements Graphics {
+    protected AbstractGraphics(float w, float h){
+        _wLogWindow = w;
+        _hLogWindow = h;
     }
 
     @Override
     public void translate(float x, float y) {
-
+        //_graphics.translate((int)x, (int)y);
     }
 
     @Override
-    public Rect scale(float x, float y, float w, float h) {
-        return null;
+    public Rect scaleRect(Vector2 winSize, Vector2 pos, Vector2 size) {
+        // Escalado horizontal
+        if(winSize._x < _wLogWindow){
+            // Calculos para el translate
+        }
+
+        float xLogImg = winSize._x * pos._x / _wLogWindow;
+        float wLogImg = winSize._x * size._x / _wLogWindow;
+        // Escalado vertical
+        float yLogImg = winSize._y * pos._y / _hLogWindow;
+        float hLogImg = winSize._y * size._y / _hLogWindow;
+
+        return new Rect(xLogImg, yLogImg, wLogImg, hLogImg);
     }
 
-    @Override
-    public void save() {
-
-    }
-
-    @Override
-    public void restore() {
-
-    }
+    private float _wLogWindow;
+    private float _hLogWindow;
 }
