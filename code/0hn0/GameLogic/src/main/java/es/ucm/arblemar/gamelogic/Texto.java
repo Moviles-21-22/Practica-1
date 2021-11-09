@@ -24,7 +24,7 @@ public class Texto  extends GameObject{
         fuente = _fuente;
         tam = _tam;
         rect = _rect;
-        pos = new es.ucm.arblemar.gamelogic.Vector2(-1,-1);
+        pos = new Vector2(rect.x,rect.y);
     }
 
     public Font getFuente(){
@@ -42,8 +42,8 @@ public class Texto  extends GameObject{
 
     public void setRect(Rectangle _rect){
         rect = _rect;
-        pos._x = rect.x - ((float)rect.width / 2);
-        pos._y = rect.y - ((float)rect.height / 2);
+        pos._x = rect.x - (rect.width / 2);
+        pos._y = rect.y - (rect.height / 2);
     }
 
 
@@ -61,9 +61,7 @@ public class Texto  extends GameObject{
 
     public void render(Graphics g){
         if(renderActive){
-            //float size = Math.abs( rect.width - rect.height) + 5;
-            //fuente.setSize(size);
-            //fuente.setPos(pos._x,pos._y + altura);
+            fuente.setSize(tam);
             g.setColor(color);
             g.setFont(fuente);
             g.drawText(texto, pos._x , pos._y);

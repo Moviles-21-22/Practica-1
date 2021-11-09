@@ -1,7 +1,8 @@
 package es.ucm.arblemar.gamelogic;
 
-import java.awt.Rectangle;
 import es.ucm.arblemar.engine.Graphics;
+import es.ucm.arblemar.engine.Vector2;
+
 
 public abstract class GameObject {
     protected boolean renderActive = true;
@@ -36,19 +37,6 @@ public abstract class GameObject {
 
     public void setInteractive(){
         interactive = !interactive;
-    }
-
-    public void setPosition(Vector2 _pos){
-        //pos = _pos;
-        //rect.x = (int)pos._x;
-        //rect.y = (int)pos._y;
-    }
-
-    public void translate(Vector2 _pos){
-        //pos._x += _pos._x;
-        //pos._y += _pos._y;
-        //rect.x = (int)pos._x;
-        //rect.y = (int)pos._y;
     }
 
     public abstract boolean isClicked(es.ucm.arblemar.engine.Vector2 mouseClicked);

@@ -1,15 +1,18 @@
 package es.ucm.arblemar.gamelogic;
 
-import java.awt.Graphics;
+import es.ucm.arblemar.engine.Vector2;
 
 public class CeldaAzul extends Celda {
 
     private int valor = 0;
 
-    CeldaAzul(int _valor, Vector2 ind) {
-        super(TipoCelda.AZUL, ind);
+    public CeldaAzul(int _valor, Vector2 ind, int _id, Vector2 _pos) {
+        super(TipoCelda.AZUL, ind,_id);
         _lock = true;
         valor = _valor;
+        pos = _pos;
+        color = 0x1CC0E0FF;
+        radio = 100;
     }
 
 
@@ -25,13 +28,34 @@ public class CeldaAzul extends Celda {
         return _lock;
     }
 
-    @Override
-    public void render(Graphics g) {
-
-    }
-
     public int getValue(){
         return valor;
     }
 
+    @Override
+    public boolean isClicked(es.ucm.arblemar.engine.Vector2 mouseClicked) {
+        return false;
+    }
+
+    @Override
+    public void init() {
+
+    }
+
+    @Override
+    public void render(es.ucm.arblemar.engine.Graphics g) {
+        g.setColor(color);
+        g.fillCircle(pos,radio);
+        g.setColor(0XFFFFFFFF);
+        g.drawText(Integer.toString(valor), pos._x + (float)radio / 2, pos._y + (float)radio / 2);
+        if(interactive){
+            g.setColor(0X333333FF);
+            g.drawCircle(pos,radio);
+        }
+    }
+
+    @Override
+    public void update(float deltaTime) {
+
+    }
 }

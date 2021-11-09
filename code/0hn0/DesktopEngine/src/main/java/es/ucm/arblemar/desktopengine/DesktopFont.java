@@ -27,22 +27,8 @@ public class DesktopFont implements Font {
     }
 
     @Override
-    public void setText(String text) {
-
-    }
-
-    @Override
-    public void setPos(float x, float y) {
-    }
-
-    @Override
     public void setSize(float newSize) {
         _javaFont = _javaFont.deriveFont(newSize);
-    }
-
-    @Override
-    public String getText() {
-        return null;
     }
 
     public java.awt.Font getJavaFont() {

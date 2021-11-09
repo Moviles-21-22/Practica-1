@@ -1,5 +1,7 @@
 package es.ucm.arblemar.gamelogic;
 
+import es.ucm.arblemar.engine.Vector2;
+
 public class Pista {
     //  Tipo de pista
     private TipoPista tipo;

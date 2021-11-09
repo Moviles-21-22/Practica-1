@@ -4,7 +4,8 @@ package es.ucm.arblemar.gamelogic;
  * Clase abstracta de las celdas
  */
 
-import java.awt.Graphics;
+import es.ucm.arblemar.engine.Graphics;
+import es.ucm.arblemar.engine.Vector2;
 
 
 /**
@@ -13,7 +14,7 @@ import java.awt.Graphics;
  * las celdas rojas y azules iniciales no se puedan modificar, solo las
  * que se hayan inicializado como grises
  */
-public abstract class Celda {
+public abstract class Celda extends GameObject {
 
     // Determina si esta celda está bloqueada
     protected boolean _lock = false;
@@ -29,19 +30,25 @@ public abstract class Celda {
     //  Margen de la celda
     protected int margen;
     //  Radio del circulo
-    protected float radio;
+    protected int radio;
 
-    public Celda(TipoCelda t, Vector2 ind) {
+    public Celda(TipoCelda t, Vector2 ind,int _id) {
+        super(_id);
         _tipoCelda = t;
         index = ind;
     }
 
     public void setRadio(float imp){
-        radio = imp / 4;
+        radio = (int)imp / 4;
     }
 
-    public void setCircle(){
-
+    //  Determina si la celda ha sido "clickeada"
+    public boolean isClicked(es.ucm.arblemar.engine.Vector2 mouseClicked){
+        if(!interactive) return false;
+        double xDiff = pos._x - mouseClicked._x;
+        double yDiff = pos._y - mouseClicked._y;
+        double distance = Math.sqrt((Math.pow(xDiff, 2) + Math.pow(yDiff, 2)));
+        return distance <= radio;
     }
 
 

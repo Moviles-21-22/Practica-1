@@ -3,6 +3,8 @@ package es.ucm.arblemar.gamelogic;
 
 import java.util.Vector;
 
+import es.ucm.arblemar.engine.Vector2;
+
 public class GestorPistas {
 
     //  Tipo de pista

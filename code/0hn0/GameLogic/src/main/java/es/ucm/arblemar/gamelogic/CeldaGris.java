@@ -1,17 +1,22 @@
 package es.ucm.arblemar.gamelogic;
 
-import java.awt.Graphics;
+import es.ucm.arblemar.engine.Vector2;
 
 public class CeldaGris extends Celda {
 
     private int valor = 0;
 
-    CeldaGris(Vector2 ind){
-        super(TipoCelda.GRIS,ind);
-
+    public CeldaGris(Vector2 ind, int _id,Vector2 _pos){
+        super(TipoCelda.GRIS,ind,_id);
+        pos = _pos;
         _lock = false;
+        //  Las celdas grises no tienen valor
         valor = 0;
-        color = 0x9C9C9C9C;
+        //  TODO: poner color gris
+        //  Color gris
+        color = 0xFF384BFF;
+        //  TODO : puede variar
+        radio = 100;
     }
 
     @Override
@@ -39,17 +44,22 @@ public class CeldaGris extends Celda {
     }
 
     @Override
-    public void render(Graphics g) {
-        //Círculo azul
+    public void init() {
 
-        //setRadio();
-//
-        //g.setColor(0x1CC0E0FF);
-        //int tam = g.getHeight() / 4;
-        //int margin = tam / 20;
-        //g.fillCircle(new es.ucm.arblemar.engine.Vector2((g.getWidth() / 2) - (tam + margin), (g.getHeight() / 2) - (tam / 2)), tam);
-        ////Círculo rojo
-        //g.setColor(0xFF384BFF);
-        //g.fillCircle(new es.ucm.arblemar.engine.Vector2((g.getWidth() / 2) + margin, (g.getHeight() / 2) - (tam / 2)), tam);
+    }
+
+    @Override
+    public void render(es.ucm.arblemar.engine.Graphics g) {
+        g.setColor(color);
+        g.fillCircle(pos,radio);
+        if(interactive){
+            g.setColor(0X333333FF);
+            g.drawCircle(pos,radio);
+        }
+    }
+
+    @Override
+    public void update(float deltaTime) {
+
     }
 }

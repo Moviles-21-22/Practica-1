@@ -8,6 +8,9 @@ import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Input;
 import es.ucm.arblemar.engine.Vector2;
+import es.ucm.arblemar.gamelogic.CeldaAzul;
+import es.ucm.arblemar.gamelogic.CeldaGris;
+import es.ucm.arblemar.gamelogic.CeldaRoja;
 import es.ucm.arblemar.gamelogic.GameObject;
 import es.ucm.arblemar.gamelogic.Texto;
 import es.ucm.arblemar.gamelogic.assets.Assets;
@@ -39,6 +42,30 @@ public class SelectionMenu implements App {
             objects.add(textInfo);
 
 
+            CeldaAzul c1 = new CeldaAzul(4,new Vector2(0,0),0,new Vector2(250,250));
+            c1.setInteractive();
+            objects.add(c1);
+
+            CeldaRoja c2 = new CeldaRoja(new Vector2(0,0),0,new Vector2(350,250),5);
+            c2.setInteractive();
+            objects.add(c2);
+
+            CeldaAzul c3 = new CeldaAzul(6,new Vector2(0,0),0,new Vector2(450,250));
+            c3.setInteractive();
+            objects.add(c3);
+
+            CeldaRoja c4 =  new CeldaRoja(new Vector2(0,0),0,new Vector2(250,350),7);
+            c4.setInteractive();
+            objects.add(c4);
+
+            CeldaAzul c5 = new CeldaAzul(8,new Vector2(0,0),0,new Vector2(350,350));
+            c5.setInteractive();
+            objects.add(c5);
+
+            CeldaRoja c6 = new CeldaRoja(new Vector2(0,0),0,new Vector2(450,350),9);
+            c6.setInteractive();
+            objects.add(c6);
+
         }
         catch (Exception e){
             System.out.println(e);
@@ -57,7 +84,6 @@ public class SelectionMenu implements App {
         Graphics g = engine.getGraphics();
         g.clear(0xFFFFFFFF);
 
-        //  TODO: Falta escalar
         for(GameObject obj : objects){
             obj.render(g);
         }

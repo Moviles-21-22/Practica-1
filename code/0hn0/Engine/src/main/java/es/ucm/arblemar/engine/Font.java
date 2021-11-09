@@ -9,11 +9,7 @@ public interface Font {
     public boolean init();
     /**
      * Muestra el texto por pantalla
-     * @param text
      */
-    public void setText(String text);
-    public void setPos(float x, float y);
     public void setSize(float newSize);
 
-    public String getText();
 }

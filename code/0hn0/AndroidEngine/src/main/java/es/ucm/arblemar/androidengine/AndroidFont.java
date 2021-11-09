@@ -9,22 +9,7 @@ public class AndroidFont implements Font {
     }
 
     @Override
-    public void setText(String text) {
-
-    }
-
-    @Override
-    public void setPos(float x, float y) {
-
-    }
-
-    @Override
     public void setSize(float newSize) {
 
-    }
-
-    @Override
-    public String getText() {
-        return null;
     }
 }

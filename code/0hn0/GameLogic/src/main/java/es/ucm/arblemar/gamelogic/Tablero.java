@@ -2,6 +2,7 @@ package es.ucm.arblemar.gamelogic;
 
 import java.util.Random;
 import java.util.Vector;
+import es.ucm.arblemar.engine.Vector2;
 
 public class Tablero {
 
@@ -30,7 +31,7 @@ public class Tablero {
         for(int i = 0 ; i < _size ; i++){
             for(int j = 0 ; j < _size ; j++){
                 Vector2 ind = new Vector2(i,j);
-                casillas[i][j] = new CeldaGris(ind);
+                casillas[i][j] = new CeldaGris(ind,0,new Vector2(0,0));
             }
         }
 
@@ -89,7 +90,7 @@ public class Tablero {
                 int valor = r.nextInt(_size) + 1;
                 if(AzulesValidos(indX,indY,valor)){
                     Vector2 ind = new Vector2(indX,indY);
-                    casillas[indX][indY] = new CeldaAzul(valor, ind);
+                    casillas[indX][indY] = new CeldaAzul(valor, ind,0,new Vector2(0,0));
                     casillas[indX][indY]._lock = true;
                     indexAzulesOriginales[contAzul] = new Vector2(indX,indY);
                     contAzul++;
@@ -121,7 +122,7 @@ public class Tablero {
             if(!casillas[indX][indY].IsLock()){
                 if(RojosValidos(indX,indY)){
                     Vector2 ind = new Vector2(indX,indY);
-                    casillas[indX][indY] = new CeldaRoja(ind);
+                    casillas[indX][indY] = new CeldaRoja(ind,0,new Vector2(0,0));
                     casillas[indX][indY]._lock = true;
                     indexRojosOriginales[contRojos] = new Vector2(indX,indY);
                     contRojos++;
@@ -258,7 +259,7 @@ public class Tablero {
     private boolean AzulConSalidas(float x, float y, int redX, int redY){
         boolean finish = false;
 
-        Vector2 coors = new Vector2(x,y);
+        Vector2 coors = new Vector2((int)x,(int)y);
         Vector2[] dirs = new Vector2[4];
 
         dirs[0] = new Vector2(0, -1);
@@ -282,8 +283,8 @@ public class Tablero {
 
                 if (index < dirs.length) {
                     // Reseteamos los valores para comprobar en la siguiente dirección
-                    coors._x = x + (int)dirs[index]._x;
-                    coors._y = y + (int)dirs[index]._y;
+                    coors._x = (int)x + (int)dirs[index]._x;
+                    coors._y = (int)y + (int)dirs[index]._y;
                 }
                 else {
                     finish = true;
@@ -306,7 +307,7 @@ public class Tablero {
      * */
     public void AgregaCeldaAzul(Vector2 ind){
         indexAzulesPuestas.add(ind);
-        casillas[(int)ind._x][(int)ind._y] = new CeldaAzul(-1, ind);
+        casillas[(int)ind._x][(int)ind._y] = new CeldaAzul(-1, ind,0,new Vector2(0,0));
     }
 
     /**
@@ -314,7 +315,7 @@ public class Tablero {
      * */
     public void AgregaCeldaRoja(Vector2 ind){
         indexRojasPuestas.add(ind);
-        casillas[(int)ind._x][(int)ind._y] = new CeldaRoja(ind);
+        casillas[(int)ind._x][(int)ind._y] = new CeldaRoja(ind,0,new Vector2(0,0));
     }
 
     /**
