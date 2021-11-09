@@ -11,12 +11,15 @@ import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Font;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Image;
+import es.ucm.arblemar.engine.Rect;
 import es.ucm.arblemar.engine.Vector2;
 
 public class DesktopGraphics implements Graphics, ComponentListener {
     public DesktopGraphics(String titulo, Engine engine){
         _mainEngine = engine;
         _titulo = titulo;
+        _wLogWindow = 600;
+        _hLogWindow = 400;
     }
 
     @Override
@@ -73,7 +76,8 @@ public class DesktopGraphics implements Graphics, ComponentListener {
 
     @Override
     public void drawImage(Image image, int x, int y) {
-        _graphics.drawImage(((DesktopImage) image).getBuffImage(), x, y, ((DesktopImage) image).getWidth(), ((DesktopImage) image).getHeight(), null);
+        Rect rect = scale(x, y, image.getWidth(), image.getHeight());
+        _graphics.drawImage(((DesktopImage) image).getBuffImage(), (int)rect.x1(), (int)rect.y1(), (int)rect.getWidth(), (int)rect.getHeight(), null);
     }
 
     @Override
@@ -141,8 +145,13 @@ public class DesktopGraphics implements Graphics, ComponentListener {
     }
 
     @Override
-    public void scale(float x, float  y){
+    public Rect scale(float x, float y, float w, float h) {
+        float xLogImg = _screen.getWidth() * x / _wLogWindow;
+        float yLogImg = _screen.getHeight() * y / _hLogWindow;
+        float wLogImg = _screen.getWidth() * w / _wLogWindow;
+        float hLogImg = _screen.getHeight() * h / _hLogWindow;
 
+        return new Rect(xLogImg, yLogImg, wLogImg, hLogImg);
     }
 
     @Override
@@ -169,4 +178,7 @@ public class DesktopGraphics implements Graphics, ComponentListener {
     private DesktopScreen _screen;
     private java.awt.Graphics _graphics;
     private AffineTransform _old;
+
+    private float _wLogWindow;
+    private float _hLogWindow;
 }

@@ -78,8 +78,8 @@ public interface Graphics {
     void translate(float x, float y);
     /**
      *
-     * */
-    void scale(float x, float  y);
+     * @return*/
+    Rect scale(float x, float  y, float w, float h);
     /**
      *
      * */

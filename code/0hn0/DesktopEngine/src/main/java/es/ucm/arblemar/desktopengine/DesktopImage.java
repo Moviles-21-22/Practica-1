@@ -24,7 +24,7 @@ public class DesktopImage implements Image {
     public boolean init(){
         try (InputStream is = new FileInputStream(_fileName)) {
             _javaImage = ImageIO.read(new File(_fileName));
-            _javaImage = resize(_width, _heigth);
+            //_javaImage = resize(_width, _heigth);
         }
         catch (Exception e) {
             // Ouch. No está.
@@ -43,23 +43,6 @@ public class DesktopImage implements Image {
     @Override
     public int getHeight() {
         return _width;
-    }
-
-    @Override
-    public void setSize(int newWidth, int newHeight) {
-        _javaImage = resize(newWidth, newHeight);
-    }
-
-    private BufferedImage resize(int newW, int newH) {
-        _width = newW;
-        _heigth = newH;
-            BufferedImage dimg = new BufferedImage(_width, _heigth, TYPE_INT_ARGB);
-        Graphics2D g = dimg.createGraphics();
-        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        g.drawImage(_javaImage, 0, 0, _width, _heigth,null);
-        g.dispose();
-        return dimg;
     }
 
     public BufferedImage getBuffImage() {

@@ -5,6 +5,7 @@ import android.content.Context;
 import es.ucm.arblemar.engine.Font;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Image;
+import es.ucm.arblemar.engine.Rect;
 import es.ucm.arblemar.engine.Vector2;
 
 public class AndroidGraphics implements Graphics {
@@ -98,7 +99,7 @@ public class AndroidGraphics implements Graphics {
     }
 
     @Override
-    public void scale(float x, float  y){
+    public Rect scale(float x, float y, float w, float h){
 
     }
 
