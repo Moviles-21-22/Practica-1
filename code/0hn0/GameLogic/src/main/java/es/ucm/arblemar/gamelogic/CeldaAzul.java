@@ -4,8 +4,6 @@ import es.ucm.arblemar.engine.Vector2;
 
 public class CeldaAzul extends Celda {
 
-    private int valor = 0;
-
     public CeldaAzul(int _valor, Vector2 ind, int _id, Vector2 _pos) {
         super(TipoCelda.AZUL, ind,_id);
         _lock = true;
@@ -32,10 +30,6 @@ public class CeldaAzul extends Celda {
         return valor;
     }
 
-    @Override
-    public boolean isClicked(es.ucm.arblemar.engine.Vector2 mouseClicked) {
-        return false;
-    }
 
     @Override
     public void init() {

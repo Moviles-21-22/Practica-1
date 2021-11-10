@@ -4,8 +4,6 @@ import es.ucm.arblemar.engine.Vector2;
 
 public class CeldaGris extends Celda {
 
-    private int valor = 0;
-
     public CeldaGris(Vector2 ind, int _id,Vector2 _pos){
         super(TipoCelda.GRIS,ind,_id);
         pos = _pos;

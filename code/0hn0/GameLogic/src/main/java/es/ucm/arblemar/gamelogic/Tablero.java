@@ -1,7 +1,11 @@
 package es.ucm.arblemar.gamelogic;
 
+import java.security.Principal;
 import java.util.Random;
 import java.util.Vector;
+
+import es.ucm.arblemar.engine.Engine;
+import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Vector2;
 
 public class Tablero {
@@ -20,19 +24,34 @@ public class Tablero {
     private Vector<Vector2> indexRojasPuestas;
     //  Vector de todas las pistas encontradas en el tablero
     private Vector<Pista> pistasEncontradas;
+    //  Distancia que existe entre las celdas para posicionarlas
+    private final float celdaDistancia = 100;
+    //  Posición de la primera celda a colocar
+    private Vector2 initPos;
+    //  Puntero al engine
+    private Engine engine;
 
-
-    public Tablero(int size){
+    public Tablero(int size,Engine _eng){
+        engine = _eng;
         _size = size;
         /*
         * Inicialización de las celdas en modo gris
         * */
+        Graphics g = _eng.getGraphics();
+
         casillas = new Celda[_size][_size];
+        float celdaPosX = (float) g.getWidth() / 4;
+        float celdaPosY = (float) g.getHeight() / 3;
+        initPos = new Vector2((int)celdaPosX,(int)celdaPosY);
         for(int i = 0 ; i < _size ; i++){
             for(int j = 0 ; j < _size ; j++){
                 Vector2 ind = new Vector2(i,j);
-                casillas[i][j] = new CeldaGris(ind,0,new Vector2(0,0));
+                casillas[i][j] = new CeldaGris(ind,0,new Vector2(initPos._x, initPos._y));
+                initPos._x += celdaDistancia;
             }
+            initPos._x = (int) celdaPosX;
+            initPos._y += celdaPosY;
+
         }
 
         Random r = new Random();

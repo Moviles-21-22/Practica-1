@@ -132,7 +132,6 @@ public class MainMenu implements App {
                 case TouchEvent.touchDown:{
                     GameObject obj = getObjectClicked(eventPos);
                     if(obj != null){
-                        //  Testeo
                         SelectionMenu sMenu = new SelectionMenu(_mainEngine);
                         _mainEngine.initNewApp(sMenu);
                     }

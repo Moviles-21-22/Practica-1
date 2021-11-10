@@ -16,6 +16,6 @@ public class MainActivity extends AppCompatActivity {
         //  Lanzar engine y lógica
         AndroidEngine engine = new AndroidEngine(this);
         //  TODO :Pasar el tamaño del tablero a construir
-        GameLogic logic = new GameLogic(4);
+        GameLogic logic = new GameLogic(4,engine);
     }
 }

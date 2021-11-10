@@ -8,6 +8,7 @@ import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Input;
 import es.ucm.arblemar.engine.Vector2;
+import es.ucm.arblemar.gamelogic.Celda;
 import es.ucm.arblemar.gamelogic.CeldaAzul;
 import es.ucm.arblemar.gamelogic.CeldaGris;
 import es.ucm.arblemar.gamelogic.CeldaRoja;
@@ -101,10 +102,9 @@ public class SelectionMenu implements App {
                 case Input.TouchEvent.touchDown:{
                     GameObject obj = getObjectClicked(eventPos);
                     if(obj != null){
-                        //  Testeo
-                        Game game = new Game(engine);
+                        int numGame = ((Celda)obj).getValue();
+                        Game game = new Game(engine,numGame);
                         engine.initNewApp(game);
-
                     }
                     break;
                 }
@@ -120,7 +120,7 @@ public class SelectionMenu implements App {
         boolean encontrado = false;
         int gameObjIndex = 0;
         while (!encontrado && gameObjIndex < objects.size()){
-            if(objects.get(gameObjIndex).isClicked(eventPos)){
+            if(objects.get(gameObjIndex).isInteractive() && ((Celda)objects.get(gameObjIndex)).isClicked(eventPos)){
                 encontrado = true;
                 return objects.get(gameObjIndex);
             }

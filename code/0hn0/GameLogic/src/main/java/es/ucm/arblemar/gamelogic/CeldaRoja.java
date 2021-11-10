@@ -3,7 +3,6 @@ package es.ucm.arblemar.gamelogic;
 import es.ucm.arblemar.engine.Vector2;
 
 public class CeldaRoja extends Celda {
-    private int valor = -1;
 
     public CeldaRoja(Vector2 ind, int _id, Vector2 _pos){
         super(TipoCelda.ROJO,ind,_id);
@@ -11,6 +10,7 @@ public class CeldaRoja extends Celda {
         pos = _pos;
         color = 0xFF384BFF;
         radio = 100;
+        valor = 0;
     }
 
     public CeldaRoja(Vector2 ind, int _id, Vector2 _pos,int _valor){

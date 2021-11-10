@@ -31,6 +31,8 @@ public abstract class Celda extends GameObject {
     protected int margen;
     //  Radio del circulo
     protected int radio;
+    //  Valor de esta celda
+    protected int valor;
 
     public Celda(TipoCelda t, Vector2 ind,int _id) {
         super(_id);
@@ -67,5 +69,9 @@ public abstract class Celda extends GameObject {
     }
 
     public abstract void render(Graphics g);
+
+    public int getValue(){
+        return valor;
+    }
 
 };

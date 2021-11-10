@@ -1,16 +1,15 @@
 package es.ucm.arblemar.gamelogic;
 
-import java.util.Vector;
-
-import es.ucm.arblemar.engine.Font;
+import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Graphics;
 
 public class GameLogic {
     private Tablero tablero;
-    private Graphics graphics;
+    private Engine engine;
 
-    public GameLogic(int tamTablero){
-        tablero = new Tablero(tamTablero);
+    public GameLogic(int tamTablero, Engine _engine){
+        engine = _engine;
+        tablero = new Tablero(tamTablero,engine);
     }
 
     public void initGame() {
