@@ -1,6 +1,5 @@
 package es.ucm.arblemar.gamelogic;
 
-import java.security.Principal;
 import java.util.Random;
 import java.util.Vector;
 
@@ -40,8 +39,8 @@ public class Tablero {
         Graphics g = _eng.getGraphics();
 
         casillas = new Celda[_size][_size];
-        float celdaPosX = (float) g.getWidth() / 4;
-        float celdaPosY = (float) g.getHeight() / 3;
+        float celdaPosX = (float) g.getWidth() / 4 * (size * 0.1f);
+        float celdaPosY = (float) g.getHeight() / 3 * (size * 0.1f);
         initPos = new Vector2((int)celdaPosX,(int)celdaPosY);
         for(int i = 0 ; i < _size ; i++){
             for(int j = 0 ; j < _size ; j++){
@@ -49,9 +48,8 @@ public class Tablero {
                 casillas[i][j] = new CeldaGris(ind,0,new Vector2(initPos._x, initPos._y));
                 initPos._x += celdaDistancia;
             }
-            initPos._x = (int) celdaPosX;
-            initPos._y += celdaPosY;
-
+            initPos._x = (int)celdaPosX;
+            initPos._y += celdaDistancia;
         }
 
         Random r = new Random();
@@ -60,10 +58,10 @@ public class Tablero {
         //  Inicializamos los rojos aleatoriamente y lo menos descartable
         //TODO:  existen algunos casos incorrectos
         InitRojas(r);
-
-        GestorPistas p = new GestorPistas(this);
-
-        RenderizaConsola();
+//
+        //GestorPistas p = new GestorPistas(this);
+//
+        //RenderizaConsola();
     }
 
     private void RenderizaConsola() {
@@ -83,6 +81,26 @@ public class Tablero {
             }
             System.out.println();
         }
+    }
+
+    public GameObject getCeldaClicked(Vector2 mousePos){
+        boolean encontrado = false;
+        int indX = 0;
+        int indY = 0;
+        while (!encontrado && indY < _size){
+            if(casillas[indX][indY].isClicked(mousePos)){
+                encontrado = true;
+                return casillas[indX][indY];
+            }
+            else{
+                indX++;
+                if(indX >= _size){
+                    indX = 0;
+                    indY++;
+                }
+            }
+        }
+        return null;
     }
 
     /**
@@ -109,7 +127,8 @@ public class Tablero {
                 int valor = r.nextInt(_size) + 1;
                 if(AzulesValidos(indX,indY,valor)){
                     Vector2 ind = new Vector2(indX,indY);
-                    casillas[indX][indY] = new CeldaAzul(valor, ind,0,new Vector2(0,0));
+                    Vector2 pos = casillas[indX][indY].pos;
+                    casillas[indX][indY] = new CeldaAzul(valor, ind,0,pos);
                     casillas[indX][indY]._lock = true;
                     indexAzulesOriginales[contAzul] = new Vector2(indX,indY);
                     contAzul++;
@@ -141,7 +160,8 @@ public class Tablero {
             if(!casillas[indX][indY].IsLock()){
                 if(RojosValidos(indX,indY)){
                     Vector2 ind = new Vector2(indX,indY);
-                    casillas[indX][indY] = new CeldaRoja(ind,0,new Vector2(0,0));
+                    Vector2 pos = casillas[indX][indY].pos;
+                    casillas[indX][indY] = new CeldaRoja(ind,0,pos);
                     casillas[indX][indY]._lock = true;
                     indexRojosOriginales[contRojos] = new Vector2(indX,indY);
                     contRojos++;

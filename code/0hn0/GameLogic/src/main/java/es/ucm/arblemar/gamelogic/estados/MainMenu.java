@@ -6,7 +6,6 @@ import es.ucm.arblemar.engine.App;
 import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Input.TouchEvent;
-import es.ucm.arblemar.engine.Rect;
 import es.ucm.arblemar.engine.Vector2;
 import es.ucm.arblemar.gamelogic.GameObject;
 import es.ucm.arblemar.gamelogic.Texto;
@@ -114,7 +113,6 @@ public class MainMenu implements App {
         ////    g.drawImage(Assets.close, 200, 200);
         ////}
 
-        // TODO: implementar los cambios de ventana como arriba
         for(GameObject obj : gameObjects){
             obj.render(g);
         }

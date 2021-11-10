@@ -55,6 +55,11 @@ public class Texto  extends GameObject{
     }
 
     @Override
+    public void clicked() {
+
+    }
+
+    @Override
     public void init() {
 
     }

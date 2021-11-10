@@ -12,9 +12,10 @@ public class CeldaGris extends Celda {
         valor = 0;
         //  TODO: poner color gris
         //  Color gris
-        color = 0xFF384BFF;
+        color = 0X333333FF;
         //  TODO : puede variar
         radio = 100;
+        interactive = true;
     }
 
     @Override
@@ -22,23 +23,37 @@ public class CeldaGris extends Celda {
      * Alterna el color cada vez que se le da click
      */
     public boolean Click(){
-        // Cambia de color
-        switch (_tipoCelda){
-            case GRIS:
-                _tipoCelda = TipoCelda.AZUL;
-                break;
-            case AZUL:
-                _tipoCelda = TipoCelda.ROJO;
-            case ROJO:
-                _tipoCelda = TipoCelda.GRIS;
-            default:
-                break;
-        }
+
 
         // LLamada a Graphics para avisar del cambio de color
         // Graphics->changeColor(Color);
 
         return _lock;
+    }
+
+    @Override
+    public void clicked() {
+        // Cambia de color
+        switch (_tipoCelda){
+            case GRIS:{
+                _tipoCelda = TipoCelda.AZUL;
+                color = 0x1CC0E0FF;
+                break;
+            }
+            case AZUL: {
+                _tipoCelda = TipoCelda.ROJO;
+                color = 0xFF384BFF;
+                break;
+            }
+            case ROJO: {
+                _tipoCelda = TipoCelda.GRIS;
+                color = 0X333333FF;
+                break;
+            }
+            default: {
+                break;
+            }
+        }
     }
 
     @Override

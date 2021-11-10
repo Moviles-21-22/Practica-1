@@ -9,7 +9,7 @@ public class GameLogic {
 
     public GameLogic(int tamTablero, Engine _engine){
         engine = _engine;
-        tablero = new Tablero(tamTablero,engine);
+        //tablero = new Tablero(tamTablero,engine);
     }
 
     public void initGame() {

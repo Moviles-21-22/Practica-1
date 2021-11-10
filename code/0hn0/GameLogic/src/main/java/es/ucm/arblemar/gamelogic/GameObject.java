@@ -42,7 +42,7 @@ public abstract class GameObject {
     public abstract boolean isClicked(es.ucm.arblemar.engine.Vector2 mouseClicked);
 
     //  TODO: implementarlo
-    public void clicked(){};
+    public abstract void clicked();
 
     public abstract void init();
     public abstract void render(Graphics g);

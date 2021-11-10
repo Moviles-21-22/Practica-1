@@ -57,12 +57,12 @@ public class DesktopInput implements Input, MouseListener, MouseMotionListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println("MOUSE CLICK");
-        TouchEvent currEvent =  new TouchEvent();
-        currEvent.type = TouchEvent.touchDown;
-        currEvent.x = e.getX();
-        currEvent.y = e.getY();
-        events.add(currEvent);
+       // System.out.println("MOUSE CLICK");
+       // TouchEvent currEvent =  new TouchEvent();
+       // currEvent.type = TouchEvent.touchDown;
+       // currEvent.x = e.getX();
+       // currEvent.y = e.getY();
+       // events.add(currEvent);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class DesktopInput implements Input, MouseListener, MouseMotionListener {
     public void mouseReleased(MouseEvent e) {
         System.out.println("MOUSE UP");
         TouchEvent currEvent =  new TouchEvent();
-        currEvent.type = TouchEvent.touchDown;
+        currEvent.type = TouchEvent.touchUp;
         currEvent.x = e.getX();
         currEvent.y = e.getY();
         events.add(currEvent);
