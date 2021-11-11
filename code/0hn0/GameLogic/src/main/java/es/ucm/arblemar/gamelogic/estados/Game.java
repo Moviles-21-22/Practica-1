@@ -7,8 +7,10 @@ import java.util.List;
 import es.ucm.arblemar.engine.App;
 import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Graphics;
+import es.ucm.arblemar.engine.Image;
 import es.ucm.arblemar.engine.Input;
 import es.ucm.arblemar.engine.Vector2;
+import es.ucm.arblemar.gamelogic.Boton;
 import es.ucm.arblemar.gamelogic.Celda;
 import es.ucm.arblemar.gamelogic.CeldaGris;
 import es.ucm.arblemar.gamelogic.GameObject;
@@ -22,23 +24,32 @@ public class Game implements App {
     private int tam;
     private Tablero tab;
     private List<GameObject> objects;
+    private List<Boton> images;
 
     Game(Engine _engine,int _tam){
         engine = _engine;
         tam = _tam;
         graphics = engine.getGraphics();
+        objects = new ArrayList<>();
+        images = new ArrayList<>();
     }
 
     @Override
     public boolean init() {
         try {
             tab = new Tablero(tam,engine);
-            objects = new ArrayList<>();
 
             Rectangle texSuperRect = new Rectangle(graphics.getWidth() / 2 - 100, graphics.getHeight() / 8 + 50,200,100);
             Texto textoSuperior = new Texto(texSuperRect,0X333333FF ,Assets.josefinSans32,100.0f,0);
             textoSuperior.setTexto(tam+ " x " + tam);
             objects.add(textoSuperior);
+
+
+            //  botón para volver
+            Assets.close.init();
+            Boton back = new Boton(0,new Vector2((graphics.getWidth() / 2) - Assets.close.getWidth() - 200,0),Assets.close);
+            objects.add(back);
+
         }
         catch (Exception e){
             System.out.println("Fallo al intentar crear el juego");
@@ -58,6 +69,7 @@ public class Game implements App {
         Graphics g = engine.getGraphics();
         g.clear(0xFFFFFFFF);
 
+        //  Render de las celdas
         Celda casillas[][] = tab.GetCasillas();
         for(int i = 0 ; i < tab.GetSize(); i++){
             for(int j = 0 ; j < tab.GetSize() ; j++){
@@ -65,6 +77,7 @@ public class Game implements App {
             }
         }
 
+        // Render de los demás objetos
         for(GameObject obj : objects){
             obj.render(g);
         }
@@ -88,7 +101,7 @@ public class Game implements App {
                         //  Es de tipo celda
                         obj = tab.getCeldaClicked(eventPos);
                         if(obj != null){
-                            ((Celda)obj).clicked();
+                            obj.clicked();
                             //switch (((Celda)obj).GetColor()){
                             //    case GRIS:{
                             //        ((CeldaGris))

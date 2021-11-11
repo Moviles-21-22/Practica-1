@@ -1,5 +1,7 @@
 package es.ucm.arblemar.gamelogic;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
@@ -22,7 +24,7 @@ public class Tablero {
     //  Index de las celdas rojas puestas por el jugador
     private Vector<Vector2> indexRojasPuestas;
     //  Vector de todas las pistas encontradas en el tablero
-    private Vector<Pista> pistasEncontradas;
+    private List<Pista> pistasEncontradas;
     //  Distancia que existe entre las celdas para posicionarlas
     private final float celdaDistancia = 100;
     //  Posición de la primera celda a colocar
@@ -39,6 +41,8 @@ public class Tablero {
         Graphics g = _eng.getGraphics();
 
         casillas = new Celda[_size][_size];
+        pistasEncontradas = new ArrayList<>();
+
         float celdaPosX = (float) g.getWidth() / 4 * (size * 0.1f);
         float celdaPosY = (float) g.getHeight() / 3 * (size * 0.1f);
         initPos = new Vector2((int)celdaPosX,(int)celdaPosY);
@@ -57,7 +61,9 @@ public class Tablero {
         InitAzules(r);
         //  Inicializamos los rojos aleatoriamente y lo menos descartable
         //TODO:  existen algunos casos incorrectos
-        InitRojas(r);
+        //InitRojas(r);
+
+        // TODO: falta analizar que el tablero tiene una única solución antes de gestionar las pistas
 //
         //GestorPistas p = new GestorPistas(this);
 //
@@ -83,6 +89,7 @@ public class Tablero {
         }
     }
 
+    //  Devuelve la celda que ha sido pulsada del tablero
     public GameObject getCeldaClicked(Vector2 mousePos){
         boolean encontrado = false;
         int indX = 0;
@@ -104,13 +111,13 @@ public class Tablero {
     }
 
     /**
-    * Inicializa las celdas azules
+    * Inicializa las celdas azules indescartable
     */
     private void InitAzules(Random r){
         /**
         * Número de azules a poner
         */
-        int circulosAzules = r.nextInt(_size) + 1;
+        int circulosAzules = r.nextInt(_size) + 2;
         indexAzulesOriginales = new Vector2[circulosAzules];
 
         /**
@@ -191,33 +198,36 @@ public class Tablero {
 
         int index = 0;
 
-        coors._x += (int)dirs[0]._x;
-        coors._y += (int)dirs[0]._y;
+        coors._x += dirs[0]._x;
+        coors._y += dirs[0]._y;
 
         boolean existeSolucion = false;
 
         while (!finish && !existeSolucion){
             if (coors._y < 0 || coors._y >= _size
                     || coors._x < 0 || coors._x >= _size
-                    || casillas[(int) coors._x][(int) coors._y]._tipoCelda == TipoCelda.ROJO) {
+                    || !casillas[coors._x][coors._y]._lock
+                    || casillas[ coors._x][ coors._y]._tipoCelda == TipoCelda.ROJO) {
 
                 index++;
 
                 if (index < dirs.length) {
                     // Reseteamos los valores para comprobar en la siguiente dirección
-                    coors._x = x + (int)dirs[index]._x;
-                    coors._y = y + (int)dirs[index]._y;
+                    coors._x = x + dirs[index]._x;
+                    coors._y = y + dirs[index]._y;
                 }
                 else {
                     finish = true;
                 }
             }
-            else if (casillas[(int) coors._x][(int) coors._y]._tipoCelda == TipoCelda.GRIS) {
-                coors._x += (int)dirs[index]._x;
-                coors._y += (int)dirs[index]._y;
+            //  Si encontramos una celda gris, pasamos a la siguiente celda en la misma dirección
+            else if (casillas[coors._x][coors._y]._tipoCelda == TipoCelda.GRIS) {
+                coors._x += dirs[index]._x;
+                coors._y += dirs[index]._y;
             }
-            else if(casillas[(int) coors._x][(int) coors._y]._tipoCelda == TipoCelda.AZUL){
-                existeSolucion = AzulConSalidas((int)coors._x,(int)coors._y,x,y);
+            //  Si es azul, comprobamos que dicho azul tiene más salidas para no bloquear una posible solución
+            else if(casillas[coors._x][coors._y]._tipoCelda == TipoCelda.AZUL){
+                existeSolucion = AzulConSalidas(coors._x,coors._y,x,y);
             }
 
         }
@@ -252,8 +262,8 @@ public class Tablero {
              * */
             if(coors._y < 0 || coors._y >= _size
                     || coors._x < 0 || coors._x >= _size
-                    || !casillas[(int)coors._x][(int)coors._y].IsLock()
-                    || casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.ROJO) {
+                    || !casillas[coors._x][coors._y]._lock
+                    || casillas[coors._x][coors._y]._tipoCelda == TipoCelda.ROJO) {
                 index++;
                 if(index < dirs.length) {
                     // Reseteamos los valores para comprobar en la siguiente dirección
@@ -268,8 +278,8 @@ public class Tablero {
             /**
              * Comprobación de si la casilla adyacente es azul
              * */
-            else if(casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL
-                || casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.GRIS)
+            else if(casillas[coors._x][coors._y]._tipoCelda == TipoCelda.AZUL
+                || casillas[coors._x][coors._y]._tipoCelda == TipoCelda.GRIS)
             {
                 adyacentes++;
                 // Nos movemos a la siguiente casilla
@@ -314,31 +324,30 @@ public class Tablero {
         while (!finish){
             if (coors._y < 0 || coors._y >= _size
                     || coors._x < 0 || coors._x >= _size
-                    || casillas[(int) coors._x][(int) coors._y]._tipoCelda == TipoCelda.ROJO
+                    || casillas[coors._x][coors._y]._tipoCelda == TipoCelda.ROJO
                     //  Descartar de donde vengo
-                    || ((int)coors._x == redX && (int)coors._y == redY)) {
+                    || (coors._x == redX && coors._y == redY)) {
 
                 index++;
 
                 if (index < dirs.length) {
                     // Reseteamos los valores para comprobar en la siguiente dirección
-                    coors._x = (int)x + (int)dirs[index]._x;
-                    coors._y = (int)y + (int)dirs[index]._y;
+                    coors._x = (int)x +dirs[index]._x;
+                    coors._y = (int)y +dirs[index]._y;
                 }
                 else {
                     finish = true;
                 }
             }
-            else if (casillas[(int) coors._x][(int) coors._y]._tipoCelda == TipoCelda.GRIS
-                || casillas[(int) coors._x][(int) coors._y]._tipoCelda == TipoCelda.AZUL ) {
+            else if (casillas[coors._x][coors._y]._tipoCelda == TipoCelda.GRIS
+                || casillas[coors._x][coors._y]._tipoCelda == TipoCelda.AZUL ) {
                 coors._x += dirs[index]._x;
                 coors._y += dirs[index]._y;
                 elementos++;
-                finish = elementos >= ((CeldaAzul)(casillas[(int)x][(int)y])).getValue();
+                finish = elementos >= casillas[(int)x][(int)y].getValue();
             }
-
         }
-        return  elementos >= ((CeldaAzul)(casillas[(int)x][(int)y])).getValue();
+        return  elementos >= casillas[(int)x][(int)y].getValue();
     }
 
     /**
@@ -346,7 +355,7 @@ public class Tablero {
      * */
     public void AgregaCeldaAzul(Vector2 ind){
         indexAzulesPuestas.add(ind);
-        casillas[(int)ind._x][(int)ind._y] = new CeldaAzul(-1, ind,0,new Vector2(0,0));
+        casillas[ind._x][ind._y] = new CeldaAzul(-1, ind,0,new Vector2(0,0));
     }
 
     /**
