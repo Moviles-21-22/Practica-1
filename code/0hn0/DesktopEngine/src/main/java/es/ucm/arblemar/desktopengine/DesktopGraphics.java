@@ -96,7 +96,7 @@ public class DesktopGraphics extends AbstractGraphics {
 
     @Override
     public void drawCircle(Vector2 centro, float radio) {
-        //graphics.fillRoundRect();
+        _graphics.fillRoundRect(centro._x, centro._y, (int)radio, (int)radio, 360, 360);
     }
 
     @Override

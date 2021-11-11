@@ -42,6 +42,8 @@ public class Tablero {
 
         casillas = new Celda[_size][_size];
         pistasEncontradas = new ArrayList<>();
+        indexRojasPuestas = new Vector<>();
+        indexAzulesPuestas = new Vector<>();
 
         float celdaPosX = (float) g.getWidth() / 4 * (size * 0.1f);
         float celdaPosY = (float) g.getHeight() / 3 * (size * 0.1f);
@@ -355,7 +357,26 @@ public class Tablero {
      * */
     public void AgregaCeldaAzul(Vector2 ind){
         indexAzulesPuestas.add(ind);
-        casillas[ind._x][ind._y] = new CeldaAzul(-1, ind,0,new Vector2(0,0));
+    }
+
+    /**
+     * Agrega una celda azul en el tablero
+     * */
+    public void QuitaCeldaAzul(Vector2 ind){
+        int p = indexAzulesPuestas.indexOf(ind);
+        if(p != -1){
+            indexAzulesPuestas.remove(p);
+        }
+    }
+
+    /**
+     * Agrega una celda azul en el tablero
+     * */
+    public void QuitaCeldaRoja(Vector2 ind){
+        int p = indexRojasPuestas.indexOf(ind);
+        if(p != -1){
+            indexRojasPuestas.remove(p);
+        }
     }
 
     /**
@@ -363,7 +384,6 @@ public class Tablero {
      * */
     public void AgregaCeldaRoja(Vector2 ind){
         indexRojasPuestas.add(ind);
-        casillas[(int)ind._x][(int)ind._y] = new CeldaRoja(ind,0,new Vector2(0,0));
     }
 
     /**

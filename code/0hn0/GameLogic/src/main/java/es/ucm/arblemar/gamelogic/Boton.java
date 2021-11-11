@@ -1,9 +1,11 @@
 package es.ucm.arblemar.gamelogic;
 
+import java.awt.Rectangle;
+
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Image;
 import es.ucm.arblemar.engine.Vector2;
-import es.ucm.arblemar.gamelogic.assets.Assets;
+
 
 public class Boton extends GameObject {
     private Image image;
@@ -17,7 +19,10 @@ public class Boton extends GameObject {
 
     @Override
     public boolean isClicked(Vector2 mouseClicked) {
-        return false;
+        if(!interactive) return  false;
+        Rectangle clickRect = new Rectangle(mouseClicked._x,mouseClicked._y,10,10);
+        Rectangle imageRect = new Rectangle(pos._x,pos._y,image.getWidth(),image.getHeight());
+        return imageRect.intersects(clickRect);
     }
 
     @Override
@@ -33,6 +38,10 @@ public class Boton extends GameObject {
     @Override
     public void render(Graphics g) {
         g.drawImage(image, pos._x, pos._y);
+        if(interactive){
+            g.drawRect(pos._x ,pos._y ,image.getWidth(), image.getHeight());
+            g.setColor(0X333333FF);
+        }
     }
 
     @Override

@@ -21,6 +21,9 @@ public class LoadAssets implements App {
             //Sprites
             Assets.close = graphics.newImage("close.png", 30, 30);
             Assets.q42 = graphics.newImage("q42.png", 35, 40);
+            Assets.history = graphics.newImage("history.png", 35, 40);
+            Assets.eye = graphics.newImage("eye.png", 35, 40);
+            Assets.lock = graphics.newImage("lock.png", 35, 40);
 
             //Fuentes
             Assets.molle = graphics.newFont("Molle-Regular.ttf", 32, false);

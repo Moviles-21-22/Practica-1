@@ -34,17 +34,6 @@ public class CeldaRoja extends Celda {
         return _lock;
     }
 
-
-    @Override
-    public boolean isClicked(es.ucm.arblemar.engine.Vector2 mouseClicked) {
-        return false;
-    }
-
-    @Override
-    public void clicked() {
-
-    }
-
     @Override
     public void init() {
 
@@ -58,10 +47,10 @@ public class CeldaRoja extends Celda {
             g.setColor(0XFFFFFFFF);
             g.drawText(Integer.toString(valor), pos._x + (float)radio / 2, pos._y + (float)radio / 2);
         }
-        if(interactive){
-            g.setColor(0X333333FF);
-            g.drawCircle(pos,radio);
-        }
+//        if(interactive){
+//            g.setColor(0X333333FF);
+//            g.drawCircle(pos,radio);
+//        }
     }
 
     @Override

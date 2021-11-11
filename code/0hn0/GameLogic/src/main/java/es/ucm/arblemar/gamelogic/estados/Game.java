@@ -44,11 +44,17 @@ public class Game implements App {
             textoSuperior.setTexto(tam+ " x " + tam);
             objects.add(textoSuperior);
 
-
             //  botón para volver
-            Assets.close.init();
-            Boton back = new Boton(0,new Vector2((graphics.getWidth() / 2) - Assets.close.getWidth() - 200,0),Assets.close);
-            objects.add(back);
+            Boton backButton = new Boton(0,new Vector2((graphics.getWidth() / 2 - 350), graphics.getHeight() / 2 - Assets.close.getHeight() - 10),Assets.close);
+            objects.add(backButton);
+
+            //  botón para restarurar
+            Boton restButton = new Boton(1,new Vector2((graphics.getWidth() / 2 - 250), graphics.getHeight() / 2 - Assets.history.getHeight() - 10), Assets.history);
+            objects.add(restButton);
+
+            //  botón para pista
+            Boton pistabutton = new Boton(2,new Vector2((graphics.getWidth() / 2 - 150), graphics.getHeight() / 2 - Assets.eye.getHeight() - 10), Assets.eye);
+            objects.add(pistabutton);
 
         }
         catch (Exception e){
@@ -95,28 +101,49 @@ public class Game implements App {
                     GameObject obj = getObjectClicked(eventPos);
                     //  Es de tipo texto o imagen
                     if(obj != null){
+                        switch (obj.getId()){
+                            case 0://BackButton
+                            {
+                                SelectionMenu menu = new SelectionMenu(engine);
+                                engine.initNewApp(menu);
+                                break;
+                            }
+                            case 1://HistoryButton
+                            {
+                                //  Deshacer movimiento
+                                break;
+                            }
+                            case 3://pistaButton
+                            {
+                                //  pedir pistas
 
+                                break;
+                            }
+                        }
                     }
                     else{
                         //  Es de tipo celda
                         obj = tab.getCeldaClicked(eventPos);
                         if(obj != null){
+                            switch (((Celda)obj).GetColor()){
+                                case GRIS:{
+                                    tab.AgregaCeldaAzul(((Celda)obj).getIndex());
+                                    break;
+                                }
+                                case AZUL:{
+                                    tab.AgregaCeldaRoja(((Celda)obj).getIndex());
+                                    tab.QuitaCeldaAzul(((Celda)obj).getIndex());
+                                    break;
+                                }
+                                case ROJO:{
+                                    tab.QuitaCeldaRoja(((Celda)obj).getIndex());
+                                    break;
+                                }
+                                default:{
+                                    break;
+                                }
+                            }
                             obj.clicked();
-                            //switch (((Celda)obj).GetColor()){
-                            //    case GRIS:{
-                            //        ((CeldaGris))
-                            //        break;
-                            //    }
-                            //    case AZUL:{
-                            //        break;
-                            //    }
-                            //    case ROJO:{
-                            //        break;
-                            //    }
-                            //    default:{
-                            //        break;
-                            //    }
-                            //}
                         }
                     }
                     break;
@@ -134,7 +161,7 @@ public class Game implements App {
         int gameObjIndex = 0;
         while (!encontrado && gameObjIndex < objects.size()){
             //  Buscando entre los objetos que son textos, img ,etc (no incluidas las celdas)
-            if(objects.get(gameObjIndex).isInteractive() && ((Celda)objects.get(gameObjIndex)).isClicked(eventPos)){
+            if(objects.get(gameObjIndex).isInteractive() && objects.get(gameObjIndex).isClicked(eventPos)){
                 encontrado = true;
                 return objects.get(gameObjIndex);
             }

@@ -32,31 +32,6 @@ public class CeldaGris extends Celda {
     }
 
     @Override
-    public void clicked() {
-        // Cambia de color
-        switch (_tipoCelda){
-            case GRIS:{
-                _tipoCelda = TipoCelda.AZUL;
-                color = 0x1CC0E0FF;
-                break;
-            }
-            case AZUL: {
-                _tipoCelda = TipoCelda.ROJO;
-                color = 0xFF384BFF;
-                break;
-            }
-            case ROJO: {
-                _tipoCelda = TipoCelda.GRIS;
-                color = 0X333333FF;
-                break;
-            }
-            default: {
-                break;
-            }
-        }
-    }
-
-    @Override
     public void init() {
 
     }
@@ -65,10 +40,10 @@ public class CeldaGris extends Celda {
     public void render(es.ucm.arblemar.engine.Graphics g) {
         g.setColor(color);
         g.fillCircle(pos,radio);
-        if(interactive){
-            g.setColor(0X333333FF);
-            g.drawCircle(pos,radio);
-        }
+//        if(interactive){
+//            g.setColor(0X333333FF);
+//            g.drawCircle(pos,radio);
+//        }
     }
 
     @Override

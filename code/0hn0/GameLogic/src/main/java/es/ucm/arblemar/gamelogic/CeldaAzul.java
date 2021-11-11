@@ -32,10 +32,6 @@ public class CeldaAzul extends Celda {
 
 
     @Override
-    public void clicked() {
-    }
-
-    @Override
     public void init() {
 
     }
@@ -46,10 +42,10 @@ public class CeldaAzul extends Celda {
         g.fillCircle(pos,radio);
         g.setColor(0XFFFFFFFF);
         g.drawText(Integer.toString(valor), pos._x + (float)radio / 2, pos._y + (float)radio / 2);
-        if(interactive){
-            g.setColor(0X333333FF);
-            g.drawCircle(pos,radio);
-        }
+//        if(interactive){
+//            g.setColor(0X333333FF);
+//            g.drawCircle(pos,radio);
+//        }
     }
 
     @Override

@@ -54,6 +54,30 @@ public abstract class Celda extends GameObject {
     }
 
 
+    public void clicked() {
+        // Cambia de color
+        switch (_tipoCelda){
+            case GRIS:{
+                _tipoCelda = TipoCelda.AZUL;
+                color = 0x1CC0E0FF;
+                break;
+            }
+            case AZUL: {
+                _tipoCelda = TipoCelda.ROJO;
+                color = 0xFF384BFF;
+                break;
+            }
+            case ROJO: {
+                _tipoCelda = TipoCelda.GRIS;
+                color = 0X333333FF;
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+    }
+
     protected abstract boolean Click();
 
     public TipoCelda GetColor(){
