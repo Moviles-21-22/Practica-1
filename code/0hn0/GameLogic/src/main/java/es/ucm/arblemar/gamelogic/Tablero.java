@@ -31,6 +31,10 @@ public class Tablero {
     private Vector2 initPos;
     //  Puntero al engine
     private Engine engine;
+    // Boolean que determina si el tablero tiene solución única
+    private boolean solUnica = false;
+    // Boolean que determina si el tablero es correcto
+    private boolean tabCorrecto = false;
 
     public Tablero(int size,Engine _eng){
         engine = _eng;
@@ -40,36 +44,60 @@ public class Tablero {
         * */
         Graphics g = _eng.getGraphics();
 
-        casillas = new Celda[_size][_size];
-        pistasEncontradas = new ArrayList<>();
-        indexRojasPuestas = new Vector<>();
-        indexAzulesPuestas = new Vector<>();
+        while (!tabCorrecto) {
+            tabCorrecto = true;
+            casillas = new Celda[_size][_size];
+            pistasEncontradas = new ArrayList<>();
+            indexRojasPuestas = new Vector<>();
+            indexAzulesPuestas = new Vector<>();
 
-        float celdaPosX = (float) g.getWidth() / 4 * (size * 0.1f);
-        float celdaPosY = (float) g.getHeight() / 3 * (size * 0.1f);
-        initPos = new Vector2((int)celdaPosX,(int)celdaPosY);
-        for(int i = 0 ; i < _size ; i++){
-            for(int j = 0 ; j < _size ; j++){
-                Vector2 ind = new Vector2(i,j);
-                casillas[i][j] = new CeldaGris(ind,0,new Vector2(initPos._x, initPos._y));
-                initPos._x += celdaDistancia;
+            float celdaPosX = (float) g.getWidth() / 4 * (size * 0.1f);
+            float celdaPosY = (float) g.getHeight() / 3 * (size * 0.1f);
+            initPos = new Vector2((int) celdaPosX, (int) celdaPosY);
+            for (int i = 0; i < _size; i++) {
+                for (int j = 0; j < _size; j++) {
+                    Vector2 ind = new Vector2(i, j);
+                    casillas[i][j] = new CeldaGris(ind, 0, new Vector2(initPos._x, initPos._y));
+                    initPos._x += celdaDistancia;
+                }
+                initPos._x = (int) celdaPosX;
+                initPos._y += celdaDistancia;
             }
-            initPos._x = (int)celdaPosX;
-            initPos._y += celdaDistancia;
+
+            //Si sale del while y tabCorrecto es false vuelve a empezar
+            while (tabCorrecto && !solUnica) {
+                Random r = new Random();
+                //  Inicializamos los rojos aleatoriamente y lo menos descartable
+                InitRojas(r);
+                //  Inicializamos los azules aleatoriamente y lo menos descartable
+                InitAzules(r);
+
+                compruebaTab();
+            }
         }
+        // Existen algunos casos incorrectos
 
-        Random r = new Random();
-        //  Inicializamos los azules aleatoriamente y lo menos descartable
-        InitRojas(r);
-        InitAzules(r);
-        //  Inicializamos los rojos aleatoriamente y lo menos descartable
-        //TODO:  existen algunos casos incorrectos
-
-        // TODO: falta analizar que el tablero tiene una única solución antes de gestionar las pistas
+        // Falta analizar que el tablero tiene una única solución antes de gestionar las pistas
 //
         //GestorPistas p = new GestorPistas(this);
 //
         //RenderizaConsola();
+    }
+
+    private void compruebaTab() {
+        Tablero solucion = this;
+        GestorPistas p = new GestorPistas(solucion);
+
+        //Hay que tratar de resolver el tablero solucion usando las pistas
+        //Si en una iteración del tablero usando las pistas NO aparece ningún cambio:
+        //  -> Faltan datos (varias soluciones): solUnica = false;
+        //Si en una iteración del tablero solucion aparece alguna pista de ERROR:
+        //  -> El tablero es erroneo: tabCorrecto = false;
+
+        for (int i = 0; i < solucion.pistasEncontradas.size(); ++i) {
+            //TODO: No sé recorrer las pistasEncontradas, la idea es ir añadiendo los tipos de celda
+            //TODO: en solucion en función de las pistas, actuando tb en función del criterio anterior
+        }
     }
 
     private void RenderizaConsola() {
@@ -134,26 +162,18 @@ public class Tablero {
             if(!casillas[indX][indY].IsLock()) {
                 //  Inicializamos el valor de la celda de forma aleatoria
                 int valor = r.nextInt(_size) + 1;
-                //boolean valido = false;
-                //while (valor >= 1 && !valido) {
-                //    valido = AzulesValidos(indX, indY, valor);
-                //    valor--;
-                //}
-                //valor++;
                 if(AzulesValidos(indX, indY, valor)) {
                     Vector2 ind = new Vector2(indX,indY);
                     Vector2 pos = casillas[indX][indY].pos;
                     casillas[indX][indY] = new CeldaAzul(valor, ind,0,pos);
                     casillas[indX][indY]._lock = true;
                     indexAzulesOriginales[contAzul] = new Vector2(indX,indY);
-                }
                     contAzul++;
+                }
             }
             azulesPuesto = contAzul >= circulosAzules;
         }
-
         System.out.println("Azules hecho");
-
     }
 
     /**

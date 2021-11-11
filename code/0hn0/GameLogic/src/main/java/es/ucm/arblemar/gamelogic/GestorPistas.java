@@ -48,8 +48,7 @@ public class GestorPistas {
     /**
      * Determina que pistas existen en el tablero y las agrega al vector de pistasActivas
      * */
-    public void BuscaPistas(Tablero tab, int choice){
-
+    public void BuscaPistas(Tablero tab, int choice) {
         Pista p;
         Vector2 indexFeedback;
         switch (choice){
