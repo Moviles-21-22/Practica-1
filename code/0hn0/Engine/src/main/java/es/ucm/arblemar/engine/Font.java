@@ -11,5 +11,4 @@ public interface Font {
      * Muestra el texto por pantalla
      */
     public void setSize(float newSize);
-
 }

@@ -39,7 +39,7 @@ public class CeldaGris extends Celda {
     @Override
     public void render(es.ucm.arblemar.engine.Graphics g) {
         g.setColor(color);
-        g.fillCircle(pos,radio);
+        g.fillCircle(pos, (int)radio);
 //        if(interactive){
 //            g.setColor(0X333333FF);
 //            g.drawCircle(pos,radio);

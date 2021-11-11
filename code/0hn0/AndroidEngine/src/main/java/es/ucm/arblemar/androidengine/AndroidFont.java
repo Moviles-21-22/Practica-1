@@ -1,6 +1,7 @@
 package es.ucm.arblemar.androidengine;
 
 import es.ucm.arblemar.engine.Font;
+import es.ucm.arblemar.engine.Graphics;
 
 public class AndroidFont implements Font {
     @Override

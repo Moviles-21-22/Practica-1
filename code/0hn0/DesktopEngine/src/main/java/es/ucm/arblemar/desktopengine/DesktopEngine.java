@@ -40,13 +40,17 @@ public class DesktopEngine implements Engine {
             do {
                 do {
                     java.awt.Graphics graphics = strategy.getDrawGraphics();
-                    try {
 
+                    _graphics.updateGraphics();
+                    _graphics.prepareFrame();
+                    try {
                         _currentApp.render();
                     }
                     finally {
                         graphics.dispose();
                     }
+
+
                 } while(strategy.contentsRestored());
                 strategy.show();
             } while(strategy.contentsLost());

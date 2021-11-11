@@ -27,17 +27,8 @@ public class Texto  extends GameObject{
         pos = new Vector2(rect.x,rect.y);
     }
 
-    public Font getFuente(){
-        return fuente;
-    }
-
     public int getColor(){
         return color;
-    }
-
-    public void setFuenteTam(float _tam){
-        tam = _tam;
-        fuente.setSize(tam);
     }
 
     public void setRect(Rectangle _rect){
@@ -66,12 +57,11 @@ public class Texto  extends GameObject{
 
     public void render(Graphics g){
         if(renderActive){
-            fuente.setSize(tam);
             g.setColor(color);
             g.setFont(fuente);
             g.drawText(texto, pos._x , pos._y);
             if(interactive){
-                g.drawRect(pos._x ,pos._y ,(int)rect.width, (int)rect.height);
+                g.drawRect(pos._x, pos._y, (int)rect.width, (int)rect.height);
                 g.setColor(0X333333FF);
             }
         }

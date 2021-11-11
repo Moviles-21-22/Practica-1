@@ -38,17 +38,15 @@ public class MainMenu implements App {
             tituloText.setTexto("Oh no");
             gameObjects.add(tituloText);
 
-            Rectangle infoRect = new Rectangle(g.getWidth() / 2 - 100,g.getHeight() / 2 + 100,100,100);
-            Texto infoText = new Texto(infoRect,0X333333FF,Assets.josefinSans64,(float)g.getHeight() / 30,02);
+            Rectangle infoRect = new Rectangle(g.getWidth() / 2 - 150,g.getHeight() / 2 + 100,100,100);
+            Texto infoText = new Texto(infoRect,0X333333FF,Assets.josefinSans32,(float)g.getHeight() / 30,02);
             infoText.setTexto("Un juego copiado a Q42");
             gameObjects.add(infoText);
 
-            Rectangle nameRect = new Rectangle(g.getWidth() / 2 - 100,g.getHeight() / 2 + 150,100,100);
-            Texto nameText = new Texto(nameRect,0X333333FF,Assets.josefinSans64,(float)g.getHeight() / 30,03);
+            Rectangle nameRect = new Rectangle(g.getWidth() / 2 - 150,g.getHeight() / 2 + 150,100,100);
+            Texto nameText = new Texto(nameRect,0X333333FF,Assets.josefinSans32,(float)g.getHeight() / 30,03);
             nameText.setTexto("Creado por Martin Kool");
             gameObjects.add(nameText);
-
-
         }
         catch (Exception e){
             return false;
@@ -63,55 +61,17 @@ public class MainMenu implements App {
 
     @Override
     public void render() {
-
-        // Estas van siempre en tos lados
         Graphics g = _mainEngine.getGraphics();
-        g.clear(0xFFFFFFFF);
+        g.clear(0);
 
-        ////Círculo azul
-        //g.setColor(0x1CC0E0FF);
-        //int tam = g.getHeight() / 4;
-        //int margin = tam / 20;
-        //g.fillCircle(new Vector2((g.getWidth() / 2) - (tam + margin), (g.getHeight() / 2) - (tam / 2)), tam);
-        ////Círculo rojo
-        //g.setColor(0xFF384BFF);
-        //g.fillCircle(new Vector2((g.getWidth() / 2) + margin, (g.getHeight() / 2) - (tam / 2)), tam);
-//
-        //// Ponemos el rótulo (si conseguimos cargar la fuente)
-        //if (Assets.molle != null) {
-        //    g.setColor(0X333333FF);
-        //    g.setFont(Assets.molle);
-        //    float size = (float)g.getHeight() / 6;
-        //    Assets.molle.setSize(size);
-        //    g.drawText("Oh no", (float)(g.getWidth() / 2) - (size * 24/17), (float)(g.getHeight() / 2) - (size * 24/17));
-        //}
-        //// Ponemos el primer texto de debajo (si conseguimos cargar la fuente)
-        //if (Assets.josefinSans64 != null) {
-        //    g.setFont(Assets.josefinSans64);
-        //    float size = (float)g.getHeight() / 20;
-        //    Assets.josefinSans64.setSize(size);
-        //    g.drawText("It's 0h h1's companion!", (float)(g.getWidth() / 2) - (size * 9/2), (float)(g.getHeight() / 2) + (size * 9/2));
-//
-//
-        //}
-        //// Ponemos los otros dos textos de debajo (si conseguimos cargar la fuente)
-        //if (Assets.josefinSans32 != null) {
-        //    g.setFont(Assets.josefinSans32);
-        //    float size = (float)g.getHeight() / 26;
-        //    Assets.josefinSans32.setSize(size);
-        //    g.setColor(0XAAAEC0FF);
-        //    g.drawText("A game by Q42", (float)(g.getWidth() / 2) - (size * 7/2), (float)(g.getHeight() / 2) + (size * 15/2));
-        //    g.drawText("Created by Martin Kool", (float)(g.getWidth() / 2) - (size * 5), (float)(g.getHeight() / 2) + (size * 9));
-        //}
-//
+        // Fondo de pantalla
+        g.setColor(0xFFFFFFFF);
+        g.fillRect(0, 0, 400, 600);
+
         //Ponemos la imagen de la empresa (si conseguimos cargar la imagen)
         if (Assets.q42 != null) {
             g.drawImage(Assets.q42, 280, 350);
         }
-//
-        ////if (Assets.close != null) {
-        ////    g.drawImage(Assets.close, 200, 200);
-        ////}
 
         for(GameObject obj : gameObjects){
             obj.render(g);

@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 import es.ucm.arblemar.engine.Font;
+import es.ucm.arblemar.engine.Graphics;
+import es.ucm.arblemar.engine.Vector2;
 
 public class DesktopFont implements Font {
     public DesktopFont(String fileName, float size, boolean isBold) {
@@ -28,6 +30,7 @@ public class DesktopFont implements Font {
 
     @Override
     public void setSize(float newSize) {
+
         _javaFont = _javaFont.deriveFont(newSize);
     }
 

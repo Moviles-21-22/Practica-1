@@ -24,7 +24,6 @@ public class DesktopImage implements Image {
     public boolean init(){
         try (InputStream is = new FileInputStream(_fileName)) {
             _javaImage = ImageIO.read(new File(_fileName));
-            //_javaImage = resize(_width, _heigth);
         }
         catch (Exception e) {
             // Ouch. No está.

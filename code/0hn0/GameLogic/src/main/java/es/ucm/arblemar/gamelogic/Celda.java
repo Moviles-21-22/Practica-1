@@ -30,7 +30,7 @@ public abstract class Celda extends GameObject {
     //  Margen de la celda
     protected int margen;
     //  Radio del circulo
-    protected int radio;
+    protected float radio;
     //  Valor de esta celda
     protected int valor;
 

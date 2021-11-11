@@ -57,17 +57,17 @@ public class AndroidGraphics implements Graphics {
     }
 
     @Override
-    public void drawCircle(Vector2 centro, float radio) {
+    public void drawCircle(Vector2 centro, int radio) {
 
     }
 
     @Override
-    public void drawText(String text, float x, float y) {
+    public void drawText(String text, int x, int y) {
 
     }
 
     @Override
-    public void drawRect(float x,float y, int width, int height){
+    public void drawRect(int x, int y, int width, int height){
 
     }
 
@@ -77,7 +77,7 @@ public class AndroidGraphics implements Graphics {
     }
 
     @Override
-    public void fillRect(float x1, float y1, int width, int height) {
+    public void fillRect(int x, int y, int width, int height) {
 
     }
 
@@ -94,13 +94,23 @@ public class AndroidGraphics implements Graphics {
     }
 
     @Override
-    public void translate(float x, float y) {
+    public void updateGraphics() {
 
     }
 
     @Override
-    public Rect scaleRect(Vector2 winSize, Vector2 pos, Vector2 size){
-        return  null;
+    public void prepareFrame() {
+
+    }
+
+    @Override
+    public void translate(int x, int y) {
+
+    }
+
+    @Override
+    public void scale(float x, float y){
+
     }
 
     @Override

@@ -1,34 +1,72 @@
 package es.ucm.arblemar.engine;
 
-import java.awt.Graphics2D;
-
 public abstract class AbstractGraphics implements Graphics {
     protected AbstractGraphics(float w, float h){
         _wLogWindow = w;
         _hLogWindow = h;
+        _posLogX = 0.0f;
+        _posLogY = 0.0f;
     }
 
-    @Override
-    public void translate(float x, float y) {
-        //_graphics.translate((int)x, (int)y);
+    /**
+     * Devuelve el factor de escala de la ventana
+     * */
+    private float scaleFactor(){
+        float wFactor = getWidth() / _wLogWindow;
+        float hFactor = getHeight() / _hLogWindow;
+
+        // Nos interesa el factor más pequeño
+        return wFactor < hFactor ? wFactor : hFactor;
     }
 
-    @Override
-    public Rect scaleRect(Vector2 winSize, Vector2 pos, Vector2 size) {
-        // Escalado horizontal
-        if(winSize._x < _wLogWindow){
-            // Calculos para el translate
-        }
+    public Vector2 realPos(int x, int y){
+        _scaleFactor = scaleFactor();
+        float offsetX = (getWidth() - (_wLogWindow * _scaleFactor)) / 2.0f;
+        float offsetY = (getHeight() - (_hLogWindow) * _scaleFactor) / 2.0f;
 
-        float xLogImg = winSize._x * pos._x / _wLogWindow;
-        float wLogImg = winSize._x * size._x / _wLogWindow;
-        // Escalado vertical
-        float yLogImg = winSize._y * pos._y / _hLogWindow;
-        float hLogImg = winSize._y * size._y / _hLogWindow;
+        int newPosX = (int)((x * _scaleFactor) + offsetX);
+        int newPosY = (int)((y * _scaleFactor) + offsetY);
 
-        return new Rect(xLogImg, yLogImg, wLogImg, hLogImg);
+        System.out.println("X: " + newPosX + " Y: " + newPosY);
+        return new Vector2((int)(newPosX), (int)(newPosY));
     }
 
-    private float _wLogWindow;
-    private float _hLogWindow;
+    public Vector2 realSize(int w, int h){
+        _scaleFactor = scaleFactor();
+        int newW = (int)(w * _scaleFactor);
+        int newH = (int)(h * _scaleFactor);
+
+        return new Vector2(newW, newH);
+    }
+    /**
+     *
+     * */
+    private Vector2 translateWindow() {
+        float offsetX = (getWidth() - (_wLogWindow * _scaleFactor)) / 2.0f;
+        float offsetY = (getHeight() - (_hLogWindow) * _scaleFactor) / 2.0f;
+
+        int newPosX = (int)((_posLogX * _scaleFactor) + offsetX);
+        int newPosY = (int)((_posLogY * _scaleFactor) + offsetY);
+
+        return new Vector2((int)(newPosX), (int)(newPosY));
+    }
+
+    public void prepareFrame(){
+        _scaleFactor = scaleFactor();
+        Vector2 newPos = translateWindow();
+
+        translate(150, 100);
+        scale(_scaleFactor, _scaleFactor);
+    }
+
+    // Posaición lógica
+    protected float _posLogX;
+    protected float _posLogY;
+
+    // Dimensión lógica
+    protected float _wLogWindow;
+    protected float _hLogWindow;
+
+    // Factor de escala
+    protected float _scaleFactor;
 }

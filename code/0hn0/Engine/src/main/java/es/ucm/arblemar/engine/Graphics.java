@@ -36,32 +36,33 @@ public interface Graphics {
      * */
     void drawImage(Image image, int x, int y);
     /**
-     * Dibuja una línea desde el P(x1, y1) hasta Q(x2, y2) con un color
+     * Dibuja una línea desde el P(x1, y1) hasta Q(x2, y2)
      * */
     void drawLine(Vector2 P, Vector2 Q);
     /**
-     * Dibuja un rectángulo con un color específico
+     * Dibuja un rectángulo en la posición (x, y) con
+     * un tamaño (width, height)
      * */
-    void drawRect(float x,float y, int width, int height);
+    void drawRect(int x, int y, int width, int height);
     /**
-     * Dibuja un círculo con un color específico
+     * Dibuja un círculo
      * */
-    void drawCircle(Vector2 centro, float radio);
+    void drawCircle(Vector2 centro, int radio);
     /**
      * Renderiza texto
      * @param text texto a mostrar
      * @param x posición X en pantalla
      * @param y posición Y en pantalla
      * */
-    void drawText(String text, float x, float y);
+    void drawText(String text, int x, int y);
     /**
-     * Rellena un circulo con un color específico
+     * Rellena un circulo
      * */
     void fillCircle(Vector2 centro, int dm);
     /**
-     * Rellena un rectángulo de un color específico
+     * Rellena un rectángulo
      * */
-    void fillRect(float x, float y, int width, int height);
+    void fillRect(int x, int y, int width, int height);
     /**
      * Obtiene el ancho de la ventana
      * */
@@ -72,15 +73,23 @@ public interface Graphics {
     int getHeight();
 
     //==============METODOS-CONTROL-CANVAS=================
+    void updateGraphics();
     /**
-     *
+     * Prepara el frame siguiente para que sea
+     * escalado y transladado
      * */
-    void translate(float x, float y);
+    void prepareFrame();
     /**
-     *  Escala un rectángulo a partir de una posición y un tamaño
-     *  en función del tamaño de la ventana
-     * @return Devuelve el rectángulo escalado*/
-    Rect scaleRect(Vector2 winSize, Vector2 pos, Vector2 size);
+     *  Traslada un objeto con una posición "pos"
+     *  en función de "winSize"
+     * @return Devuelve la posición trasladada
+     * */
+    void translate(int x, int y);
+    /**
+     *  Escala un objeto con un tamaño "size" en función de
+     *  "winSize"
+     * @return Devuelve el tamaño escalado*/
+    void scale(float x, float y);
     /**
      *
      * */

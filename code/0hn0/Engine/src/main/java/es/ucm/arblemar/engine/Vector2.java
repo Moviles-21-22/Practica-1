@@ -8,7 +8,6 @@ public class Vector2 {
         _x = x; _y = y;
     }
 
-
     public int _x = 0;
     public int _y = 0;
 }
