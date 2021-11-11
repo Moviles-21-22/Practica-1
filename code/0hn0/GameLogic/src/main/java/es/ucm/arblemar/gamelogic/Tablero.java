@@ -60,10 +60,10 @@ public class Tablero {
 
         Random r = new Random();
         //  Inicializamos los azules aleatoriamente y lo menos descartable
+        InitRojas(r);
         InitAzules(r);
         //  Inicializamos los rojos aleatoriamente y lo menos descartable
         //TODO:  existen algunos casos incorrectos
-        //InitRojas(r);
 
         // TODO: falta analizar que el tablero tiene una única solución antes de gestionar las pistas
 //
@@ -131,17 +131,23 @@ public class Tablero {
         while (!azulesPuesto){
             int indX = r.nextInt(_size);
             int indY = r.nextInt(_size);
-            if(!casillas[indX][indY].IsLock()){
+            if(!casillas[indX][indY].IsLock()) {
                 //  Inicializamos el valor de la celda de forma aleatoria
                 int valor = r.nextInt(_size) + 1;
-                if(AzulesValidos(indX,indY,valor)){
+                //boolean valido = false;
+                //while (valor >= 1 && !valido) {
+                //    valido = AzulesValidos(indX, indY, valor);
+                //    valor--;
+                //}
+                //valor++;
+                if(AzulesValidos(indX, indY, valor)) {
                     Vector2 ind = new Vector2(indX,indY);
                     Vector2 pos = casillas[indX][indY].pos;
                     casillas[indX][indY] = new CeldaAzul(valor, ind,0,pos);
                     casillas[indX][indY]._lock = true;
                     indexAzulesOriginales[contAzul] = new Vector2(indX,indY);
-                    contAzul++;
                 }
+                    contAzul++;
             }
             azulesPuesto = contAzul >= circulosAzules;
         }
@@ -167,7 +173,8 @@ public class Tablero {
             int indX = r.nextInt(_size);
             int indY = r.nextInt(_size);
             if(!casillas[indX][indY].IsLock()){
-                if(RojosValidos(indX,indY)){
+                //if(RojosValidos(indX,indY)){
+                if(casillas[indX][indY]._tipoCelda == TipoCelda.GRIS) {
                     Vector2 ind = new Vector2(indX,indY);
                     Vector2 pos = casillas[indX][indY].pos;
                     casillas[indX][indY] = new CeldaRoja(ind,0,pos);
@@ -187,7 +194,7 @@ public class Tablero {
     * no sea mayor al valor, es correcto.
      * @return: Si colocar esta celda en la posición xy es válida, devuelve true
     */
-    private boolean RojosValidos(int x, int y){
+    private boolean RojosValidos(int x, int y) {
         boolean finish = false;
 
         Vector2 coors = new Vector2(x,y);
@@ -241,8 +248,9 @@ public class Tablero {
      * no sea mayor al valor, es correcto.
      * @return: Si colocar esta celda en la posición xy es válida, devuelve true
      */
-    private boolean AzulesValidos(int x, int y, int valor){
+    private boolean AzulesValidos(int x, int y, int valor) {
         adyacentes = 0;
+        int adyAzules = 0;
         Vector2 coors = new Vector2(x,y);
         Vector2[] dirs = new Vector2[4];
 
@@ -255,6 +263,8 @@ public class Tablero {
         dirs[3] = new Vector2(1, 0);
 
         Vector2 currentDir = dirs[0];
+        coors._x += currentDir._x;
+        coors._y += currentDir._y;
         int index = 0;
         boolean finish = false;
         while(!finish) {
@@ -274,25 +284,29 @@ public class Tablero {
                     coors._y = y + currentDir._y;
                 }
                 else {
-                    finish = true;
+                    return adyacentes <= valor;
                 }
             }
             /**
              * Comprobación de si la casilla adyacente es azul
              * */
             else if(casillas[coors._x][coors._y]._tipoCelda == TipoCelda.AZUL
-                || casillas[coors._x][coors._y]._tipoCelda == TipoCelda.GRIS)
+            || casillas[coors._x][coors._y]._tipoCelda == TipoCelda.GRIS)
             {
                 adyacentes++;
+                if(casillas[coors._x][coors._y]._tipoCelda == TipoCelda.AZUL)
+                    adyAzules++;
+
                 // Nos movemos a la siguiente casilla
-                coors._y += currentDir._y;
                 coors._x += currentDir._x;
+                coors._y += currentDir._y;
 
                 /**
-                 *  Si hay más adyacentes que el valor de la celda azul, entonces no es válido
+                 *  Si hay más adyacentes que el valor de la celda azul, entonces
                  *  Se termina la búsqueda
                  */
-                finish = adyacentes > valor;
+                if (adyAzules > valor)
+                    return false;
             }
         }
 
@@ -300,7 +314,7 @@ public class Tablero {
          * Si los adyacentes del círculo son menores o iguales
          * que el valor que
          * */
-        return adyacentes <= valor;
+        return true;
     }
 
     /**

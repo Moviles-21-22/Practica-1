@@ -35,6 +35,11 @@ public class CeldaRoja extends Celda {
     }
 
     @Override
+    public void clicked() {
+
+    }
+
+    @Override
     public void init() {
 
     }
