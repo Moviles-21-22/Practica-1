@@ -76,13 +76,14 @@ public class Game implements App {
         g.clear(0xFFFFFFFF);
 
         //  Render de las celdas
-        Celda casillas[][] = tab.GetCasillas();
-        for(int i = 0 ; i < tab.GetSize(); i++){
-            for(int j = 0 ; j < tab.GetSize() ; j++){
-                casillas[i][j].render(g);
+        if (tab != null) {
+            Celda casillas[][] = tab.GetCasillas();
+            for (int i = 0; i < tab.GetSize(); i++) {
+                for (int j = 0; j < tab.GetSize(); j++) {
+                    casillas[i][j].render(g);
+                }
             }
         }
-
         // Render de los demás objetos
         for(GameObject obj : objects){
             obj.render(g);

@@ -33,8 +33,7 @@ public class GestorPistas {
     };
 
 
-    public GestorPistas(Tablero t){
-
+    public GestorPistas(Tablero t) {
         _casillas = t.GetCasillas();
         _indexAzules = t.GetIndexAzules();
         _size = t.GetSize();
@@ -65,35 +64,35 @@ public class GestorPistas {
                 }
                 break;
             }
-            case 1:
-            {
-                //  Posición de la pista si es encontrada
-                indexFeedback = PistaDos();
-                //  Pista encontrada
-                if(indexFeedback._x == -1){
-                    p = new Pista(TipoPista.AZUL_INCORRECTO,indexFeedback);
-                    tab.AgregaPista(p);
-                }
-                break;
-            }
-            case 2:
-            {
-                indexFeedback = PistaTres();
-                if(indexFeedback._y == -1){
-                    p = new Pista(TipoPista.ADYACENTE_DONETE,indexFeedback);
-                    tab.AgregaPista(p);
-                }
-                break;
-            }
-            case 3:
-            {
-                indexFeedback = PistaCuatro();
-                if(indexFeedback._y == -1){
-                    p = new Pista(TipoPista.SOBRE_ADYACENCIA_AZUL,indexFeedback);
-                    tab.AgregaPista(p);
-                }
-                break;
-            }
+            //case 1:
+            //{
+            //    //  Posición de la pista si es encontrada
+            //    indexFeedback = PistaDos();
+            //      Pista encontrada
+            //    if(indexFeedback._x != -1){
+            //        p = new Pista(TipoPista.AZUL_INCORRECTO,indexFeedback);
+            //        tab.AgregaPista(p);
+            //    }
+            //    break;
+            //}
+            //case 2:
+            //{
+            //    indexFeedback = PistaTres();
+            //    if(indexFeedback._y == -1){
+            //        p = new Pista(TipoPista.ADYACENTE_DONETE,indexFeedback);
+            //        tab.AgregaPista(p);
+            //    }
+            //    break;
+            //}
+            //case 3:
+            //{
+            //    indexFeedback = PistaCuatro();
+            //    if(indexFeedback._y == -1){
+            //        p = new Pista(TipoPista.SOBRE_ADYACENCIA_AZUL,indexFeedback);
+            //        tab.AgregaPista(p);
+            //    }
+            //    break;
+            //}
             case 4:
             {
                 indexFeedback = PistaCinco();
@@ -103,46 +102,46 @@ public class GestorPistas {
                 }
                 break;
             }
-            case 5:{
-                indexFeedback = PistaSeis();
-                if(indexFeedback._y == -1){
-                    p = new Pista(TipoPista.AZUL_AISLADA,indexFeedback);
-                    tab.AgregaPista(p);
-                }
-                break;
-            }
-            case 6:{
-                indexFeedback = PistaSiete();
-                if(indexFeedback._y == -1){
-                    p = new Pista(TipoPista.ONE_DIRECTION,indexFeedback);
-                    tab.AgregaPista(p);
-                }
-                break;
-            }
-            case 7:{
-                indexFeedback = PistaOcho();
-                if(indexFeedback._y == -1){
-                    p = new Pista(TipoPista.SUMA_ALCANZABLE,indexFeedback);
-                    tab.AgregaPista(p);
-                }
-                break;
-            }
-            case 8:{
-                indexFeedback = PistaNueve();
-                if(indexFeedback._y == -1){
-                    p = new Pista(TipoPista.SUMA_MENOR,indexFeedback);
-                    tab.AgregaPista(p);
-                }
-                break;
-            }
-            case 9:{
-                indexFeedback = PistaDiez();
-                if(indexFeedback._y == -1){
-                    p = new Pista(TipoPista.PISTA_10,indexFeedback);
-                    tab.AgregaPista(p);
-                }
-                break;
-            }
+            //case 5:{
+            //    indexFeedback = PistaSeis();
+            //    if(indexFeedback._y == -1){
+            //        p = new Pista(TipoPista.AZUL_AISLADA,indexFeedback);
+            //        tab.AgregaPista(p);
+            //    }
+            //    break;
+            //}
+            //case 6:{
+            //    indexFeedback = PistaSiete();
+            //    if(indexFeedback._y == -1){
+            //        p = new Pista(TipoPista.ONE_DIRECTION,indexFeedback);
+            //        tab.AgregaPista(p);
+            //    }
+            //    break;
+            //}
+            //case 7:{
+            //    indexFeedback = PistaOcho();
+            //    if(indexFeedback._y == -1){
+            //        p = new Pista(TipoPista.SUMA_ALCANZABLE,indexFeedback);
+            //        tab.AgregaPista(p);
+            //    }
+            //    break;
+            //}
+            //case 8:{
+            //    indexFeedback = PistaNueve();
+            //    if(indexFeedback._y == -1){
+            //        p = new Pista(TipoPista.SUMA_MENOR,indexFeedback);
+            //        tab.AgregaPista(p);
+            //    }
+            //    break;
+            //}
+            //case 9:{
+            //    indexFeedback = PistaDiez();
+            //    if(indexFeedback._y == -1){
+            //        p = new Pista(TipoPista.PISTA_10,indexFeedback);
+            //        tab.AgregaPista(p);
+            //    }
+            //    break;
+            //}
             default:{
                 break;
             }
@@ -937,7 +936,6 @@ public class GestorPistas {
         int indexAz = 0;
         int adyacentes = 0;
 
-
         Vector2 coors = new Vector2(_indexAzules[0]._x, _indexAzules[0]._y);
 
         Vector2 currentDir = _dirs[0];
@@ -954,9 +952,10 @@ public class GestorPistas {
             if(coors._y < 0 || coors._y >= _size
                     || coors._x < 0 || coors._x >= _size
                     || !_casillas[(int)coors._x][(int)coors._y].IsLock()
-                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.ROJO) {
+                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.ROJO
+                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.GRIS) {
                 index++;
-                if(index < _dirs.length) {
+                if(index < 4) {
                     // Reseteamos los valores para comprobar en la siguiente dirección
                     currentDir = _dirs[index];
                     coors._x = _indexAzules[indexAz]._x + currentDir._x;
@@ -965,31 +964,32 @@ public class GestorPistas {
                 /**
                  * Nos quedamos sin azules para donetiar
                  */
-                else if(adyacentes > ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()){
+                if(adyacentes > ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()) {
                     wrongBlue._x = _indexAzules[indexAz]._x;
                     wrongBlue._y = _indexAzules[indexAz]._y;
-                    finish = true;
-                }
-                else if(indexAz >= _indexAzules.length){
-                    wrongBlue._x = -1;
-                    wrongBlue._y = -1;
                     finish = true;
                 }
                 else {
                     indexAz++;
                     adyacentes = 0;
                     index = 0;
+                    if(indexAz >= _indexAzules.length) {
+                        wrongBlue._x = -1;
+                        wrongBlue._y = -1;
+                        finish = true;
+                    }
                 }
             }
             /**
              * Comprobación de si la casilla adyacente es azul
              * */
-            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL)
+            else
             {
                 adyacentes++;
                 // Nos movemos a la siguiente casilla
                 coors._y += currentDir._y;
                 coors._x += currentDir._x;
+
 
                 /**
                  *  Si hay más adyacentes que el valor de la celda azul, entonces no es válido
