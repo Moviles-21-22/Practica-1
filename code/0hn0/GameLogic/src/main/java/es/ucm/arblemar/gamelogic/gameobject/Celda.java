@@ -1,4 +1,4 @@
-package es.ucm.arblemar.gamelogic;
+package es.ucm.arblemar.gamelogic.gameobject;
 
 /**
  * Clase abstracta de las celdas
@@ -6,6 +6,8 @@ package es.ucm.arblemar.gamelogic;
 
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Vector2;
+import es.ucm.arblemar.gamelogic.TipoCelda;
+import es.ucm.arblemar.gamelogic.gameobject.GameObject;
 
 
 /**
@@ -86,6 +88,10 @@ public abstract class Celda extends GameObject {
 
     public boolean IsLock(){
         return _lock;
+    }
+
+    public void setLock(boolean lock){
+        _lock = lock;
     }
 
     public Vector2 getIndex(){

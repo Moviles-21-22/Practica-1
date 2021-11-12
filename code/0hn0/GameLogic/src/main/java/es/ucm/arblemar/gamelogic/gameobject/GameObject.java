@@ -1,4 +1,4 @@
-package es.ucm.arblemar.gamelogic;
+package es.ucm.arblemar.gamelogic.gameobject;
 
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Vector2;
@@ -21,6 +21,10 @@ public abstract class GameObject {
         //anchura = _rect.width;
         //altura = _rect.height;
         id = _id;
+    }
+
+    public Vector2 getPos() {
+        return pos;
     }
 
     public boolean renderIsActive(){

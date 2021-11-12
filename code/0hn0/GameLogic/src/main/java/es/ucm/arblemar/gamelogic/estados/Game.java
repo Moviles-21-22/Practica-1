@@ -7,15 +7,13 @@ import java.util.List;
 import es.ucm.arblemar.engine.App;
 import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Graphics;
-import es.ucm.arblemar.engine.Image;
 import es.ucm.arblemar.engine.Input;
 import es.ucm.arblemar.engine.Vector2;
-import es.ucm.arblemar.gamelogic.Boton;
-import es.ucm.arblemar.gamelogic.Celda;
-import es.ucm.arblemar.gamelogic.CeldaGris;
-import es.ucm.arblemar.gamelogic.GameObject;
+import es.ucm.arblemar.gamelogic.gameobject.Boton;
+import es.ucm.arblemar.gamelogic.gameobject.Celda;
+import es.ucm.arblemar.gamelogic.gameobject.GameObject;
 import es.ucm.arblemar.gamelogic.Tablero;
-import es.ucm.arblemar.gamelogic.Texto;
+import es.ucm.arblemar.gamelogic.gameobject.Texto;
 import es.ucm.arblemar.gamelogic.assets.Assets;
 
 public class Game implements App {

@@ -31,7 +31,6 @@ public abstract class AbstractGraphics implements Graphics {
         int newPosX = (int)((x * _scaleFactor) + offsetX);
         int newPosY = (int)((y * _scaleFactor) + offsetY);
 
-        System.out.println("X: " + newPosX + " Y: " + newPosY);
         return new Vector2((int)(newPosX), (int)(newPosY));
     }
 

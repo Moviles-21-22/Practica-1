@@ -1,10 +1,11 @@
-package es.ucm.arblemar.gamelogic;
+package es.ucm.arblemar.gamelogic.gameobject;
 
 import java.awt.Rectangle;
 
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Image;
 import es.ucm.arblemar.engine.Vector2;
+import es.ucm.arblemar.gamelogic.gameobject.GameObject;
 
 
 public class Boton extends GameObject {

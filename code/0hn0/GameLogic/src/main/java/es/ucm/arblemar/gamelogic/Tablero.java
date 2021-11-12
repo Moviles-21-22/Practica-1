@@ -8,6 +8,11 @@ import java.util.Vector;
 import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Vector2;
+import es.ucm.arblemar.gamelogic.gameobject.Celda;
+import es.ucm.arblemar.gamelogic.gameobject.GameObject;
+import es.ucm.arblemar.gamelogic.gameobject.celda.CeldaAzul;
+import es.ucm.arblemar.gamelogic.gameobject.celda.CeldaGris;
+import es.ucm.arblemar.gamelogic.gameobject.celda.CeldaRoja;
 
 public class Tablero {
 
@@ -220,13 +225,13 @@ public class Tablero {
 
         for(int x = 0 ; x < _size ; x++){
             for(int y = 0 ; y < _size ; y++){
-                if(casillas[x][y]._tipoCelda == TipoCelda.GRIS){
+                if(casillas[x][y].GetColor() == TipoCelda.GRIS){
                     System.out.print("X ");
                 }
-                else if(casillas[x][y]._tipoCelda == TipoCelda.ROJO){
+                else if(casillas[x][y].GetColor() == TipoCelda.ROJO){
                     System.out.print("R ");
                 }
-                else if(casillas[x][y]._tipoCelda == TipoCelda.AZUL){
+                else if(casillas[x][y].GetColor() == TipoCelda.AZUL){
                     System.out.print(((CeldaAzul)casillas[x][y]).getValue() + " ");
                 }
             }
@@ -279,9 +284,9 @@ public class Tablero {
                 int valor = r.nextInt(_size) + 1;
                 if(AzulesValidos(indX, indY, valor)) {
                     Vector2 ind = new Vector2(indX,indY);
-                    Vector2 pos = casillas[indX][indY].pos;
+                    Vector2 pos = casillas[indX][indY].getPos();
                     casillas[indX][indY] = new CeldaAzul(valor, ind,0,pos);
-                    casillas[indX][indY]._lock = true;
+                    casillas[indX][indY].setLock(true);
                     indexAzulesOriginales[contAzul] = new Vector2(indX,indY);
                     contAzul++;
                 }
@@ -309,11 +314,11 @@ public class Tablero {
             int indY = r.nextInt(_size);
             if(!casillas[indX][indY].IsLock()){
                 //if(RojosValidos(indX,indY)){
-                if(casillas[indX][indY]._tipoCelda == TipoCelda.GRIS) {
+                if(casillas[indX][indY].GetColor() == TipoCelda.GRIS) {
                     Vector2 ind = new Vector2(indX,indY);
-                    Vector2 pos = casillas[indX][indY].pos;
+                    Vector2 pos = casillas[indX][indY].getPos();
                     casillas[indX][indY] = new CeldaRoja(ind,0,pos);
-                    casillas[indX][indY]._lock = true;
+                    casillas[indX][indY].setLock(true);
                     indexRojosOriginales[contRojos] = new Vector2(indX,indY);
                     contRojos++;
                 }
@@ -350,8 +355,8 @@ public class Tablero {
         while (!finish && !existeSolucion){
             if (coors._y < 0 || coors._y >= _size
                     || coors._x < 0 || coors._x >= _size
-                    || !casillas[coors._x][coors._y]._lock
-                    || casillas[ coors._x][ coors._y]._tipoCelda == TipoCelda.ROJO) {
+                    || !casillas[coors._x][coors._y].IsLock()
+                    || casillas[ coors._x][ coors._y].GetColor() == TipoCelda.ROJO) {
 
                 index++;
 
@@ -365,12 +370,12 @@ public class Tablero {
                 }
             }
             //  Si encontramos una celda gris, pasamos a la siguiente celda en la misma dirección
-            else if (casillas[coors._x][coors._y]._tipoCelda == TipoCelda.GRIS) {
+            else if (casillas[coors._x][coors._y].GetColor() == TipoCelda.GRIS) {
                 coors._x += dirs[index]._x;
                 coors._y += dirs[index]._y;
             }
             //  Si es azul, comprobamos que dicho azul tiene más salidas para no bloquear una posible solución
-            else if(casillas[coors._x][coors._y]._tipoCelda == TipoCelda.AZUL){
+            else if(casillas[coors._x][coors._y].GetColor() == TipoCelda.AZUL){
                 existeSolucion = AzulConSalidas(coors._x,coors._y,x,y);
             }
 
@@ -409,8 +414,8 @@ public class Tablero {
              * */
             if(coors._y < 0 || coors._y >= _size
                     || coors._x < 0 || coors._x >= _size
-                    || !casillas[coors._x][coors._y]._lock
-                    || casillas[coors._x][coors._y]._tipoCelda == TipoCelda.ROJO) {
+                    || !casillas[coors._x][coors._y].IsLock()
+                    || casillas[coors._x][coors._y].GetColor() == TipoCelda.ROJO) {
                 index++;
                 if(index < dirs.length) {
                     // Reseteamos los valores para comprobar en la siguiente dirección
@@ -425,11 +430,11 @@ public class Tablero {
             /**
              * Comprobación de si la casilla adyacente es azul
              * */
-            else if(casillas[coors._x][coors._y]._tipoCelda == TipoCelda.AZUL
-            || casillas[coors._x][coors._y]._tipoCelda == TipoCelda.GRIS)
+            else if(casillas[coors._x][coors._y].GetColor() == TipoCelda.AZUL
+            || casillas[coors._x][coors._y].GetColor() == TipoCelda.GRIS)
             {
                 adyacentes++;
-                if(casillas[coors._x][coors._y]._tipoCelda == TipoCelda.AZUL)
+                if(casillas[coors._x][coors._y].GetColor() == TipoCelda.AZUL)
                     adyAzules++;
 
                 // Nos movemos a la siguiente casilla
@@ -475,7 +480,7 @@ public class Tablero {
         while (!finish){
             if (coors._y < 0 || coors._y >= _size
                     || coors._x < 0 || coors._x >= _size
-                    || casillas[coors._x][coors._y]._tipoCelda == TipoCelda.ROJO
+                    || casillas[coors._x][coors._y].GetColor() == TipoCelda.ROJO
                     //  Descartar de donde vengo
                     || (coors._x == redX && coors._y == redY)) {
 
@@ -490,8 +495,8 @@ public class Tablero {
                     finish = true;
                 }
             }
-            else if (casillas[coors._x][coors._y]._tipoCelda == TipoCelda.GRIS
-                || casillas[coors._x][coors._y]._tipoCelda == TipoCelda.AZUL ) {
+            else if (casillas[coors._x][coors._y].GetColor() == TipoCelda.GRIS
+                || casillas[coors._x][coors._y].GetColor() == TipoCelda.AZUL ) {
                 coors._x += dirs[index]._x;
                 coors._y += dirs[index]._y;
                 elementos++;

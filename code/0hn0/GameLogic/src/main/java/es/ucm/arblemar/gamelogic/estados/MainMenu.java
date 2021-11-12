@@ -7,8 +7,8 @@ import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Input.TouchEvent;
 import es.ucm.arblemar.engine.Vector2;
-import es.ucm.arblemar.gamelogic.GameObject;
-import es.ucm.arblemar.gamelogic.Texto;
+import es.ucm.arblemar.gamelogic.gameobject.GameObject;
+import es.ucm.arblemar.gamelogic.gameobject.Texto;
 import es.ucm.arblemar.gamelogic.assets.Assets;
 
 

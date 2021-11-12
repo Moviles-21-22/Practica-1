@@ -4,6 +4,8 @@ package es.ucm.arblemar.gamelogic;
 import java.util.Vector;
 
 import es.ucm.arblemar.engine.Vector2;
+import es.ucm.arblemar.gamelogic.gameobject.Celda;
+import es.ucm.arblemar.gamelogic.gameobject.celda.CeldaAzul;
 
 public class GestorPistas {
 
@@ -174,7 +176,7 @@ public class GestorPistas {
         while (!finish){
             if(coors._y < 0 || coors._y >= _size
                     || coors._x < 0 || coors._x >= _size
-                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.ROJO) {
+                    || _casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.ROJO) {
                 indexDir++;
 
                 //  Cambio de dirección
@@ -211,10 +213,10 @@ public class GestorPistas {
                 }
             }
             //  Encuentro una celda gris sigo en la misma dirección
-            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.GRIS
-            || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL){
+            else if(_casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.GRIS
+            || _casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.AZUL){
 
-                if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL){
+                if(_casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.AZUL){
                     azulesAdy++;
                 }
                 else {
@@ -274,7 +276,7 @@ public class GestorPistas {
         while (!finish){
             if(coors._y < 0 || coors._y >= _size
                     || coors._x < 0 || coors._x >= _size
-                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.ROJO) {
+                    || _casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.ROJO) {
                 indexDir++;
 
                 //  Cambio de dirección
@@ -312,7 +314,7 @@ public class GestorPistas {
                 }
             }
             //  Encuentro una celda gris, es una salida y cambio de dirección
-            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.GRIS){
+            else if(_casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.GRIS){
 
                 salidas++;
                 indexDir++;
@@ -349,7 +351,7 @@ public class GestorPistas {
                 }
             }
             //  Si encontramos una celda azul, sumamos adyacente
-            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL)
+            else if(_casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.AZUL)
             {
                 adyacentes++;
                 // Pasamos al siguiente azul
@@ -405,7 +407,7 @@ public class GestorPistas {
         while (!finish){
             if(coors._y < 0 || coors._y >= _size
                     || coors._x < 0 || coors._x >= _size
-                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.ROJO) {
+                    || _casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.ROJO) {
                 indexDir++;
 
                 //  Cambio de dirección
@@ -445,7 +447,7 @@ public class GestorPistas {
                 }
             }
             //  Encuentro una celda gris, es una salida.
-            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.GRIS){
+            else if(_casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.GRIS){
                 //  Ya existe una salida encontrada anteriormente, descartada
                 if(salida){
                     indexAz++;
@@ -486,7 +488,7 @@ public class GestorPistas {
                 }
             }
             //  Si encontramos una celda azul, sumamos adyacente
-            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL)
+            else if(_casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.AZUL)
             {
                 adyacentes++;
                 //  No he encontrado las condiciones necesarias para determinar que esta pista existe, descartada
@@ -544,7 +546,7 @@ public class GestorPistas {
         while (!finish){
             if(coors._y < 0 || coors._y >= _size
                     || coors._x < 0 || coors._x >= _size
-                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.ROJO) {
+                    || _casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.ROJO) {
                 indexDir++;
 
                 //  Cambio de dirección
@@ -565,8 +567,8 @@ public class GestorPistas {
                 }
             }
             //  Si encontramos una celda azul o gris, se descarta y pasamos al siguiente
-            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL
-            || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.GRIS) {
+            else if(_casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.AZUL
+            || _casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.GRIS) {
                 indexAzules++;
                 //  No quedan más celdas que procesar
                 if(indexAzules >= _size ){
@@ -614,7 +616,7 @@ public class GestorPistas {
         while (!finish){
             if(coors._y < 0 || coors._y >= _size
                     || coors._x < 0 || coors._x >= _size
-                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.ROJO) {
+                    || _casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.ROJO) {
                 indexDir++;
 
                 //  Cambio de dirección
@@ -684,7 +686,7 @@ public class GestorPistas {
         while (!finish){
             if(coors._y < 0 || coors._y >= _size
                     || coors._x < 0 || coors._x >= _size
-                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.ROJO) {
+                    || _casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.ROJO) {
                 indexDir++;
 
                 //  Cambio de dirección
@@ -728,7 +730,7 @@ public class GestorPistas {
 
             }
             //  Si encuentra una celda gris, pasamos al siguiente azul
-            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.GRIS){
+            else if(_casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.GRIS){
                 indexAz++;
                 //  No quedan más azules para procesar
                 if(indexAz >= _indexAzules.length){
@@ -744,7 +746,7 @@ public class GestorPistas {
                     coors._y = _indexAzules[indexAz]._y + currentDir._y;
                 }
             }
-            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL)
+            else if(_casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.AZUL)
             {
                 adyacentes++;
                 // Nos movemos a la siguiente casilla
@@ -777,8 +779,8 @@ public class GestorPistas {
         while (!finish){
             if(coors._y < 0 || coors._y >= _size
                     || coors._x < 0 || coors._x >= _size
-                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.GRIS
-                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.ROJO) {
+                    || _casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.GRIS
+                    || _casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.ROJO) {
                 indexDir++;
 
                 //  Cambio de dirección
@@ -816,7 +818,7 @@ public class GestorPistas {
             /**
              * Comprobación de si la casilla adyacente es azul
              * */
-            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL)
+            else if(_casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.AZUL)
             {
                 adyacentes++;
                 // Nos movemos a la siguiente casilla
@@ -856,8 +858,8 @@ public class GestorPistas {
         while (!finish){
             if(coors._y < 0 || coors._y >= _size
                     || coors._x < 0 || coors._x >= _size
-                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.GRIS
-                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.ROJO) {
+                    || _casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.GRIS
+                    || _casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.ROJO) {
                 indexDir++;
 
                 //  Cambio de dirección
@@ -903,7 +905,7 @@ public class GestorPistas {
             /**
              * Comprobación de si la casilla adyacente es azul
              * */
-            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL)
+            else if(_casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.AZUL)
             {
                 adyacentes++;
                 // Nos movemos a la siguiente casilla
@@ -948,8 +950,8 @@ public class GestorPistas {
             if(coors._y < 0 || coors._y >= _size
                     || coors._x < 0 || coors._x >= _size
                     || !_casillas[(int)coors._x][(int)coors._y].IsLock()
-                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.ROJO
-                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.GRIS) {
+                    || _casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.ROJO
+                    || _casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.GRIS) {
                 index++;
                 if(index < 4) {
                     // Reseteamos los valores para comprobar en la siguiente dirección
@@ -1029,8 +1031,8 @@ public class GestorPistas {
              * */
             if(coors._y < 0 || coors._y >= _size
                     || coors._x < 0 || coors._x >= _size
-                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.GRIS
-                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.ROJO) {
+                    || _casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.GRIS
+                    || _casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.ROJO) {
                 index++;
                 if(index < _dirs.length) {
                     // Reseteamos los valores para comprobar en la siguiente dirección
@@ -1054,7 +1056,7 @@ public class GestorPistas {
             /**
              * Comprobación de si la casilla adyacente es azul
              * */
-            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL) {
+            else if(_casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.AZUL) {
                 adyacentes++;
                 // Nos movemos a la siguiente casilla
                 coors._y += currentDir._y;
@@ -1157,22 +1159,22 @@ public class GestorPistas {
              * Si derecha es menor que size y derecha es (rojo o azul)
             *   entonces se suma laterales
             * */
-            if(currAzul._y + _dirs[0]._y < _size && _casillas[(int)currAzul._x][(int)(currAzul._y + _dirs[0]._y)]._tipoCelda == TipoCelda.GRIS)
+            if(currAzul._y + _dirs[0]._y < _size && _casillas[(int)currAzul._x][(int)(currAzul._y + _dirs[0]._y)].GetColor() == TipoCelda.GRIS)
             {
                 laterales++;
                 oneDirection = _dirs[0];
             }
-            else if(currAzul._y + _dirs[1]._y >= 0 && _casillas[(int)currAzul._x][(int)(currAzul._y + _dirs[0]._y)]._tipoCelda == TipoCelda.GRIS)
+            else if(currAzul._y + _dirs[1]._y >= 0 && _casillas[(int)currAzul._x][(int)(currAzul._y + _dirs[0]._y)].GetColor() == TipoCelda.GRIS)
             {
                 laterales++;
                 oneDirection = _dirs[1];
             }
-            else if(currAzul._x + _dirs[2]._x >= 0 && _casillas[(int)(currAzul._x + _dirs[2]._x)][(int)currAzul._y]._tipoCelda == TipoCelda.GRIS)
+            else if(currAzul._x + _dirs[2]._x >= 0 && _casillas[(int)(currAzul._x + _dirs[2]._x)][(int)currAzul._y].GetColor() == TipoCelda.GRIS)
             {
                 laterales++;
                 oneDirection = _dirs[2];
             }
-            else if(currAzul._x + _dirs[3]._x < _size && _casillas[(int)(currAzul._x + _dirs[3]._x)][(int)currAzul._y]._tipoCelda == TipoCelda.GRIS)
+            else if(currAzul._x + _dirs[3]._x < _size && _casillas[(int)(currAzul._x + _dirs[3]._x)][(int)currAzul._y].GetColor() == TipoCelda.GRIS)
             {
                 laterales++;
                 oneDirection = _dirs[3];
@@ -1228,7 +1230,7 @@ public class GestorPistas {
             // Cambio de direccion
             else if(coors._y < 0 || coors._y >= _size
                     || coors._x < 0 || coors._x >= _size
-                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.ROJO)
+                    || _casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.ROJO)
             {
                 index++;
                 // Reset
@@ -1240,8 +1242,8 @@ public class GestorPistas {
                     finish = true;
                 }
             }
-            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.GRIS
-                    || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL)
+            else if(_casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.GRIS
+                    || _casillas[(int)coors._x][(int)coors._y].GetColor() == TipoCelda.AZUL)
             {
                 sumaAdy++;
                 coors._x += _dirs[index]._x;

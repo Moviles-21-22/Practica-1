@@ -1,6 +1,8 @@
-package es.ucm.arblemar.gamelogic;
+package es.ucm.arblemar.gamelogic.gameobject.celda;
 
 import es.ucm.arblemar.engine.Vector2;
+import es.ucm.arblemar.gamelogic.TipoCelda;
+import es.ucm.arblemar.gamelogic.gameobject.Celda;
 
 public class CeldaGris extends Celda {
 
