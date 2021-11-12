@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import es.ucm.arblemar.androidengine.AndroidEngine;
 import es.ucm.arblemar.gamelogic.GameLogic;
+import es.ucm.arblemar.gamelogic.estados.LoadAssets;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -13,9 +14,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //  Lanzar engine y lógica
-        AndroidEngine engine = new AndroidEngine(this);
-        //  TODO :Pasar el tamaño del tablero a construir
-        GameLogic logic = new GameLogic(4,engine);
+        AndroidEngine engine = new AndroidEngine();
+        LoadAssets assets = new LoadAssets(engine);
+        //  Lanzar app
+        if(!engine.init(assets,"Oh no")){
+            return;
+        }
+        engine.run();
     }
 }

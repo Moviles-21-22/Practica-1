@@ -7,17 +7,12 @@ import es.ucm.arblemar.gamelogic.estados.LoadAssets;
 
 public class Main {
     public static void main (String [] args){
-        TipoCelda t = TipoCelda.AZUL;
-
         DesktopEngine engine = new DesktopEngine();
-
         App loadAssets = new LoadAssets(engine);
-
         if(!engine.init(loadAssets, "TESTEO")) {
             System.out.println("Algo fue mal");
             return;
         }
-
         engine.run();
     }
 }

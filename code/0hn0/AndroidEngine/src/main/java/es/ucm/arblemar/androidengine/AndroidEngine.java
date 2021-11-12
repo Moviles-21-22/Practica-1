@@ -13,18 +13,20 @@ public class AndroidEngine implements Engine {
     private AndroidInput input;
     private Thread renderThread;
     volatile boolean running = false;
+    private App currApp;
 
-    public AndroidEngine(Context context){
+    public AndroidEngine(){ }
 
-    }
+//    public AndroidScreen getScreen(){
+//        return graphics.
+//    }
 
     @Override
     public boolean init(App initAp, String nameGame) {
-        //input = new AndroidInput();
-        //graphics = new AndroidGraphics(this, input);
-        //  ...
-
-        return true;
+        currApp = initAp;
+        input = new AndroidInput();
+        graphics = new AndroidGraphics(input);
+        return graphics.init() && input.init() && currApp.init();
     }
 
     @Override

@@ -2,22 +2,30 @@ package es.ucm.arblemar.androidengine;
 
 import android.content.Context;
 
+import es.ucm.arblemar.engine.AbstractGraphics;
 import es.ucm.arblemar.engine.Font;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Image;
+import es.ucm.arblemar.engine.Input;
 import es.ucm.arblemar.engine.Rect;
 import es.ucm.arblemar.engine.Vector2;
 
-public class AndroidGraphics implements Graphics {
+public class AndroidGraphics extends AbstractGraphics {
 
     private AndroidScreen screen;
+    private Graphics graphics;
+    private AndroidInput input;
 
-    public AndroidGraphics(Context context, AndroidInput i){
-        screen = new AndroidScreen(context,this,i);
+    public AndroidGraphics(AndroidInput i){
+        super(400, 600);
+        input = i;
+        screen = new AndroidScreen(screen.getContext(), this,i);
+
     }
 
     @Override
     public boolean init() {
+        screen = new AndroidScreen(screen.getContext(), this,input);
         return true;
     }
 

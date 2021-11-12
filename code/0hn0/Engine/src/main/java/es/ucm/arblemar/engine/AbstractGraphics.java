@@ -1,11 +1,15 @@
 package es.ucm.arblemar.engine;
 
 public abstract class AbstractGraphics implements Graphics {
+
     protected AbstractGraphics(float w, float h){
         _wLogWindow = w;
         _hLogWindow = h;
         _posLogX = 0.0f;
         _posLogY = 0.0f;
+    }
+
+    protected AbstractGraphics() {
     }
 
     /**
