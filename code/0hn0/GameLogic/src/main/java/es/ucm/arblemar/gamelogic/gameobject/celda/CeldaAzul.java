@@ -12,6 +12,7 @@ public class CeldaAzul extends Celda {
 
     public CeldaAzul(Font font, int tamFont, int _valor, Vector2 ind, int _id, Vector2 _pos) {
         super(TipoCelda.AZUL, ind,_id);
+        _font = font;
         _lock = true;
         valor = _valor;
         pos = _pos;

@@ -93,6 +93,9 @@ public class Tablero {
     private void compruebaTab() {
         Tablero solucion = this;
         GestorPistas p = new GestorPistas(solucion);
+        //p.actualizaPistas(solucion);
+        int maxIter = 1000;
+        int currIter = 0;
 
         //Hay que tratar de resolver el tablero solucion usando las pistas
         //Si en una iteración del tablero usando las pistas NO aparece ningún cambio:
@@ -100,125 +103,234 @@ public class Tablero {
         //Si en una iteración del tablero solucion aparece alguna pista de ERROR:
         //  -> El tablero es erroneo: tabCorrecto = false;
 
-        //for (int i = 0; i < solucion.pistasEncontradas.size(); ++i) {
-        //    switch (solucion.pistasEncontradas.get(i).getPista()) {
-        //        case DONETE:
-        //        {
-        //            //Se pueden poner paredes en los extremos
-        //            Vector2 ind = new Vector2(solucion.pistasEncontradas.get(i).getIndex()._x, solucion.pistasEncontradas.get(i).getIndex()._y);
-//
-        //            boolean finish = false;
-//
-        //            Vector2 coors = new Vector2(ind._x, ind._y);
-        //            Vector2[] dirs = new Vector2[4];
-//
-        //            dirs[0] = new Vector2(0, -1);
-        //            dirs[1] = new Vector2(0, 1);
-        //            dirs[2] = new Vector2(-1, 0);
-        //            dirs[3] = new Vector2(1, 0);
-//
-        //            int index = 0;
-//
-        //            coors._x += dirs[0]._x;
-        //            coors._y += dirs[0]._y;
-//
-        //            while (!finish){
-        //                if (coors._y < 0 || coors._y >= _size
-        //                        || coors._x < 0 || coors._x >= _size
-        //                        || !solucion.casillas[coors._x][coors._y]._lock
-        //                        || solucion.casillas[ coors._x][ coors._y]._tipoCelda == TipoCelda.ROJO) {
-//
-        //                    index++;
-//
-        //                    if (index < dirs.length) {
-        //                        // Reseteamos los valores para comprobar en la siguiente dirección
-        //                        coors._x = ind._x + dirs[index]._x;
-        //                        coors._y = ind._y + dirs[index]._y;
-        //                    }
-        //                    else {
-        //                        finish = true;
-        //                    }
-        //                }
-        //                //  Si encontramos una celda gris, la ponemos en rojo y cambiamos dirección
-        //                else if (solucion.casillas[coors._x][coors._y]._tipoCelda == TipoCelda.GRIS) {
-        //                    Vector2 indR = new Vector2(coors._x, coors._y);
-        //                    solucion.casillas[coors._x][coors._y] = new CeldaRoja(indR,0, casillas[coors._x][coors._y].pos);
-//
-        //                    index++;
-//
-        //                    if (index < dirs.length) {
-        //                        // Reseteamos los valores para comprobar en la siguiente dirección
-        //                        coors._x = ind._x + dirs[index]._x;
-        //                        coors._y = ind._y + dirs[index]._y;
-        //                    }
-        //                    else {
-        //                        finish = true;
-        //                    }
-        //                }
-        //                //  Si es azul, pasamos a la siguiente
-        //                else if(casillas[coors._x][coors._y]._tipoCelda == TipoCelda.AZUL){
-        //                    coors._x += dirs[index]._x;
-        //                    coors._y += dirs[index]._y;
-        //                }
-        //            }
-        //            break;
-        //        }
-        //        case AZUL_INCORRECTO:
-        //        {
-        //            //Si se pusiese azul sería error, luego es pared
-        //            Vector2 ind = new Vector2(solucion.pistasEncontradas.get(i).getIndex()._x, solucion.pistasEncontradas.get(i).getIndex()._y);
-        //            solucion.casillas[ind._x][ind._y] = new CeldaRoja(ind,0, casillas[ind._x][ind._y].pos);
-        //            break;
-        //        }
-        //        case ADYACENTE_DONETE:
-        //        {
-        //            //Hay que poner azul obligatoriamente
-        //            Vector2 ind = new Vector2(solucion.pistasEncontradas.get(i).getIndex()._x, solucion.pistasEncontradas.get(i).getIndex()._y);
-        //            solucion.casillas[ind._x][ind._y] = new CeldaAzul(-1, ind,0, casillas[ind._x][ind._y].pos);
-        //            //TODO: Necesitamos un celda azul sin valor
-        //            break;
-        //        }
-        //        //case SOBRE_ADYACENCIA_AZUL:
-        //        //{
-        //        //    break;
-        //        //}
-        //        //case SOBRE_ADYACENCIA_ROJA:
-        //        //{
-        //        //    break;
-        //        //}
-        //        //case NO_VEO_AZUL:
-        //        //{
-        //        //    break;
-        //        //}
-        //        //case AZUL_AISLADA:
-        //        //{
-        //        //    break;
-        //        //}
-        //        //case ONE_DIRECTION:
-        //        //{
-        //        //    break;
-        //        //}
-        //        //case SUMA_ALCANZABLE:
-        //        //{
-        //        //    break;
-        //        //}
-        //        //case SUMA_MENOR:
-        //        //{
-        //        //    break;
-        //        //}
-        //        //case PISTA_10:
-        //        //{
-        //        //    break;
-        //        //}
-        //        //case MAX:
-        //        //{
-        //        //    break;
-        //        //}
-        //    }
-        //}
 
-        tabCorrecto = true;
-        solUnica = true;
+        while(currIter < maxIter && tabCorrecto && !solUnica) {
+            currIter++;
+            solucion.pistasEncontradas = new ArrayList<>();
+            p.actualizaPistas(solucion);
+            for (int i = 0; i < solucion.pistasEncontradas.size() && tabCorrecto; ++i) {
+                switch (solucion.pistasEncontradas.get(i).getPista()) {
+                    case DONETE: {
+                        //Se pueden poner paredes en los extremos
+                        Vector2 ind = new Vector2(solucion.pistasEncontradas.get(i).getIndex()._x, solucion.pistasEncontradas.get(i).getIndex()._y);
+
+                        boolean finish = false;
+
+                        Vector2 coors = new Vector2(ind._x, ind._y);
+                        Vector2[] dirs = new Vector2[4];
+
+                        dirs[0] = new Vector2(0, -1);
+                        dirs[1] = new Vector2(0, 1);
+                        dirs[2] = new Vector2(-1, 0);
+                        dirs[3] = new Vector2(1, 0);
+
+                        int index = 0;
+
+                        coors._x += dirs[0]._x;
+                        coors._y += dirs[0]._y;
+
+                        while (!finish) {
+                            if (coors._y < 0 || coors._y >= _size
+                                    || coors._x < 0 || coors._x >= _size
+                                    || !solucion.casillas[coors._x][coors._y].isLock()
+                                    || solucion.casillas[coors._x][coors._y].getTypeColor() == TipoCelda.ROJO) {
+
+                                index++;
+
+                                if (index < dirs.length) {
+                                    // Reseteamos los valores para comprobar en la siguiente dirección
+                                    coors._x = ind._x + dirs[index]._x;
+                                    coors._y = ind._y + dirs[index]._y;
+                                } else {
+                                    finish = true;
+                                }
+                            }
+                            //  Si encontramos una celda gris, la ponemos en rojo y cambiamos dirección
+                            else if (solucion.casillas[coors._x][coors._y].getTypeColor() == TipoCelda.GRIS) {
+                                solucion.casillas[coors._x][coors._y].setTypeColor(TipoCelda.ROJO);
+
+                                index++;
+
+                                if (index < dirs.length) {
+                                    // Reseteamos los valores para comprobar en la siguiente dirección
+                                    coors._x = ind._x + dirs[index]._x;
+                                    coors._y = ind._y + dirs[index]._y;
+                                } else {
+                                    finish = true;
+                                }
+                            }
+                            //  Si es azul, pasamos a la siguiente
+                            else if (solucion.casillas[coors._x][coors._y].getTypeColor() == TipoCelda.AZUL) {
+                                coors._x += dirs[index]._x;
+                                coors._y += dirs[index]._y;
+                            }
+                        }
+                        break;
+                    }
+                    case AZUL_INCORRECTO:
+                    case NO_VEO_AZUL: {
+                        //AZUL_INCORRECTO: Si se pusiese azul sería error, luego es pared
+                        //NO_VEO_AZUL: Celda gris cerrada, luego es roja
+                        Vector2 ind = new Vector2(solucion.pistasEncontradas.get(i).getIndex()._x, solucion.pistasEncontradas.get(i).getIndex()._y);
+                        solucion.casillas[ind._x][ind._y].setTypeColor(TipoCelda.ROJO);
+                        break;
+                    }
+                    case ADYACENTE_DONETE: {
+                        //Hay que poner azul obligatoriamente
+                        Vector2 ind = new Vector2(solucion.pistasEncontradas.get(i).getIndex()._x, solucion.pistasEncontradas.get(i).getIndex()._y);
+                        solucion.casillas[ind._x][ind._y].setTypeColor(TipoCelda.AZUL);
+                        break;
+                    }
+                    //case SOBRE_ADYACENCIA_AZUL:
+                    //case SOBRE_ADYACENCIA_ROJA:
+                    case AZUL_AISLADA:
+                    //case SUMA_MENOR:
+                    {
+                        //ERROR SOBRE_ADYACENCIA_AZUL: un azul tiene más visibles de las que debería
+                        //ERROR SOBRE_ADYACENCIA_ROJA: un azul no tiene suficientes vecinas y está cerrada
+                        //ERROR AZUL_AISLADA: una celda azul no tiene vecinos, debería ser pared
+                        //ERROR SUMA_MENOR: futuro error porque una azul no puede alcanzar su valor
+                        tabCorrecto = false;
+                        break;
+                    }
+                    //case ONE_DIRECTION: {
+                    //    //Hay que poner todas las azules necesarias en la única dirección que queda
+                    //    Vector2 ind = new Vector2(solucion.pistasEncontradas.get(i).getIndex()._x, solucion.pistasEncontradas.get(i).getIndex()._y);
+                    //    Vector2 coors = new Vector2(ind._x, ind._y);
+                    //    Vector2[] dirs = new Vector2[4];
+                    //    dirs[0] = new Vector2(0, -1);
+                    //    dirs[1] = new Vector2(0, 1);
+                    //    dirs[2] = new Vector2(-1, 0);
+                    //    dirs[3] = new Vector2(1, 0);
+                    //    Vector2 currentDir = dirs[0];
+                    //    coors._x += currentDir._x;
+                    //    coors._y += currentDir._y;
+                    //    //  Index que recorre las direcciones
+                    //    int indexDir = 0;
+                    //    //  Numero de celdas azules que "ve"
+                    //    int adyacentes = 0;
+                    //    boolean finish = false;
+                    //    while (!finish) {
+                    //        if (coors._y < 0 || coors._y >= _size
+                    //                || coors._x < 0 || coors._x >= _size
+                    //                || solucion.casillas[(int) coors._x][(int) coors._y].getTypeColor() == TipoCelda.ROJO) {
+                    //            indexDir++;
+                    //            //  Cambio de dirección
+                    //            if (indexDir < dirs.length) {
+                    //                // Reseteamos los valores para comprobar en la siguiente dirección
+                    //                currentDir = dirs[indexDir];
+                    //                coors._x = ind._x + currentDir._x;
+                    //                coors._y = ind._y + currentDir._y;
+                    //            }
+                    //            //Si tras terminar de reccorer todas las adyacentes no llego al valor deseado es error
+                    //            else if (adyacentes != solucion.casillas[ind._x][ind._y].getValue()) {
+                    //                tabCorrecto = false;
+                    //                finish = true;
+                    //            }
+                    //            else {
+                    //                finish = true;
+                    //            }
+                    //        }
+                    //        //  Encuentro una celda gris, es la salida, miramos si hacen falta más azules
+                    //        else if (solucion.casillas[(int) coors._x][(int) coors._y].getTypeColor() == TipoCelda.GRIS) {
+                    //            if (adyacentes < solucion.casillas[ind._x][ind._y].getValue()) {
+                    //                //Si hacen falta más vecinas se pone la casilla gris en azul y se suma adyacentes
+                    //                adyacentes++;
+                    //                solucion.casillas[(int) coors._x][(int) coors._y].setTypeColor(TipoCelda.AZUL);
+                    //                //Continua en la misma dirección
+                    //                coors._x += currentDir._x;
+                    //                coors._y += currentDir._y;
+                    //            } else {
+                    //                solucion.casillas[(int) coors._x][(int) coors._y].setTypeColor(TipoCelda.ROJO);
+                    //                finish = true;
+                    //            }
+                    //        }
+                    //        //  Si encontramos una celda azul, sumamos adyacente
+                    //        else {
+                    //            adyacentes++;
+                    //            //Comprobamos que no haya concatenado una gris convertida a azul con otra azul y nos hayamos pasado
+                    //            if (adyacentes > solucion.casillas[ind._x][ind._y].getValue()) {
+                    //                tabCorrecto = false;
+                    //                finish = true;
+                    //            }
+                    //            //En caso contrario seguimos buscando para ver si hay más azules vecinas
+                    //            else {
+                    //                //Continua en la misma dirección
+                    //                coors._x += currentDir._x;
+                    //                coors._y += currentDir._y;
+                    //            }
+                    //        }
+                    //    }
+                    //    break;
+                    //}
+                    case SUMA_ALCANZABLE: {
+                        //Todas las alcanzables suman la cantidad de valor buscada
+                        Vector2 ind = new Vector2(solucion.pistasEncontradas.get(i).getIndex()._x, solucion.pistasEncontradas.get(i).getIndex()._y);
+
+                        boolean finish = false;
+
+                        Vector2 coors = new Vector2(ind._x, ind._y);
+                        Vector2[] dirs = new Vector2[4];
+
+                        dirs[0] = new Vector2(0, -1);
+                        dirs[1] = new Vector2(0, 1);
+                        dirs[2] = new Vector2(-1, 0);
+                        dirs[3] = new Vector2(1, 0);
+
+                        int index = 0;
+
+                        coors._x += dirs[0]._x;
+                        coors._y += dirs[0]._y;
+
+                        while (!finish) {
+                            if (coors._y < 0 || coors._y >= _size
+                                    || coors._x < 0 || coors._x >= _size
+                                    || !solucion.casillas[coors._x][coors._y].isLock()
+                                    || solucion.casillas[coors._x][coors._y].getTypeColor() == TipoCelda.ROJO) {
+
+                                index++;
+
+                                if (index < dirs.length) {
+                                    // Reseteamos los valores para comprobar en la siguiente dirección
+                                    coors._x = ind._x + dirs[index]._x;
+                                    coors._y = ind._y + dirs[index]._y;
+                                } else {
+                                    finish = true;
+                                }
+                            }
+                            //  Si encontramos una celda gris, la ponemos a azul y seguimos mirando en la misma línea
+                            else if (solucion.casillas[coors._x][coors._y].getTypeColor() == TipoCelda.GRIS) {
+                                solucion.casillas[coors._x][coors._y].setTypeColor(TipoCelda.AZUL);
+
+                                coors._x += dirs[index]._x;
+                                coors._y += dirs[index]._y;
+                            }
+                            //  Si es azul, pasamos a la siguiente
+                            else if (solucion.casillas[coors._x][coors._y].getTypeColor() == TipoCelda.AZUL) {
+                                coors._x += dirs[index]._x;
+                                coors._y += dirs[index]._y;
+                            }
+                        }
+                        break;
+                    }
+                    default: {
+                        tabCorrecto = true;
+                        solUnica = true;
+
+                        ////Si no encuentra pistas posibles y el tablero no está completo es que tiene varias soluciones
+                        //solUnica = true;
+                        //for (int x = 0; x < _size; x++) {
+                        //    for (int y = 0; y < _size; y++) {
+                        //        if (solucion.casillas[x][y].getTypeColor() == TipoCelda.GRIS) {
+                        //            solUnica = false;
+                        //        }
+                        //    }
+                        //}
+                        //break;
+                    }
+                }
+            }
+        }
     }
 
     private void RenderizaConsola() {
@@ -226,13 +338,13 @@ public class Tablero {
 
         for(int x = 0 ; x < _size ; x++){
             for(int y = 0 ; y < _size ; y++){
-                if(casillas[x][y].GetColor() == TipoCelda.GRIS){
+                if(casillas[x][y].getTypeColor() == TipoCelda.GRIS){
                     System.out.print("X ");
                 }
-                else if(casillas[x][y].GetColor() == TipoCelda.ROJO){
+                else if(casillas[x][y].getTypeColor() == TipoCelda.ROJO){
                     System.out.print("R ");
                 }
-                else if(casillas[x][y].GetColor() == TipoCelda.AZUL){
+                else if(casillas[x][y].getTypeColor() == TipoCelda.AZUL){
                     System.out.print(((CeldaAzul)casillas[x][y]).getValue() + " ");
                 }
             }
@@ -280,7 +392,7 @@ public class Tablero {
         while (!azulesPuesto){
             int indX = r.nextInt(_size);
             int indY = r.nextInt(_size);
-            if(!casillas[indX][indY].IsLock()) {
+            if(!casillas[indX][indY].isLock()) {
                 //  Inicializamos el valor de la celda de forma aleatoria
                 int valor = r.nextInt(_size) + 1;
                 if(AzulesValidos(indX, indY, valor)) {
@@ -313,9 +425,9 @@ public class Tablero {
         while (!rojosPuesto){
             int indX = r.nextInt(_size);
             int indY = r.nextInt(_size);
-            if(!casillas[indX][indY].IsLock()){
+            if(!casillas[indX][indY].isLock()){
                 //if(RojosValidos(indX,indY)){
-                if(casillas[indX][indY].GetColor() == TipoCelda.GRIS) {
+                if(casillas[indX][indY].getTypeColor() == TipoCelda.GRIS) {
                     Vector2 ind = new Vector2(indX,indY);
                     Vector2 pos = casillas[indX][indY].getPos();
                     casillas[indX][indY] = new CeldaRoja(ind,0,pos);
@@ -356,8 +468,8 @@ public class Tablero {
         while (!finish && !existeSolucion){
             if (coors._y < 0 || coors._y >= _size
                     || coors._x < 0 || coors._x >= _size
-                    || !casillas[coors._x][coors._y].IsLock()
-                    || casillas[ coors._x][ coors._y].GetColor() == TipoCelda.ROJO) {
+                    || !casillas[coors._x][coors._y].isLock()
+                    || casillas[ coors._x][ coors._y].getTypeColor() == TipoCelda.ROJO) {
 
                 index++;
 
@@ -371,12 +483,12 @@ public class Tablero {
                 }
             }
             //  Si encontramos una celda gris, pasamos a la siguiente celda en la misma dirección
-            else if (casillas[coors._x][coors._y].GetColor() == TipoCelda.GRIS) {
+            else if (casillas[coors._x][coors._y].getTypeColor() == TipoCelda.GRIS) {
                 coors._x += dirs[index]._x;
                 coors._y += dirs[index]._y;
             }
             //  Si es azul, comprobamos que dicho azul tiene más salidas para no bloquear una posible solución
-            else if(casillas[coors._x][coors._y].GetColor() == TipoCelda.AZUL){
+            else if(casillas[coors._x][coors._y].getTypeColor() == TipoCelda.AZUL){
                 existeSolucion = AzulConSalidas(coors._x,coors._y,x,y);
             }
 
@@ -415,8 +527,8 @@ public class Tablero {
              * */
             if(coors._y < 0 || coors._y >= _size
                     || coors._x < 0 || coors._x >= _size
-                    || !casillas[coors._x][coors._y].IsLock()
-                    || casillas[coors._x][coors._y].GetColor() == TipoCelda.ROJO) {
+                    || !casillas[coors._x][coors._y].isLock()
+                    || casillas[coors._x][coors._y].getTypeColor() == TipoCelda.ROJO) {
                 index++;
                 if(index < dirs.length) {
                     // Reseteamos los valores para comprobar en la siguiente dirección
@@ -431,11 +543,11 @@ public class Tablero {
             /**
              * Comprobación de si la casilla adyacente es azul
              * */
-            else if(casillas[coors._x][coors._y].GetColor() == TipoCelda.AZUL
-            || casillas[coors._x][coors._y].GetColor() == TipoCelda.GRIS)
+            else if(casillas[coors._x][coors._y].getTypeColor() == TipoCelda.AZUL
+            || casillas[coors._x][coors._y].getTypeColor() == TipoCelda.GRIS)
             {
                 adyacentes++;
-                if(casillas[coors._x][coors._y].GetColor() == TipoCelda.AZUL)
+                if(casillas[coors._x][coors._y].getTypeColor() == TipoCelda.AZUL)
                     adyAzules++;
 
                 // Nos movemos a la siguiente casilla
@@ -481,7 +593,7 @@ public class Tablero {
         while (!finish){
             if (coors._y < 0 || coors._y >= _size
                     || coors._x < 0 || coors._x >= _size
-                    || casillas[coors._x][coors._y].GetColor() == TipoCelda.ROJO
+                    || casillas[coors._x][coors._y].getTypeColor() == TipoCelda.ROJO
                     //  Descartar de donde vengo
                     || (coors._x == redX && coors._y == redY)) {
 
@@ -496,8 +608,8 @@ public class Tablero {
                     finish = true;
                 }
             }
-            else if (casillas[coors._x][coors._y].GetColor() == TipoCelda.GRIS
-                || casillas[coors._x][coors._y].GetColor() == TipoCelda.AZUL ) {
+            else if (casillas[coors._x][coors._y].getTypeColor() == TipoCelda.GRIS
+                || casillas[coors._x][coors._y].getTypeColor() == TipoCelda.AZUL ) {
                 coors._x += dirs[index]._x;
                 coors._y += dirs[index]._y;
                 elementos++;

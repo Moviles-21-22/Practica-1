@@ -9,7 +9,6 @@ import es.ucm.arblemar.engine.Vector2;
 import es.ucm.arblemar.gamelogic.TipoCelda;
 import es.ucm.arblemar.gamelogic.gameobject.GameObject;
 
-
 /**
  * Comportamiento de la celda cuando se le da click
  * @return Devuelve si la celda está bloqueada o no, de manera que
@@ -42,9 +41,9 @@ public abstract class Celda extends GameObject {
         index = ind;
     }
 
-    public void setRadio(float imp){
-        radio = (int)imp / 4;
-    }
+    public abstract void render(Graphics g);
+
+    protected abstract boolean Click();
 
     //  Determina si la celda ha sido "clickeada"
     public boolean isClicked(es.ucm.arblemar.engine.Vector2 mouseClicked){
@@ -55,6 +54,9 @@ public abstract class Celda extends GameObject {
         return distance <= radio;
     }
 
+    public boolean isLock(){
+        return _lock;
+    }
 
     public void clicked() {
         // Cambia de color
@@ -80,28 +82,23 @@ public abstract class Celda extends GameObject {
         }
     }
 
-    protected abstract boolean Click();
-
-    public TipoCelda GetColor(){
-        return _tipoCelda;
-    }
-
-    public boolean IsLock(){
-        return _lock;
-    }
-
     public void setLock(boolean lock){
         _lock = lock;
+    }
+
+    public void setTypeColor(TipoCelda type) {
+        _tipoCelda = type;
+    }
+
+    public TipoCelda getTypeColor(){
+        return _tipoCelda;
     }
 
     public Vector2 getIndex(){
         return index;
     }
 
-    public abstract void render(Graphics g);
-
     public int getValue(){
         return valor;
     }
-
 };

@@ -36,13 +36,13 @@ public enum TipoPista {
      */
     SOBRE_ADYACENCIA_ROJA(4),
 
-    //  Además, hay pistas que ocurren sobre casillas que no son números:
-
     /**
      * Si una celda está vacía y cerrada y no ve ninguna celda azul, entonces es pared (todos
      * los puntos azules deben ver al menos a otro).
      */
     NO_VEO_AZUL(5),
+
+    //  Además, hay pistas que ocurren sobre casillas que no son números:
 
     /**
      * En sentido opuesto, si hay una celda punto puesta por el usuario que está cerrada
@@ -50,14 +50,15 @@ public enum TipoPista {
      */
     AZUL_AISLADA(6),
 
-    //  Es posible añadir pistas adicionales que resulten más explicativas, aunque no sean
-    //  estrictamente necesarias porque están cubiertas por las anteriores:
-
     /**
      * Un número que no ve suficientes puntos no está aún cerrado y solo tiene abierta una
      * dirección. Está cubierta por la pista 3.
      */
     ONE_DIRECTION(7),
+
+    //  Es posible añadir pistas adicionales que resulten más explicativas, aunque no sean
+    //  estrictamente necesarias porque están cubiertas por las anteriores:
+
 
     /**
      * Un número no está cerrado y tiene varias direcciones, pero la suma alcanzable es el
@@ -72,10 +73,7 @@ public enum TipoPista {
      * */
     SUMA_MENOR(9),
 
-
-    PISTA_10(10),
-
-    MAX(11);
+    MAX(10);
 
     private int value;
 
@@ -86,5 +84,4 @@ public enum TipoPista {
     TipoPista(int i) {
         this.value = i;
     }
-
 }

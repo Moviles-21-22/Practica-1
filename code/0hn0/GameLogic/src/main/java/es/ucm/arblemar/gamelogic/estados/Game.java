@@ -124,7 +124,7 @@ public class Game implements App {
                         //  Es de tipo celda
                         obj = tab.getCeldaClicked(eventPos);
                         if(obj != null){
-                            switch (((Celda)obj).GetColor()){
+                            switch (((Celda)obj).getTypeColor()){
                                 case GRIS:{
                                     tab.AgregaCeldaAzul(((Celda)obj).getIndex());
                                     break;
