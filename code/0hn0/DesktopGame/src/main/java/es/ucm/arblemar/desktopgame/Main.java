@@ -9,7 +9,7 @@ public class Main {
     public static void main (String [] args){
         DesktopEngine engine = new DesktopEngine();
         App loadAssets = new LoadAssets(engine);
-        if(!engine.init(loadAssets, "TESTEO")) {
+        if(!engine.init(loadAssets, "0hn0", 400, 600)) {
             System.out.println("Algo fue mal");
             return;
         }

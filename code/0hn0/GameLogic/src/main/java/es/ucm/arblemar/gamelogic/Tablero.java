@@ -8,6 +8,7 @@ import java.util.Vector;
 import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Vector2;
+import es.ucm.arblemar.gamelogic.assets.Assets;
 import es.ucm.arblemar.gamelogic.gameobject.Celda;
 import es.ucm.arblemar.gamelogic.gameobject.GameObject;
 import es.ucm.arblemar.gamelogic.gameobject.celda.CeldaAzul;
@@ -285,7 +286,7 @@ public class Tablero {
                 if(AzulesValidos(indX, indY, valor)) {
                     Vector2 ind = new Vector2(indX,indY);
                     Vector2 pos = casillas[indX][indY].getPos();
-                    casillas[indX][indY] = new CeldaAzul(valor, ind,0,pos);
+                    casillas[indX][indY] = new CeldaAzul(Assets.jose, 10, valor, ind,0,pos);
                     casillas[indX][indY].setLock(true);
                     indexAzulesOriginales[contAzul] = new Vector2(indX,indY);
                     contAzul++;

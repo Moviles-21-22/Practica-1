@@ -30,7 +30,6 @@ public class DesktopFont implements Font {
 
     @Override
     public void setSize(float newSize) {
-
         _javaFont = _javaFont.deriveFont(newSize);
     }
 

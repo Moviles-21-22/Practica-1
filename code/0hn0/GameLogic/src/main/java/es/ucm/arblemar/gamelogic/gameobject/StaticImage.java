@@ -4,14 +4,17 @@ import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Image;
 import es.ucm.arblemar.engine.Vector2;
 
-public class Sprite extends GameObject{
+public class StaticImage extends GameObject{
     private Image _image;
     private int width;
     private int height;
 
-    public Sprite(Image image, int x, int y, int w, int h, int id){
+    public StaticImage(Image image, int x, int y, int w, int h, int id){
         super(id);
         pos = new Vector2(x, y);
+        width = w;
+        height = h;
+        _image = image;
     }
 
     @Override
@@ -38,6 +41,6 @@ public class Sprite extends GameObject{
 
     @Override
     public void update(float deltaTime) {
-        
+
     }
 }

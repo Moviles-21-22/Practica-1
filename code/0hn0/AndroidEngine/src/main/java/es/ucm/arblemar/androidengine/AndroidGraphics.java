@@ -30,7 +30,7 @@ public class AndroidGraphics extends AbstractGraphics {
     }
 
     @Override
-    public Image newImage(String name, int w, int h){
+    public Image newImage(String name){
         return null;
     }
 
@@ -45,18 +45,18 @@ public class AndroidGraphics extends AbstractGraphics {
     }
 
     @Override
-    public void drawImage(Image image, int x, int y){
-
-    }
-
-    @Override
     public void setColor(int color){
 
     }
 
     @Override
-    public void setFont(Font font) {
+    public void setFont(Font font, int tam) {
         
+    }
+
+    @Override
+    public void drawImage(Image image, int x, int y, int w, int h) {
+
     }
 
     @Override
@@ -70,7 +70,7 @@ public class AndroidGraphics extends AbstractGraphics {
     }
 
     @Override
-    public void drawText(String text, int x, int y) {
+    public void drawText(String text, int x, int y, Font font, int tam) {
 
     }
 

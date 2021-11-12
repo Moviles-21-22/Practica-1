@@ -16,10 +16,10 @@ public class DesktopEngine implements Engine {
     }
 
     @Override
-    public boolean init(App initApp, String nameGame) {
+    public boolean init(App initApp, String nameGame, int w, int h) {
         _currentApp = initApp;
         _input = new DesktopInput(this);
-        _graphics = new DesktopGraphics(nameGame, this);
+        _graphics = new DesktopGraphics(nameGame, this, w, h);
         return _graphics.init() && _input.init() && _currentApp.init();
     }
 
@@ -39,18 +39,14 @@ public class DesktopEngine implements Engine {
             // Pintamos el frame con el BufferStrategy
             do {
                 do {
-                    java.awt.Graphics graphics = strategy.getDrawGraphics();
-
                     _graphics.updateGraphics();
                     _graphics.prepareFrame();
                     try {
                         _currentApp.render();
                     }
                     finally {
-                        graphics.dispose();
+                        _graphics.restore();
                     }
-
-
                 } while(strategy.contentsRestored());
                 strategy.show();
             } while(strategy.contentsLost());
@@ -59,7 +55,6 @@ public class DesktopEngine implements Engine {
 
     @Override
     public boolean initNewApp(App newApp){
-        // Borrar estado anterior?
         _currentApp = newApp;
         return _currentApp.init();
     }

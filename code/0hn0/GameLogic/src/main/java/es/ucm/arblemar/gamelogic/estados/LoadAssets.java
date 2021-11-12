@@ -19,16 +19,15 @@ public class LoadAssets implements App {
             Graphics graphics = _mainEngine.getGraphics();
 
             //Sprites
-            Assets.close = graphics.newImage("close.png", 30, 30);
-            Assets.q42 = graphics.newImage("q42.png", 35, 40);
-            Assets.history = graphics.newImage("history.png", 35, 40);
-            Assets.eye = graphics.newImage("eye.png", 35, 40);
-            Assets.lock = graphics.newImage("lock.png", 35, 40);
+            Assets.close = graphics.newImage("close.png");
+            Assets.q42 = graphics.newImage("q42.png");
+            Assets.history = graphics.newImage("history.png");
+            Assets.eye = graphics.newImage("eye.png");
+            Assets.lock = graphics.newImage("lock.png");
 
             //Fuentes
-            Assets.molle = graphics.newFont("Molle-Regular.ttf", 32, false);
-            Assets.josefinSans32 = graphics.newFont("JosefinSans-Bold.ttf", 32, true);
-            Assets.josefinSans64 = graphics.newFont("JosefinSans-Bold.ttf", 64, true);
+            Assets.molle = graphics.newFont("Molle-Regular.ttf", 1, false);
+            Assets.jose = graphics.newFont("JosefinSans-Bold.ttf", 1, true);
 
             App mainMenu = new MainMenu(_mainEngine);
             return _mainEngine.initNewApp(mainMenu);

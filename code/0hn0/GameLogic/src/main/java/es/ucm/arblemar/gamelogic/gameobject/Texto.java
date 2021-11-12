@@ -11,13 +11,13 @@ public class Texto  extends GameObject {
     //  Tipo de fuente
     private Font fuente;
     //  Tamaño de la fuente
-    private float tam;
+    private int tam;
     //  Texto a escribir
     private String texto;
     //  Rectangulo para las colisiones
     Rectangle rect;
 
-    public Texto(Rectangle _rect, int _color, Font _fuente,float _tam,int _id) {
+    public Texto(Rectangle _rect, int _color, Font _fuente, int _tam,int _id) {
         super(_id);
 
         color = _color;
@@ -58,8 +58,8 @@ public class Texto  extends GameObject {
     public void render(Graphics g){
         if(renderActive){
             g.setColor(color);
-            g.setFont(fuente);
-            g.drawText(texto, pos._x , pos._y);
+            g.setFont(fuente, tam);
+            g.drawText(texto, pos._x , pos._y, fuente, tam);
             if(interactive){
                 g.drawRect(pos._x, pos._y, (int)rect.width, (int)rect.height);
                 g.setColor(0X333333FF);

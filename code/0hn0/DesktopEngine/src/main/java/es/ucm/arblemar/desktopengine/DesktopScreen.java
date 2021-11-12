@@ -16,6 +16,7 @@ public class DesktopScreen extends JFrame {
 
     public boolean init(int winWidth, int winHeight){
         setSize(winWidth, winHeight);
+        setResizable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         // Renderizado activo
@@ -33,7 +34,6 @@ public class DesktopScreen extends JFrame {
             System.err.println("No pude crear la BufferStrategy");
             return false;
         } else {
-
             System.out.println("BufferStrategy tras " + (100 - intentos) + " intentos.");
         }
 

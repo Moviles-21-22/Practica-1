@@ -15,7 +15,7 @@ public class Assets {
     public static Image q42;
 
     // Fonts
-    public static Font josefinSans32;
+    public static Font jose;
     public static Font josefinSans64;
     public static Font molle;
 

@@ -37,12 +37,12 @@ public class SelectionMenu implements App {
 
             //  Texto informativo
             Rectangle rectInfo = new Rectangle((g.getWidth()/2) - 100 ,(g.getHeight() / 3) - 75,100,75);
-            Texto textInfo = new Texto(rectInfo,0x1CC0E0FF, Assets.josefinSans32,25,01);
+            Texto textInfo = new Texto(rectInfo,0x1CC0E0FF, Assets.jose,25,01);
             textInfo.setTexto("Elija el tamaño a jugar");
             objects.add(textInfo);
 
 
-            CeldaAzul c1 = new CeldaAzul(4,new Vector2(0,0),0,new Vector2(250,250));
+            CeldaAzul c1 = new CeldaAzul(Assets.molle, 10,4,new Vector2(0,0),0,new Vector2(250,250));
             c1.setInteractive();
             objects.add(c1);
 
@@ -50,7 +50,7 @@ public class SelectionMenu implements App {
             c2.setInteractive();
             objects.add(c2);
 
-            CeldaAzul c3 = new CeldaAzul(6,new Vector2(0,0),0,new Vector2(450,250));
+            CeldaAzul c3 = new CeldaAzul(Assets.molle, 10, 6,new Vector2(0,0),0,new Vector2(450,250));
             c3.setInteractive();
             objects.add(c3);
 
@@ -58,7 +58,7 @@ public class SelectionMenu implements App {
             c4.setInteractive();
             objects.add(c4);
 
-            CeldaAzul c5 = new CeldaAzul(8,new Vector2(0,0),0,new Vector2(350,350));
+            CeldaAzul c5 = new CeldaAzul(Assets.molle, 10, 8,new Vector2(0,0),0,new Vector2(350,350));
             c5.setInteractive();
             objects.add(c5);
 

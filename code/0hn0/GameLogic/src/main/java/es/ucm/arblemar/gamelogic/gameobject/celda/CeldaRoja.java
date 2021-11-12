@@ -50,10 +50,6 @@ public class CeldaRoja extends Celda {
     public void render(es.ucm.arblemar.engine.Graphics g) {
         g.setColor(color);
         g.fillCircle(pos, (int)radio);
-        if (valor > 0) {
-            g.setColor(0XFFFFFFFF);
-            g.drawText(Integer.toString(valor), (int)(pos._x + (radio / 2)), (int)(pos._y + (radio / 2)));
-        }
 //        if(interactive){
 //            g.setColor(0X333333FF);
 //            g.drawCircle(pos,radio);

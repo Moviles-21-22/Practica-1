@@ -14,10 +14,8 @@ import es.ucm.arblemar.engine.Image;
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
 public class DesktopImage implements Image {
-    public DesktopImage(String filename, int w, int h){
+    public DesktopImage(String filename){
         _fileName = filename;
-        _width = w;
-        _heigth = h;
     }
 
     @Override
@@ -36,20 +34,18 @@ public class DesktopImage implements Image {
 
     @Override
     public int getWidth() {
-        return _heigth;
+        return _javaImage.getWidth(null);
     }
 
     @Override
     public int getHeight() {
-        return _width;
+        return _javaImage.getHeight(null);
     }
 
-    public BufferedImage getBuffImage() {
+    public java.awt.Image getImage() {
         return _javaImage;
     }
 
-    private BufferedImage _javaImage;
+    private java.awt.Image _javaImage;
     private String _fileName;
-    private int _width;
-    private int _heigth;
 }

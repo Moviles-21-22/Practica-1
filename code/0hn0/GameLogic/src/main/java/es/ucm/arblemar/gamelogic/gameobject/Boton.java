@@ -38,7 +38,7 @@ public class Boton extends GameObject {
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(image, pos._x, pos._y);
+        g.drawImage(image, pos._x, pos._y, image.getWidth(), image.getHeight());
         if(interactive){
             g.drawRect(pos._x ,pos._y ,image.getWidth(), image.getHeight());
             g.setColor(0X333333FF);

@@ -9,7 +9,7 @@ public interface Graphics {
     /**
      * Carga una imagen almacenada en el contenedor de recursos de la aplicación a partir de su nombre
      * */
-    Image newImage(String name, int w, int h) throws Exception;
+    Image newImage(String name) throws Exception;
     /**
      * Crea una nueva fuente del tamaño especificado a partir de un fichero .ttf. Se indica si se desea o no fuente
      * en negrita
@@ -28,13 +28,13 @@ public interface Graphics {
      * Actualiza la fuente de las operaciones de renderizado posteriores
      * @param font se espera una fuente tipo Font
      * */
-    void setFont(Font font);
+    void setFont(Font font, int tam);
     /**
      * Dibuja una imagen
      * @param x posición X en pantalla
      * @param y posición Y en pantalla
      * */
-    void drawImage(Image image, int x, int y);
+    void drawImage(Image image, int x, int y, int w, int h);
     /**
      * Dibuja una línea desde el P(x1, y1) hasta Q(x2, y2)
      * */
@@ -54,7 +54,7 @@ public interface Graphics {
      * @param x posición X en pantalla
      * @param y posición Y en pantalla
      * */
-    void drawText(String text, int x, int y);
+    void drawText(String text, int x, int y, Font font, int tam);
     /**
      * Rellena un circulo
      * */
@@ -71,7 +71,14 @@ public interface Graphics {
      * Obtiene el alto de la ventana
      * */
     int getHeight();
-
+    /**
+     * Devuelve el ancho de la ventana lógica
+     * */
+    public int getLogWidth();
+    /**
+     * Devuelve el alto de la ventana lógica
+     * */
+    public int getLogHeight();
     //==============METODOS-CONTROL-CANVAS=================
     void updateGraphics();
     /**

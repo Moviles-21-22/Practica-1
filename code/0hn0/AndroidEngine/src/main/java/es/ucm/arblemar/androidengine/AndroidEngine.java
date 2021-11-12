@@ -22,7 +22,7 @@ public class AndroidEngine implements Engine {
 //    }
 
     @Override
-    public boolean init(App initAp, String nameGame) {
+    public boolean init(App initAp, String nameGame, int w, int h) {
         currApp = initAp;
         input = new AndroidInput();
         graphics = new AndroidGraphics(input);

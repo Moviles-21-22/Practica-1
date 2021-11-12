@@ -8,6 +8,8 @@ import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Input.TouchEvent;
 import es.ucm.arblemar.engine.Vector2;
 import es.ucm.arblemar.gamelogic.gameobject.GameObject;
+import es.ucm.arblemar.gamelogic.gameobject.Rectangulo;
+import es.ucm.arblemar.gamelogic.gameobject.StaticImage;
 import es.ucm.arblemar.gamelogic.gameobject.Texto;
 import es.ucm.arblemar.gamelogic.assets.Assets;
 
@@ -27,26 +29,44 @@ public class MainMenu implements App {
             gameObjects = new ArrayList<>();
             Graphics g = _mainEngine.getGraphics();
 
-            Rectangle tRect = new Rectangle(g.getWidth() / 2 - 100,g.getHeight() / 2 - 50,100,50);
-            Texto t = new Texto(tRect,0X333333FF,Assets.josefinSans32,50,00);
+            float width = (g.getLogWidth() / 5) * 3, height = (g.getLogWidth() / 7),
+            posX = (g.getLogWidth() / 5), posY = (g.getLogHeight() / 14);
+            Rectangle tituloRect = new Rectangle((int)posX,(int)posY + 100, (int)width, (int)height);
+            Texto tituloText = new Texto(tituloRect,0X333333FF,Assets.molle,74,01);
+            tituloText.setTexto("0h n0");
+            gameObjects.add(tituloText);
+
+            width = (g.getLogWidth() / 3); height = (g.getLogWidth() / 7);
+            posX = (g.getLogWidth() / 3); posY = (g.getLogWidth() / 7) * 3;
+            Rectangle tRect = new Rectangle((int)posX,(int)posY + 100,(int)width, (int)height);
+            Texto t = new Texto(tRect,0X333333FF,Assets.jose,50,02);
             t.setTexto("JUGAR");
             t.setInteractive();
             gameObjects.add(t);
 
-            Rectangle tituloRect = new Rectangle(g.getWidth() / 2 - 100,g.getHeight() / 3 - 100,100,100);
-            Texto tituloText = new Texto(tituloRect,0X333333FF,Assets.molle,100,01);
-            tituloText.setTexto("Oh no");
-            gameObjects.add(tituloText);
-
-            Rectangle infoRect = new Rectangle(g.getWidth() / 2 - 150,g.getHeight() / 2 + 100,100,100);
-            Texto infoText = new Texto(infoRect,0X333333FF,Assets.josefinSans32,(float)g.getHeight() / 30,02);
+            width = (g.getLogWidth() / 5) * 4 ; height = (g.getLogWidth() / 12);
+            posX = (g.getLogWidth() / 10); posY = (g.getLogWidth() / 3) * 2;
+            Rectangle infoRect = new Rectangle((int)posX, (int)posY + 100, (int)width, (int)height);
+            Texto infoText = new Texto(infoRect,0X333333FF, Assets.jose, 30,03);
             infoText.setTexto("Un juego copiado a Q42");
             gameObjects.add(infoText);
 
-            Rectangle nameRect = new Rectangle(g.getWidth() / 2 - 150,g.getHeight() / 2 + 150,100,100);
-            Texto nameText = new Texto(nameRect,0X333333FF,Assets.josefinSans32,(float)g.getHeight() / 30,03);
+            posY = (g.getLogWidth() / 4) * 3;
+            Rectangle nameRect = new Rectangle((int)posX, (int)posY + 100, (int)width, (int)height);
+            Texto nameText = new Texto(nameRect,0X333333FF, Assets.jose, 30,04);
             nameText.setTexto("Creado por Martin Kool");
             gameObjects.add(nameText);
+
+            width = (g.getLogWidth() / 10) * 2 ; height = (g.getLogWidth() / 9) * 2;
+            posX = (g.getLogWidth() / 5) * 2; posY = (g.getLogWidth() / 9) * 8;
+            StaticImage icono = new StaticImage(Assets.q42, (int)posX, (int)posY + 100, (int)width, (int)height, 05);
+            gameObjects.add(icono);
+
+            width= g.getLogWidth(); height = g.getLogWidth();
+            posX = 0; posY = 0;
+            Rectangulo fondo = new Rectangulo(0xFFFFFFFF, (int)posX, (int)posY, (int)width, (int)height, 06);
+            gameObjects.add(fondo);
+
         }
         catch (Exception e){
             return false;
@@ -63,15 +83,6 @@ public class MainMenu implements App {
     public void render() {
         Graphics g = _mainEngine.getGraphics();
         g.clear(0);
-
-        // Fondo de pantalla
-        g.setColor(0xFFFFFFFF);
-        g.fillRect(0, 0, 400, 600);
-
-        //Ponemos la imagen de la empresa (si conseguimos cargar la imagen)
-        if (Assets.q42 != null) {
-            g.drawImage(Assets.q42, 280, 350);
-        }
 
         for(GameObject obj : gameObjects){
             obj.render(g);

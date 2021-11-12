@@ -4,7 +4,7 @@ public interface Engine {
     /**
      * Inicializa el engine
      * */
-    public boolean init(App initAp, String nameGame);
+    public boolean init(App initAp, String nameGame, int w, int h);
     /**
      * Bucle principal del juego. Encargado de actualizar render y update de los
      * estados del juego, así como de llevar la cuenta del deltaTime

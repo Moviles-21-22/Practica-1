@@ -2,7 +2,7 @@ package es.ucm.arblemar.engine;
 
 public abstract class AbstractGraphics implements Graphics {
 
-    protected AbstractGraphics(float w, float h){
+    protected AbstractGraphics(int w, int h){
         _wLogWindow = w;
         _hLogWindow = h;
         _posLogX = 0.0f;
@@ -41,9 +41,11 @@ public abstract class AbstractGraphics implements Graphics {
 
         return new Vector2(newW, newH);
     }
-    /**
-     *
-     * */
+
+    public int realSize(int size){
+        _scaleFactor = scaleFactor();
+        return (int)(size * _scaleFactor);
+    }
     private Vector2 translateWindow() {
         float offsetX = (getWidth() - (_wLogWindow * _scaleFactor)) / 2.0f;
         float offsetY = (getHeight() - (_hLogWindow) * _scaleFactor) / 2.0f;
@@ -60,6 +62,16 @@ public abstract class AbstractGraphics implements Graphics {
 
         translate(150, 100);
         scale(_scaleFactor, _scaleFactor);
+    }
+
+    @Override
+    public int getLogWidth(){
+        return (int)_wLogWindow;
+    }
+
+    @Override
+    public int getLogHeight(){
+        return (int)_hLogWindow;
     }
 
     // Posaición lógica
