@@ -12,7 +12,7 @@ public class CeldaGris extends Celda {
         valor = 0;
         //  TODO: poner color gris
         //  Color gris
-        color = 0X333333FF;
+        color = 0XEEEEEEFF;
         //  TODO : puede variar
         radio = 100;
         interactive = true;

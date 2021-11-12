@@ -69,7 +69,7 @@ public abstract class Celda extends GameObject {
             }
             case ROJO: {
                 _tipoCelda = TipoCelda.GRIS;
-                color = 0X333333FF;
+                color = 0XEEEEEEFF;
                 break;
             }
             default: {

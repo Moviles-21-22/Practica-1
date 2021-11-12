@@ -64,84 +64,84 @@ public class GestorPistas {
                 }
                 break;
             }
-            //case 1:
-            //{
-            //    //  Posición de la pista si es encontrada
-            //    indexFeedback = PistaDos();
-            //      Pista encontrada
-            //    if(indexFeedback._x != -1){
-            //        p = new Pista(TipoPista.AZUL_INCORRECTO,indexFeedback);
-            //        tab.AgregaPista(p);
-            //    }
-            //    break;
-            //}
-            //case 2:
-            //{
-            //    indexFeedback = PistaTres();
-            //    if(indexFeedback._y == -1){
-            //        p = new Pista(TipoPista.ADYACENTE_DONETE,indexFeedback);
-            //        tab.AgregaPista(p);
-            //    }
-            //    break;
-            //}
-            //case 3:
-            //{
-            //    indexFeedback = PistaCuatro();
-            //    if(indexFeedback._y == -1){
-            //        p = new Pista(TipoPista.SOBRE_ADYACENCIA_AZUL,indexFeedback);
-            //        tab.AgregaPista(p);
-            //    }
-            //    break;
-            //}
+            case 1:
+            {
+                //  Posición de la pista si es encontrada
+                indexFeedback = PistaDos();
+                //  Pista encontrada
+                if(indexFeedback._x != -1){
+                    p = new Pista(TipoPista.AZUL_INCORRECTO,indexFeedback);
+                    tab.AgregaPista(p);
+                }
+                break;
+            }
+            case 2:
+            {
+                indexFeedback = PistaTres();
+                if(indexFeedback._y != -1){
+                    p = new Pista(TipoPista.ADYACENTE_DONETE,indexFeedback);
+                    tab.AgregaPista(p);
+                }
+                break;
+            }
+            case 3:
+            {
+                indexFeedback = PistaCuatro();
+                if(indexFeedback._y != -1){
+                    p = new Pista(TipoPista.SOBRE_ADYACENCIA_AZUL,indexFeedback);
+                    tab.AgregaPista(p);
+                }
+                break;
+            }
             case 4:
             {
                 indexFeedback = PistaCinco();
-                if(indexFeedback._y == -1){
+                if(indexFeedback._y != -1){
                     p = new Pista(TipoPista.SOBRE_ADYACENCIA_ROJA,indexFeedback);
                     tab.AgregaPista(p);
                 }
                 break;
             }
-            //case 5:{
-            //    indexFeedback = PistaSeis();
-            //    if(indexFeedback._y == -1){
-            //        p = new Pista(TipoPista.AZUL_AISLADA,indexFeedback);
-            //        tab.AgregaPista(p);
-            //    }
-            //    break;
-            //}
+            case 5:{
+                indexFeedback = PistaSeis();
+                if(indexFeedback._y != -1){
+                    p = new Pista(TipoPista.AZUL_AISLADA,indexFeedback);
+                    tab.AgregaPista(p);
+                }
+                break;
+            }
             //case 6:{
             //    indexFeedback = PistaSiete();
-            //    if(indexFeedback._y == -1){
+            //    if(indexFeedback._y != -1){
             //        p = new Pista(TipoPista.ONE_DIRECTION,indexFeedback);
             //        tab.AgregaPista(p);
             //    }
             //    break;
             //}
-            //case 7:{
-            //    indexFeedback = PistaOcho();
-            //    if(indexFeedback._y == -1){
-            //        p = new Pista(TipoPista.SUMA_ALCANZABLE,indexFeedback);
-            //        tab.AgregaPista(p);
-            //    }
-            //    break;
-            //}
-            //case 8:{
-            //    indexFeedback = PistaNueve();
-            //    if(indexFeedback._y == -1){
-            //        p = new Pista(TipoPista.SUMA_MENOR,indexFeedback);
-            //        tab.AgregaPista(p);
-            //    }
-            //    break;
-            //}
-            //case 9:{
-            //    indexFeedback = PistaDiez();
-            //    if(indexFeedback._y == -1){
-            //        p = new Pista(TipoPista.PISTA_10,indexFeedback);
-            //        tab.AgregaPista(p);
-            //    }
-            //    break;
-            //}
+            case 7:{
+                indexFeedback = PistaOcho();
+                if(indexFeedback._y != -1){
+                    p = new Pista(TipoPista.SUMA_ALCANZABLE,indexFeedback);
+                    tab.AgregaPista(p);
+                }
+                break;
+            }
+            case 8:{
+                indexFeedback = PistaNueve();
+                if(indexFeedback._y != -1){
+                    p = new Pista(TipoPista.SUMA_MENOR,indexFeedback);
+                    tab.AgregaPista(p);
+                }
+                break;
+            }
+            case 9:{
+                indexFeedback = PistaDiez();
+                if(indexFeedback._y != -1){
+                    p = new Pista(TipoPista.PISTA_10,indexFeedback);
+                    tab.AgregaPista(p);
+                }
+                break;
+            }
             default:{
                 break;
             }
@@ -154,7 +154,7 @@ public class GestorPistas {
      * que es un futuro error. Si no se incluye esta pista, el programa dará incorrectamente
      * varias veces la pista 3 para al final terminar indicando el error de la 5.
      * */
-    private  Vector2 PistaDiez(){
+    private  Vector2 PistaDiez() {
         Vector2 azulIncompleto = new Vector2(-1,-1);
 
         Vector2 coors = new Vector2(_indexAzules[0]._x, _indexAzules[0]._y);
@@ -186,7 +186,7 @@ public class GestorPistas {
                 }
                 //  Al acabar de ver en todas las direcciones
                 //  He encontrado las condiciones necesarias para determinar que esta pista existe
-                else if((grisesAdy + azulesAdy) < ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()){
+                else if((grisesAdy + azulesAdy) < ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._y]).getValue()){
                     azulIncompleto = _indexAzules[indexAz];
                     finish = true;
                 }
@@ -212,7 +212,7 @@ public class GestorPistas {
             }
             //  Encuentro una celda gris sigo en la misma dirección
             else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.GRIS
-            || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL ){
+            || _casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL){
 
                 if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL){
                     azulesAdy++;
@@ -221,7 +221,7 @@ public class GestorPistas {
                     grisesAdy++;
                 }
 
-                if((grisesAdy + azulesAdy) >= ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()){
+                if((grisesAdy + azulesAdy) >= ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._y]).getValue()){
                     indexAz++;
                     //  No quedan más azules para procesar
                     if(indexAz >= _indexAzules.length){
@@ -287,7 +287,7 @@ public class GestorPistas {
                 //  Al acabar de ver las direcciones, compruebo de que tenga salidas y que el numero
                 //  de adyacentes sea menor que el valor de la celda.
                 //  He encontrado las condiciones necesarias para determinar que esta pista existe
-                else if(salidas > 1 && adyacentes == ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()){
+                else if(salidas > 1 && adyacentes == ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._y]).getValue()){
                     azulIncompleto = _indexAzules[indexAz];
                     finish = true;
                 }
@@ -325,7 +325,7 @@ public class GestorPistas {
                 //  Caso en el que la salida sea el ultimo caso posible de salida
                 else{
                     //  He encontrado las condiciones necesarias para determinar que esta pista existe
-                    if(salidas > 1 && adyacentes == ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()){
+                    if(salidas > 1 && adyacentes == ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._y]).getValue()){
                         azulIncompleto = _indexAzules[indexAz];
                         finish = true;
                     }
@@ -353,7 +353,7 @@ public class GestorPistas {
             {
                 adyacentes++;
                 // Pasamos al siguiente azul
-                if(adyacentes > ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()){
+                if(adyacentes > ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._y]).getValue()){
                     indexAz++;
                     //  Existen más azules
                     if(indexAz < _indexAzules.length){
@@ -418,7 +418,7 @@ public class GestorPistas {
                 //  Al acabar de ver las direcciones, compruebo de que tenga salida y que el numero
                 //  de adyacentes sea menor que el valor de la celda.
                 //  He encontrado las condiciones necesarias para determinar que esta pista existe
-                else if(salida && adyacentes < ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()){
+                else if(salida && adyacentes < ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._y]).getValue()){
                     azulIncompleto = _indexAzules[indexAz];
                     finish = true;
                 }
@@ -466,19 +466,19 @@ public class GestorPistas {
                     }
                 }
                 //  Se encuentra una salida por primera vez
-                else{
+                else {
                     salida = true;
                     indexDir++;
                     //  Cambio de dirección al encontrar una salida
-                    if(indexDir < _dirs.length){
+                    if(indexDir < _dirs.length) {
                         currentDir = _dirs[indexDir];
                         coors._x = _indexAzules[indexAz]._x + currentDir._x;
                         coors._y = _indexAzules[indexAz]._y + currentDir._y;
                     }
                     //  Caso en el que la salida sea el ultimo caso posible de salida
-                    else{
+                    else {
                         //  He encontrado las condiciones necesarias para determinar que esta pista existe
-                        if(adyacentes < ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()){
+                        if(adyacentes < ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._y]).getValue()){
                             azulIncompleto = _indexAzules[indexAz];
                             finish = true;
                         }
@@ -490,7 +490,7 @@ public class GestorPistas {
             {
                 adyacentes++;
                 //  No he encontrado las condiciones necesarias para determinar que esta pista existe, descartada
-                if(adyacentes >= ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()){
+                if(adyacentes >= ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._y]).getValue()){
                     indexAz++;
                     //  Si todavia quedan azules, pasamos al siguiente azul y reiniciamos las direcciones
                     if(indexAz < _indexAzules.length){
@@ -634,16 +634,11 @@ public class GestorPistas {
                     finish = true;
                 }
             }
-            //  Si encuentra una celda gris, seguimos buscando en la misma dirección
-            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.GRIS){
-                coors._x =+ currentDir._x;
-                coors._y =+ currentDir._y;
-            }
-            //  Si encontramos una celda azul, se descarta
-            else if(_casillas[(int)coors._x][(int)coors._y]._tipoCelda == TipoCelda.AZUL)
+            //  Si encontramos una celda azul o gris, se descarta
+            else
             {
                 indexCeldas._x++;
-                if(indexCeldas._x >= _size ){
+                if(indexCeldas._x >= _size){
                     indexCeldas._x = 0;
                     indexCeldas._y++;
                     //  No quedan más celdas para procesar
@@ -651,15 +646,16 @@ public class GestorPistas {
                         celdaCerrada._x = -1;
                         celdaCerrada._y = -1;
                         finish = true;
-                        continue;
                     }
                 }
-                //  Reiniciamos las direcciones
-                indexDir = 0;
-                currentDir = _dirs[indexDir];
-                celdaCoors = _casillas[(int)indexCeldas._x][(int)indexCeldas._y].getIndex();
-                coors._x = celdaCoors._x + currentDir._x;
-                coors._y = celdaCoors._y + currentDir._y;
+                else {
+                    //  Reiniciamos las direcciones
+                    indexDir = 0;
+                    currentDir = _dirs[indexDir];
+                    celdaCoors = _casillas[(int) indexCeldas._x][(int) indexCeldas._y].getIndex();
+                    coors._x = celdaCoors._x + currentDir._x;
+                    coors._y = celdaCoors._y + currentDir._y;
+                }
             }
         }
         return celdaCerrada;
@@ -828,7 +824,7 @@ public class GestorPistas {
                 coors._x += currentDir._x;
 
                 //  He encontrado las condiciones necesarias para determinar que esta pista existe
-                if(adyacentes > ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()){
+                if(adyacentes > ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._y]).getValue()){
                     azulIncompleto._x = _indexAzules[indexAz]._x;
                     azulIncompleto._y = _indexAzules[indexAz]._y;
                     finish = true;
@@ -887,7 +883,7 @@ public class GestorPistas {
                     else {
 
                         //  He encontrado las condiciones necesarias para determinar que esta pista existe
-                        if(adyacentes < ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()){
+                        if(adyacentes < ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._y]).getValue()){
                             azulIncompleto._x = _indexAzules[indexAz]._x;
                             azulIncompleto._y = _indexAzules[indexAz]._y;
                             finish = true;
@@ -915,7 +911,7 @@ public class GestorPistas {
                 coors._x += currentDir._x;
 
                 //  No he encontrado las condiciones necesarias para determinar que esta pista existe
-                 if(adyacentes >= ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()){
+                 if(adyacentes >= ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._y]).getValue()){
                      azulIncompleto._x = -1;
                      azulIncompleto._y = -1;
                      finish = true;
@@ -964,7 +960,7 @@ public class GestorPistas {
                 /**
                  * Nos quedamos sin azules para donetiar
                  */
-                if(adyacentes > ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue()) {
+                if(adyacentes > ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._y]).getValue()) {
                     wrongBlue._x = _indexAzules[indexAz]._x;
                     wrongBlue._y = _indexAzules[indexAz]._y;
                     finish = true;
@@ -995,7 +991,7 @@ public class GestorPistas {
                  *  Si hay más adyacentes que el valor de la celda azul, entonces no es válido
                  *  Se termina la búsqueda
                  */
-                finish = adyacentes > ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._x]).getValue();
+                finish = adyacentes > ((CeldaAzul)_casillas[(int)_indexAzules[indexAz]._x][(int)_indexAzules[indexAz]._y]).getValue();
             }
         }
 
