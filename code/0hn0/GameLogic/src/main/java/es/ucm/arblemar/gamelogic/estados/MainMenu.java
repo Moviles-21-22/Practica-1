@@ -32,42 +32,43 @@ public class MainMenu implements App {
             Graphics g = _mainEngine.getGraphics();
 
             float width = (g.getLogWidth() / 5) * 3, height = (g.getLogWidth() / 7),
-            posX = (g.getLogWidth() / 5), posY = (g.getLogHeight() / 14);
+            posX = (g.getLogWidth() / 5) - 30, posY = (g.getLogHeight() / 14) + 30;
             Rectangle tituloRect = new Rectangle((int)posX, (int)posY, (int)width, (int)height);
-            Texto tituloText = new Texto(tituloRect,0X333333FF,Assets.molle,74,01);
-            tituloText.setTexto("0h n0");
+            Texto tituloText = new Texto(tituloRect,0X313131FF,Assets.molle,100,01);
+            tituloText.setTexto("Oh no");
             gameObjects.add(tituloText);
 
             width = (g.getLogWidth() / 3); height = (g.getLogWidth() / 7);
-            posX = (g.getLogWidth() / 3); posY = (g.getLogWidth() / 7) * 2;
+            posX = (g.getLogWidth() / 3); posY = (g.getLogWidth() / 7) * 2 + 10;
             Rectangle tRect = new Rectangle((int)posX,(int)posY + 100,(int)width, (int)height);
-            Texto t = new Texto(tRect,0X333333FF,Assets.jose,50,02);
-            t.setTexto("JUGAR");
+            Texto t = new Texto(tRect,0X313131FF,Assets.jose,56,02);
+            t.setTexto("Jugar");
             t.setInteractive();
             gameObjects.add(t);
 
             width = (g.getLogWidth() / 5) * 4 ; height = (g.getLogWidth() / 12);
-            posX = (g.getLogWidth() / 10); posY = (g.getLogWidth() / 3) * 2;
+            posX = (g.getLogWidth() / 10) + 60; posY = (g.getLogWidth() / 3) * 2 + 10;
             Rectangle infoRect = new Rectangle((int)posX, (int)posY + 100, (int)width, (int)height);
-            Texto infoText = new Texto(infoRect,0X333333FF, Assets.jose, 30,03);
+            Texto infoText = new Texto(infoRect,0XB6B3B6FF, Assets.jose, 20,03);
             infoText.setTexto("Un juego copiado a Q42");
             gameObjects.add(infoText);
 
-            posY = (g.getLogWidth() / 4) * 3;
+            posY = (g.getLogWidth() / 4) * 3 + 10;
             Rectangle nameRect = new Rectangle((int)posX, (int)posY + 100, (int)width, (int)height);
-            Texto nameText = new Texto(nameRect,0X333333FF, Assets.jose, 30,04);
+            Texto nameText = new Texto(nameRect,0XB6B3B6FF, Assets.jose, 20,04);
             nameText.setTexto("Creado por Martin Kool");
             gameObjects.add(nameText);
 
-            width = (g.getLogWidth() / 10) * 2 ; height = (g.getLogWidth() / 9) * 2;
-            posX = (g.getLogWidth() / 5) * 2; posY = (g.getLogWidth() / 9) * 8;
+            width= g.getLogWidth(); height = g.getLogWidth();
+            posX = 0; posY = 0;
+            Rectangulo fondo = new Rectangulo(0x00000000, (int)posX, (int)posY, (int)width, (int)height, 06);
+            gameObjects.add(fondo);
+
+            width = (g.getLogWidth() / 16) * 2 ; height = (g.getLogWidth() / 11) * 2;
+            posX = (g.getLogWidth() / 5) * 2 + 20; posY = (g.getLogWidth() / 9) * 8 + 20;
             StaticImage icono = new StaticImage(Assets.q42, (int)posX, (int)posY + 100, (int)width, (int)height, 05);
             gameObjects.add(icono);
 
-            width= g.getLogWidth(); height = g.getLogWidth();
-            posX = 0; posY = 0;
-            Rectangulo fondo = new Rectangulo(0xFFFFFFFF, (int)posX, (int)posY, (int)width, (int)height, 06);
-            gameObjects.add(fondo);
         }
         catch (Exception e){
             return false;

@@ -64,7 +64,7 @@ public class Tablero {
             indexAzulesPuestas = new Vector<>();
 
             float celdaPosX = celdaDistancia;
-            float celdaPosY = (float) g.getHeight() / 5.5f;
+            float celdaPosY = (float) g.getLogHeight() / 5.5f;
 
             initPos = new Vector2((int) celdaPosX, (int) celdaPosY);
 

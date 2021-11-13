@@ -38,7 +38,10 @@ public class Game implements App {
         try {
             tab = new Tablero(tam,engine);
 
-            Rectangle texSuperRect = new Rectangle(_graphics.getWidth() / 2 - 80, _graphics.getHeight() / 8 + 20,200,100);
+            float width = (_graphics.getLogWidth() / 2) * 3, height = (_graphics.getLogWidth() / 7),
+                    posX = (_graphics.getLogWidth() / 3) - 15, posY = (_graphics.getLogHeight() / 12) - 10;
+            //_graphics.getWidth() / 2 - 80, _graphics.getHeight() / 8 + 20,200,100
+            Rectangle texSuperRect = new Rectangle((int)posX, (int)posY, (int)width, (int)height);
             Texto textoSuperior = new Texto(texSuperRect,0X313131FF ,Assets.jose,72,0);
             textoSuperior.setTexto(tam + " x " + tam);
             objects.add(textoSuperior);

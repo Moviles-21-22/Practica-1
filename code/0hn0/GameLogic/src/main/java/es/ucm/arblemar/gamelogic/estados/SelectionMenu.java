@@ -32,18 +32,21 @@ public class SelectionMenu implements App {
             Graphics g = engine.getGraphics();
             objects = new ArrayList<>();
 
+            float width = (g.getLogWidth() / 2), height = (g.getLogWidth() / 8),
+                    posX = (g.getLogWidth() / 5), posY = (g.getLogHeight() / 14) + 20;
             //  Texto de cabecera
-            Rectangle rectCabecera = new Rectangle((g.getWidth()/2) - 110 ,g.getHeight() / 4 - 45,100,80);
+            Rectangle rectCabecera = new Rectangle((int)posX, (int)posY, (int)width, (int)height);
             Texto textoCabecera = new Texto(rectCabecera,0x313131FF, Assets.molle,80,00);
             textoCabecera.setTexto("Oh no");
             objects.add(textoCabecera);
 
+            width = (g.getLogWidth() / 7) * 5; height = (g.getLogWidth() / 25);
+            posX = (g.getLogWidth() / 7); posY = (g.getLogHeight() / 3) - 30;
             //  Texto informativo
-            Rectangle rectInfo = new Rectangle((g.getWidth()/2) - 150 ,(g.getHeight() / 3) - 10,100,80);
+            Rectangle rectInfo = new Rectangle((int)posX, (int)posY, (int)width, (int)height);
             Texto textInfo = new Texto(rectInfo,0x313131FF, Assets.jose,32,01);
             textInfo.setTexto("Elija el tamaño a jugar");
             objects.add(textInfo);
-
 
             CeldaAzul c1 = new CeldaAzul(Assets.jose, 43,4,new Vector2(0,0),0,new Vector2(88,230), 70);
             c1.setInteractive();
@@ -110,7 +113,7 @@ public class SelectionMenu implements App {
                         System.out.println("SUCCESS");
                         int numGame = ((Celda)obj).getValue();
                         Game game = new Game(engine,numGame);
-                        engine.initNewApp(game);
+                        while(!engine.initNewApp(game)) {}
                     }
                     break;
                 }
