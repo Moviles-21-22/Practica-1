@@ -30,14 +30,14 @@ public class SelectionMenu implements App {
             objects = new ArrayList<>();
 
             //  Texto de cabecera
-            Rectangle rectCabecera = new Rectangle((g.getWidth()/2) - 100 ,g.getHeight() / 4 - 80,100,80);
-            Texto textoCabecera = new Texto(rectCabecera,0x1CC0E0FF, Assets.molle,100,00);
-            textoCabecera.setTexto("oh no");
+            Rectangle rectCabecera = new Rectangle((g.getWidth()/2) - 110 ,g.getHeight() / 4 - 45,100,80);
+            Texto textoCabecera = new Texto(rectCabecera,0x313131FF, Assets.molle,80,00);
+            textoCabecera.setTexto("Oh no");
             objects.add(textoCabecera);
 
             //  Texto informativo
-            Rectangle rectInfo = new Rectangle((g.getWidth()/2) - 100 ,(g.getHeight() / 3) - 75,100,75);
-            Texto textInfo = new Texto(rectInfo,0x1CC0E0FF, Assets.jose,25,01);
+            Rectangle rectInfo = new Rectangle((g.getWidth()/2) - 150 ,(g.getHeight() / 3) - 10,100,80);
+            Texto textInfo = new Texto(rectInfo,0x313131FF, Assets.jose,32,01);
             textInfo.setTexto("Elija el tamaño a jugar");
             objects.add(textInfo);
 
