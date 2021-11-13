@@ -6,7 +6,7 @@ import es.ucm.arblemar.gamelogic.gameobject.Celda;
 
 public class CeldaGris extends Celda {
 
-    public CeldaGris(Vector2 ind, int _id,Vector2 _pos){
+    public CeldaGris(Vector2 ind, int _id,Vector2 _pos, float rd){
         super(TipoCelda.GRIS,ind,_id);
         pos = _pos;
         _lock = false;
@@ -16,7 +16,7 @@ public class CeldaGris extends Celda {
         //  Color gris
         color = 0XEEEEEEFF;
         //  TODO : puede variar
-        radio = 100;
+        radio = rd;
         interactive = true;
     }
 

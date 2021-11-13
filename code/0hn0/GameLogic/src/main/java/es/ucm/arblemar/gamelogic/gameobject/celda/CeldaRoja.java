@@ -9,21 +9,21 @@ public class CeldaRoja extends Celda {
     private Font _font;
     private int _tamFont;
 
-    public CeldaRoja(Vector2 ind, int _id, Vector2 _pos){
+    public CeldaRoja(Vector2 ind, int _id, Vector2 _pos, float rd){
         super(TipoCelda.ROJO,ind,_id);
         _lock = true;
         pos = _pos;
         color = 0xFF384BFF;
-        radio = 100;
+        radio = rd;
         valor = 0;
     }
 
-    public CeldaRoja(Vector2 ind, int _id, Vector2 _pos,int _valor, Font font, int tamFont){
+    public CeldaRoja(Vector2 ind, int _id, Vector2 _pos,int _valor, Font font, int tamFont, float rd){
         super(TipoCelda.ROJO,ind,_id);
         _lock = true;
         pos = _pos;
         color = 0xFF384BFF;
-        radio = 100;
+        radio = rd;
         valor = _valor;
         _font = font;
         _tamFont = tamFont;

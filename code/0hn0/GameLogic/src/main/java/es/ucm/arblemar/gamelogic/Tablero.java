@@ -63,7 +63,7 @@ public class Tablero {
             for (int i = 0; i < _size; i++) {
                 for (int j = 0; j < _size; j++) {
                     Vector2 ind = new Vector2(i, j);
-                    casillas[i][j] = new CeldaGris(ind, 0, new Vector2(initPos._x, initPos._y));
+                    casillas[i][j] = new CeldaGris(ind, 0, new Vector2(initPos._x, initPos._y), 100);
                     initPos._x += celdaDistancia;
                 }
                 initPos._x = (int) celdaPosX;
@@ -398,7 +398,7 @@ public class Tablero {
                 if(AzulesValidos(indX, indY, valor)) {
                     Vector2 ind = new Vector2(indX,indY);
                     Vector2 pos = casillas[indX][indY].getPos();
-                    casillas[indX][indY] = new CeldaAzul(Assets.jose, 64, valor, ind,0,pos);
+                    casillas[indX][indY] = new CeldaAzul(Assets.jose, 64, valor, ind,0,pos, 100);
                     casillas[indX][indY].setLock(true);
                     indexAzulesOriginales[contAzul] = new Vector2(indX,indY);
                     contAzul++;
@@ -430,7 +430,7 @@ public class Tablero {
                 if(casillas[indX][indY].getTypeColor() == TipoCelda.GRIS) {
                     Vector2 ind = new Vector2(indX,indY);
                     Vector2 pos = casillas[indX][indY].getPos();
-                    casillas[indX][indY] = new CeldaRoja(ind,0,pos);
+                    casillas[indX][indY] = new CeldaRoja(ind,0,pos, 100);
                     casillas[indX][indY].setLock(true);
                     indexRojosOriginales[contRojos] = new Vector2(indX,indY);
                     contRojos++;

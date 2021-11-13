@@ -42,27 +42,27 @@ public class SelectionMenu implements App {
             objects.add(textInfo);
 
 
-            CeldaAzul c1 = new CeldaAzul(Assets.jose, 64,4,new Vector2(0,0),0,new Vector2(250,250));
+            CeldaAzul c1 = new CeldaAzul(Assets.jose, 64,4,new Vector2(0,0),0,new Vector2(250,250), 100);
             c1.setInteractive();
             objects.add(c1);
 
-            CeldaRoja c2 = new CeldaRoja(new Vector2(0,0),0,new Vector2(350,250),5,Assets.jose, 64);
+            CeldaRoja c2 = new CeldaRoja(new Vector2(0,0),0,new Vector2(350,250),5,Assets.jose, 64, 100);
             c2.setInteractive();
             objects.add(c2);
 
-            CeldaAzul c3 = new CeldaAzul(Assets.jose, 64, 6,new Vector2(0,0),0,new Vector2(450,250));
+            CeldaAzul c3 = new CeldaAzul(Assets.jose, 64, 6,new Vector2(0,0),0,new Vector2(450,250), 100);
             c3.setInteractive();
             objects.add(c3);
 
-            CeldaRoja c4 =  new CeldaRoja(new Vector2(0,0),0,new Vector2(250,350),7,Assets.jose, 64);
+            CeldaRoja c4 =  new CeldaRoja(new Vector2(0,0),0,new Vector2(250,350),7,Assets.jose, 64, 100);
             c4.setInteractive();
             objects.add(c4);
 
-            CeldaAzul c5 = new CeldaAzul(Assets.jose, 64, 8,new Vector2(0,0),0,new Vector2(350,350));
+            CeldaAzul c5 = new CeldaAzul(Assets.jose, 64, 8,new Vector2(0,0),0,new Vector2(350,350), 100);
             c5.setInteractive();
             objects.add(c5);
 
-            CeldaRoja c6 = new CeldaRoja(new Vector2(0,0),0,new Vector2(450,350),9, Assets.jose, 64);
+            CeldaRoja c6 = new CeldaRoja(new Vector2(0,0),0,new Vector2(450,350),9, Assets.jose, 64, 100);
             c6.setInteractive();
             objects.add(c6);
 

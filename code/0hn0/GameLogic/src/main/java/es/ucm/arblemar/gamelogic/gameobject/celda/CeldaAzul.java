@@ -9,14 +9,14 @@ public class CeldaAzul extends Celda {
     private Font _font;
     private int _tamFont;
 
-    public CeldaAzul(Font font, int tamFont, int _valor, Vector2 ind, int _id, Vector2 _pos) {
+    public CeldaAzul(Font font, int tamFont, int _valor, Vector2 ind, int _id, Vector2 _pos, float rd) {
         super(TipoCelda.AZUL, ind,_id);
         _font = font;
         _lock = true;
         valor = _valor;
         pos = _pos;
         color = 0x1CC0E0FF;
-        radio = 100;
+        radio = rd;
         _tamFont = tamFont;
     }
 
