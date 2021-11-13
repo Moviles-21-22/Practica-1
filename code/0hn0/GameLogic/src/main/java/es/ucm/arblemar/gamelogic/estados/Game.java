@@ -47,15 +47,15 @@ public class Game implements App {
             objects.add(textoSuperior);
 
             //  botón para volver
-            Boton backButton = new Boton(0,new Vector2((_graphics.getWidth() / 2 - 350), _graphics.getHeight() / 2 - Assets.close.getHeight() - 10),Assets.close);
+            Boton backButton = new Boton(0,new Vector2(30, _graphics.getLogHeight() - Assets.close.getHeight() - 30),Assets.close);
             objects.add(backButton);
 
             //  botón para restarurar
-            Boton restButton = new Boton(1,new Vector2((_graphics.getWidth() / 2 - 250), _graphics.getHeight() / 2 - Assets.history.getHeight() - 10), Assets.history);
+            Boton restButton = new Boton(1,new Vector2((_graphics.getLogWidth() / 2) - (Assets.history.getWidth() / 2), _graphics.getLogHeight() - Assets.history.getHeight() - 30), Assets.history);
             objects.add(restButton);
 
             //  botón para pista
-            Boton pistabutton = new Boton(2,new Vector2((_graphics.getWidth() / 2 - 150), _graphics.getHeight() / 2 - Assets.eye.getHeight() - 10), Assets.eye);
+            Boton pistabutton = new Boton(2,new Vector2((_graphics.getLogWidth() - 100), _graphics.getLogHeight() - Assets.eye.getHeight() - 30), Assets.eye);
             objects.add(pistabutton);
 
         }
