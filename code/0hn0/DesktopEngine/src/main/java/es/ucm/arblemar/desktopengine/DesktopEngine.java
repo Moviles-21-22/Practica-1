@@ -40,7 +40,6 @@ public class DesktopEngine implements Engine {
             do {
                 do {
                     _graphics.updateGraphics();
-                    _graphics.prepareFrame();
                     try {
                         _currentApp.render();
                     }

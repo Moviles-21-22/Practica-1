@@ -9,21 +9,21 @@ public class CeldaRoja extends Celda {
     private Font _font;
     private int _tamFont;
 
-    public CeldaRoja(Vector2 ind, int _id, Vector2 _pos, float rd){
+    public CeldaRoja(Vector2 ind, int _id, Vector2 _pos, float d){
         super(TipoCelda.ROJO,ind,_id);
         _lock = true;
         pos = _pos;
         color = 0xFF384BFF;
-        radio = rd;
+        _diametro = d;
         valor = 0;
     }
 
-    public CeldaRoja(Vector2 ind, int _id, Vector2 _pos,int _valor, Font font, int tamFont, float rd){
+    public CeldaRoja(Vector2 ind, int _id, Vector2 _pos,int _valor, Font font, int tamFont, float d){
         super(TipoCelda.ROJO,ind,_id);
         _lock = true;
         pos = _pos;
         color = 0xFF384BFF;
-        radio = rd;
+        _diametro = d;
         valor = _valor;
         _font = font;
         _tamFont = tamFont;
@@ -54,15 +54,18 @@ public class CeldaRoja extends Celda {
     @Override
     public void render(es.ucm.arblemar.engine.Graphics g) {
         g.setColor(color);
-        g.fillCircle(pos, (int)radio);
+        g.fillCircle(pos, (int) _diametro);
 
         if (valor > 0) {
             g.setColor(0XFFFFFFFF);
-            g.drawText(Integer.toString(valor), (int)(pos._x + (radio / 2) - _tamFont/4), (int)(pos._y + (radio / 2) + _tamFont/3), _font, _tamFont);
+            g.drawText(Integer.toString(valor), (int)(pos._x + (_diametro / 2) - _tamFont/4), (int)(pos._y + (_diametro / 2) + _tamFont/3), _font, _tamFont);
         }
 //        if(interactive){
 //            g.setColor(0X333333FF);
-//            g.drawCircle(pos,radio);
+//            g.drawCircle(pos, (int) diametro);
+//            g.drawRect(pos._x, pos._y, (int) diametro, (int) diametro);
+//            Vector2 realPos = ((AbstractGraphics)g).realPos(pos);
+//            g.drawRect(realPos._x, realPos._y, (int)(diametro), (int) diametro);
 //        }
     }
 

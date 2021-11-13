@@ -1,8 +1,10 @@
 package es.ucm.arblemar.gamelogic.gameobject;
 import java.awt.Rectangle;
 
+import es.ucm.arblemar.engine.AbstractGraphics;
 import es.ucm.arblemar.engine.Font;
 import es.ucm.arblemar.engine.Graphics;
+import es.ucm.arblemar.engine.Rect;
 import es.ucm.arblemar.engine.Vector2;
 
 public class Texto  extends GameObject {
@@ -15,34 +17,34 @@ public class Texto  extends GameObject {
     //  Texto a escribir
     private String texto;
     //  Rectangulo para las colisiones
-    Rectangle rect;
+    Rectangle _rect;
 
-    public Texto(Rectangle _rect, int _color, Font _fuente, int _tam,int _id) {
+    public Texto(Rectangle rect, int _color, Font _fuente, int _tam,int _id) {
         super(_id);
 
         color = _color;
         fuente = _fuente;
         tam = _tam;
-        rect = _rect;
-        pos = new Vector2(rect.x,rect.y);
+        _rect = rect;
+        pos = new Vector2(_rect.x, _rect.y);
     }
 
     public int getColor(){
         return color;
     }
 
-    public void setRect(Rectangle _rect){
-        rect = _rect;
-        pos._x = rect.x - (rect.width / 2);
-        pos._y = rect.y - (rect.height / 2);
+    public void set_rect(Rectangle _rect){
+        this._rect = _rect;
+        pos._x = this._rect.x - (this._rect.width / 2);
+        pos._y = this._rect.y - (this._rect.height / 2);
     }
 
 
     @Override
     public boolean isClicked(Vector2 mouseClicked) {
         if(!interactive) return  false;
-        Rectangle clickRect = new Rectangle(mouseClicked._x,mouseClicked._y,10,10);
-        return rect.intersects(clickRect);
+        Rectangle clickRect = new Rectangle(mouseClicked._x,mouseClicked._y,1,1);
+        return _rect.intersects(clickRect);
     }
 
     @Override
@@ -59,9 +61,9 @@ public class Texto  extends GameObject {
         if(renderActive){
             g.setColor(color);
             g.setFont(fuente, tam);
-            g.drawText(texto, pos._x , pos._y, fuente, tam);
+            g.drawText(texto, pos._x , pos._y + _rect.height, fuente, tam);
             if(interactive){
-                g.drawRect(pos._x, pos._y, (int)rect.width, (int)rect.height);
+                g.drawRect(pos._x, pos._y, (int) _rect.width, (int) _rect.height);
                 g.setColor(0X333333FF);
             }
         }

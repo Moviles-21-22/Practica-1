@@ -16,11 +16,6 @@ public class Rectangulo extends GameObject{
     }
 
     @Override
-    public boolean isClicked(Vector2 mouseClicked) {
-        return false;
-    }
-
-    @Override
     public void clicked() {
 
     }

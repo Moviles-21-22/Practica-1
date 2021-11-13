@@ -3,12 +3,15 @@ package es.ucm.arblemar.gamelogic.estados;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
+
+import es.ucm.arblemar.engine.AbstractGraphics;
 import es.ucm.arblemar.engine.App;
 import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Input;
 import es.ucm.arblemar.engine.Vector2;
 import es.ucm.arblemar.gamelogic.gameobject.Celda;
+import es.ucm.arblemar.gamelogic.gameobject.Rectangulo;
 import es.ucm.arblemar.gamelogic.gameobject.celda.CeldaAzul;
 import es.ucm.arblemar.gamelogic.gameobject.celda.CeldaRoja;
 import es.ucm.arblemar.gamelogic.gameobject.GameObject;
@@ -65,6 +68,9 @@ public class SelectionMenu implements App {
             CeldaRoja c6 = new CeldaRoja(new Vector2(0,0),0,new Vector2(243,308),9, Assets.jose, 43, 70);
             c6.setInteractive();
             objects.add(c6);
+
+            Rectangulo fondo = new Rectangulo(0xFF0000FF, 0, 0, g.getLogWidth(), g.getLogWidth(), 10);
+            objects.add(fondo);
         }
         catch (Exception e){
             System.out.println(e);
@@ -92,14 +98,16 @@ public class SelectionMenu implements App {
     //  Gestiona las colisiones del ratón con los objetos de la escena
     public void handleInput() {
         List<Input.TouchEvent> events = engine.getInput().GetTouchEvents();
+        AbstractGraphics g = (AbstractGraphics) engine.getGraphics();
 
         for(int i = 0 ; i < events.size() ; i++){
             Input.TouchEvent currEvent = events.get(i);
-            Vector2 eventPos = new Vector2(currEvent.x, currEvent.y);
+            Vector2 eventPos = g.logPos(new Vector2(currEvent.x, currEvent.y));
             switch (currEvent.type){
                 case Input.TouchEvent.touchDown:{
                     GameObject obj = getObjectClicked(eventPos);
                     if(obj != null){
+                        System.out.println("SUCCESS");
                         int numGame = ((Celda)obj).getValue();
                         Game game = new Game(engine,numGame);
                         engine.initNewApp(game);
@@ -117,6 +125,7 @@ public class SelectionMenu implements App {
     private GameObject getObjectClicked(Vector2 eventPos){
         boolean encontrado = false;
         int gameObjIndex = 0;
+
         while (!encontrado && gameObjIndex < objects.size()){
             if(objects.get(gameObjIndex).isInteractive() && ((Celda)objects.get(gameObjIndex)).isClicked(eventPos)){
                 encontrado = true;

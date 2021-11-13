@@ -4,10 +4,8 @@ package es.ucm.arblemar.gamelogic.gameobject;
  * Clase abstracta de las celdas
  */
 
-import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Vector2;
 import es.ucm.arblemar.gamelogic.TipoCelda;
-import es.ucm.arblemar.gamelogic.gameobject.GameObject;
 
 /**
  * Comportamiento de la celda cuando se le da click
@@ -27,7 +25,7 @@ public abstract class Celda extends GameObject {
     //  color para pintar el circulo
     protected int color;
     //  Radio del circulo
-    protected float radio;
+    protected float _diametro;
     //  Valor de esta celda
     protected int valor;
 
@@ -37,17 +35,16 @@ public abstract class Celda extends GameObject {
         index = ind;
     }
 
-    public abstract void render(Graphics g);
-
     protected abstract boolean Click();
 
     //  Determina si la celda ha sido "clickeada"
+    @Override
     public boolean isClicked(es.ucm.arblemar.engine.Vector2 mouseClicked){
         if(!interactive) return false;
-        double xDiff = pos._x - mouseClicked._x;
-        double yDiff = pos._y - mouseClicked._y;
+        double xDiff = (pos._x + (_diametro / 2)) - mouseClicked._x;
+        double yDiff = (pos._y + (_diametro / 2)) - mouseClicked._y;
         double distance = Math.sqrt((Math.pow(xDiff, 2) + Math.pow(yDiff, 2)));
-        return distance <= radio;
+        return distance <= (int)(_diametro / 2);
     }
 
     public boolean isLock(){

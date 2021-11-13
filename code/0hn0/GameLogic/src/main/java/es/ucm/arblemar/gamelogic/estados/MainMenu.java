@@ -2,6 +2,8 @@ package es.ucm.arblemar.gamelogic.estados;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
+
+import es.ucm.arblemar.engine.AbstractGraphics;
 import es.ucm.arblemar.engine.App;
 import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Graphics;
@@ -31,13 +33,13 @@ public class MainMenu implements App {
 
             float width = (g.getLogWidth() / 5) * 3, height = (g.getLogWidth() / 7),
             posX = (g.getLogWidth() / 5), posY = (g.getLogHeight() / 14);
-            Rectangle tituloRect = new Rectangle((int)posX,(int)posY + 100, (int)width, (int)height);
+            Rectangle tituloRect = new Rectangle((int)posX, (int)posY, (int)width, (int)height);
             Texto tituloText = new Texto(tituloRect,0X333333FF,Assets.molle,74,01);
             tituloText.setTexto("0h n0");
             gameObjects.add(tituloText);
 
             width = (g.getLogWidth() / 3); height = (g.getLogWidth() / 7);
-            posX = (g.getLogWidth() / 3); posY = (g.getLogWidth() / 7) * 3;
+            posX = (g.getLogWidth() / 3); posY = (g.getLogWidth() / 7) * 2;
             Rectangle tRect = new Rectangle((int)posX,(int)posY + 100,(int)width, (int)height);
             Texto t = new Texto(tRect,0X333333FF,Assets.jose,50,02);
             t.setTexto("JUGAR");
@@ -66,7 +68,6 @@ public class MainMenu implements App {
             posX = 0; posY = 0;
             Rectangulo fondo = new Rectangulo(0xFFFFFFFF, (int)posX, (int)posY, (int)width, (int)height, 06);
             gameObjects.add(fondo);
-
         }
         catch (Exception e){
             return false;
@@ -93,10 +94,11 @@ public class MainMenu implements App {
     //  Gestiona las colisiones del ratón con los objetos de la escena
     public void handleInput() {
         List<TouchEvent> events = _mainEngine.getInput().GetTouchEvents();
-
+        AbstractGraphics g = (AbstractGraphics) _mainEngine.getGraphics();
         for(int i = 0 ; i < events.size() ; i++){
             TouchEvent currEvent = events.get(i);
-            Vector2 eventPos = new Vector2(currEvent.x, currEvent.y);
+            // Posición donde se hizo click
+            Vector2 eventPos = g.logPos(new Vector2(currEvent.x, currEvent.y));
             switch (currEvent.type){
                 case TouchEvent.touchDown:{
                     GameObject obj = getObjectClicked(eventPos);
@@ -113,11 +115,15 @@ public class MainMenu implements App {
         }
     }
 
-    // Devuelve el objecto que ha sido pulsado
+    /**
+     * Devuelve el objeto que ha sido pulsado
+     * */
     private GameObject getObjectClicked(Vector2 eventPos){
         boolean encontrado = false;
         int gameObjIndex = 0;
+        AbstractGraphics g = (AbstractGraphics) _mainEngine.getGraphics();
         while (!encontrado && gameObjIndex < gameObjects.size()){
+
             if(gameObjects.get(gameObjIndex).isClicked(eventPos)){
                 encontrado = true;
                 return gameObjects.get(gameObjIndex);
@@ -128,7 +134,6 @@ public class MainMenu implements App {
         }
         return null;
     }
-
 
     Engine _mainEngine;
 }

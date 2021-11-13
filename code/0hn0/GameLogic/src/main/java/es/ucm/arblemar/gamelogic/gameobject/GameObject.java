@@ -1,5 +1,6 @@
 package es.ucm.arblemar.gamelogic.gameobject;
 
+import es.ucm.arblemar.engine.AbstractGraphics;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Vector2;
 
@@ -43,7 +44,7 @@ public abstract class GameObject {
         interactive = !interactive;
     }
 
-    public abstract boolean isClicked(es.ucm.arblemar.engine.Vector2 mouseClicked);
+    public boolean isClicked(es.ucm.arblemar.engine.Vector2 mouseClicked){ return false;}
 
     //  TODO: implementarlo
     public abstract void clicked();

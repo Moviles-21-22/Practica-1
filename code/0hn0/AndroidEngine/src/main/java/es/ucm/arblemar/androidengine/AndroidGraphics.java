@@ -107,21 +107,6 @@ public class AndroidGraphics extends AbstractGraphics {
     }
 
     @Override
-    public void prepareFrame() {
-
-    }
-
-    @Override
-    public void translate(int x, int y) {
-
-    }
-
-    @Override
-    public void scale(float x, float y){
-
-    }
-
-    @Override
     public void save() {
 
     }

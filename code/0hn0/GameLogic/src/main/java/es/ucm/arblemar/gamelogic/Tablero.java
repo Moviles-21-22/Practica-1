@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
+import es.ucm.arblemar.engine.AbstractGraphics;
 import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Vector2;
@@ -17,8 +18,8 @@ import es.ucm.arblemar.gamelogic.gameobject.celda.CeldaRoja;
 
 public class Tablero {
 
+    // Tamaño del tablero
     private int _size;
-    private int adyacentes = 0;
     //  Contiene todas las celdas de todos los tipos del tablero
     private Celda[][] casillas;
     //  Index de las celdas azules puestas por el juego
@@ -43,13 +44,13 @@ public class Tablero {
     private boolean solUnica = false;
     // Boolean que determina si el tablero es correcto
     private boolean tabCorrecto = false;
+    // Auxiliar para contar adyacentes
+    private int adyacentes = 0;
 
     public Tablero(int size,Engine _eng){
         engine = _eng;
         _size = size;
-        /*
-        * Inicialización de las celdas en modo gris
-        * */
+        // Inicialización de las celdas en modo gris
         Graphics g = _eng.getGraphics();
 
         celdaRd = (float)g.getWidth() / (1.1f * _size + 0.1f);
@@ -370,8 +371,10 @@ public class Tablero {
         boolean encontrado = false;
         int indX = 0;
         int indY = 0;
+        AbstractGraphics g = (AbstractGraphics) engine.getGraphics();
+        Vector2 logPos = g.logPos(mousePos);
         while (!encontrado && indY < _size){
-            if(casillas[indX][indY].isClicked(mousePos)){
+            if(casillas[indX][indY].isClicked(logPos)){
                 encontrado = true;
                 return casillas[indX][indY];
             }

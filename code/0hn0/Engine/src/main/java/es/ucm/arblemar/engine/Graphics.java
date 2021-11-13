@@ -80,23 +80,26 @@ public interface Graphics {
      * */
     public int getLogHeight();
     //==============METODOS-CONTROL-CANVAS=================
+    /**
+     * Actualiza el buffer correspondiente
+     * */
     void updateGraphics();
-    /**
-     * Prepara el frame siguiente para que sea
-     * escalado y transladado
-     * */
-    void prepareFrame();
-    /**
-     *  Traslada un objeto con una posición "pos"
-     *  en función de "winSize"
-     * @return Devuelve la posición trasladada
-     * */
-    void translate(int x, int y);
-    /**
-     *  Escala un objeto con un tamaño "size" en función de
-     *  "winSize"
-     * @return Devuelve el tamaño escalado*/
-    void scale(float x, float y);
+//    /**
+//     * Prepara el frame siguiente para que sea
+//     * escalado y transladado
+//     * */
+//    void prepareFrame();
+//    /**
+//     *  Traslada un objeto con una posición "pos"
+//     *  en función de "winSize"
+//     * @return Devuelve la posición trasladada
+//     * */
+//    void translate(int x, int y);
+//    /**
+//     *  Escala un objeto con un tamaño "size" en función de
+//     *  "winSize"
+//     * @return Devuelve el tamaño escalado*/
+//    void scale(float x, float y);
     /**
      *
      * */
