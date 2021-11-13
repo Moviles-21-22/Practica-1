@@ -32,7 +32,9 @@ public class Tablero {
     //  Vector de todas las pistas encontradas en el tablero
     private List<Pista> pistasEncontradas;
     //  Distancia que existe entre las celdas para posicionarlas
-    private final float celdaDistancia = 100;
+    private float celdaDistancia;
+    //  Radio de las celdas
+    private float celdaRd;
     //  Posición de la primera celda a colocar
     private Vector2 initPos;
     //  Puntero al engine
@@ -50,6 +52,9 @@ public class Tablero {
         * */
         Graphics g = _eng.getGraphics();
 
+        celdaRd = (float)g.getWidth() / (1.1f * _size + 0.1f);
+        celdaDistancia = celdaRd * 0.1f;
+
         while (!tabCorrecto) {
             tabCorrecto = true;
             casillas = new Celda[_size][_size];
@@ -57,17 +62,19 @@ public class Tablero {
             indexRojasPuestas = new Vector<>();
             indexAzulesPuestas = new Vector<>();
 
-            float celdaPosX = (float) g.getWidth() / 4 * (size * 0.1f);
-            float celdaPosY = (float) g.getHeight() / 3 * (size * 0.1f);
+            float celdaPosX = celdaDistancia;
+            float celdaPosY = (float) g.getHeight() / 5.5f;
+
             initPos = new Vector2((int) celdaPosX, (int) celdaPosY);
+
             for (int i = 0; i < _size; i++) {
                 for (int j = 0; j < _size; j++) {
                     Vector2 ind = new Vector2(i, j);
-                    casillas[i][j] = new CeldaGris(ind, 0, new Vector2(initPos._x, initPos._y), 100);
-                    initPos._x += celdaDistancia;
+                    casillas[i][j] = new CeldaGris(ind, 0, new Vector2(initPos._x, initPos._y), celdaRd);
+                    initPos._x += celdaRd + celdaDistancia;
                 }
                 initPos._x = (int) celdaPosX;
-                initPos._y += celdaDistancia;
+                initPos._y += celdaRd + celdaDistancia;
             }
 
             //Si sale del while y tabCorrecto es false vuelve a empezar
@@ -93,7 +100,7 @@ public class Tablero {
     private void compruebaTab() {
         Tablero solucion = this;
         GestorPistas p = new GestorPistas(solucion);
-        //p.actualizaPistas(solucion);
+
         int maxIter = 1000;
         int currIter = 0;
 
@@ -172,13 +179,19 @@ public class Tablero {
                         //AZUL_INCORRECTO: Si se pusiese azul sería error, luego es pared
                         //NO_VEO_AZUL: Celda gris cerrada, luego es roja
                         Vector2 ind = new Vector2(solucion.pistasEncontradas.get(i).getIndex()._x, solucion.pistasEncontradas.get(i).getIndex()._y);
-                        solucion.casillas[ind._x][ind._y].setTypeColor(TipoCelda.ROJO);
+                        if (solucion.casillas[ind._x][ind._y].getTypeColor() == TipoCelda.AZUL)
+                            tabCorrecto = false;
+                        else
+                            solucion.casillas[ind._x][ind._y].setTypeColor(TipoCelda.ROJO);
                         break;
                     }
                     case ADYACENTE_DONETE: {
                         //Hay que poner azul obligatoriamente
                         Vector2 ind = new Vector2(solucion.pistasEncontradas.get(i).getIndex()._x, solucion.pistasEncontradas.get(i).getIndex()._y);
-                        solucion.casillas[ind._x][ind._y].setTypeColor(TipoCelda.AZUL);
+                        if (solucion.casillas[ind._x][ind._y].getTypeColor() == TipoCelda.ROJO)
+                            tabCorrecto = false;
+                        else
+                            solucion.casillas[ind._x][ind._y].setTypeColor(TipoCelda.AZUL);
                         break;
                     }
                     //case SOBRE_ADYACENCIA_AZUL:
@@ -398,7 +411,7 @@ public class Tablero {
                 if(AzulesValidos(indX, indY, valor)) {
                     Vector2 ind = new Vector2(indX,indY);
                     Vector2 pos = casillas[indX][indY].getPos();
-                    casillas[indX][indY] = new CeldaAzul(Assets.jose, 64, valor, ind,0,pos, 100);
+                    casillas[indX][indY] = new CeldaAzul(Assets.jose, (int)(celdaRd * 2/3), valor, ind,0,pos, celdaRd);
                     casillas[indX][indY].setLock(true);
                     indexAzulesOriginales[contAzul] = new Vector2(indX,indY);
                     contAzul++;
@@ -430,7 +443,7 @@ public class Tablero {
                 if(casillas[indX][indY].getTypeColor() == TipoCelda.GRIS) {
                     Vector2 ind = new Vector2(indX,indY);
                     Vector2 pos = casillas[indX][indY].getPos();
-                    casillas[indX][indY] = new CeldaRoja(ind,0,pos, 100);
+                    casillas[indX][indY] = new CeldaRoja(ind,0,pos, celdaRd);
                     casillas[indX][indY].setLock(true);
                     indexRojosOriginales[contRojos] = new Vector2(indX,indY);
                     contRojos++;
@@ -609,7 +622,7 @@ public class Tablero {
                 }
             }
             else if (casillas[coors._x][coors._y].getTypeColor() == TipoCelda.GRIS
-                || casillas[coors._x][coors._y].getTypeColor() == TipoCelda.AZUL ) {
+                || casillas[coors._x][coors._y].getTypeColor() == TipoCelda.AZUL) {
                 coors._x += dirs[index]._x;
                 coors._y += dirs[index]._y;
                 elementos++;
