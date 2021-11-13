@@ -26,10 +26,6 @@ public abstract class Celda extends GameObject {
 
     //  color para pintar el circulo
     protected int color;
-    //  Tamaño del render
-    protected int tam;
-    //  Margen de la celda
-    protected int margen;
     //  Radio del circulo
     protected float radio;
     //  Valor de esta celda

@@ -6,9 +6,8 @@ import es.ucm.arblemar.gamelogic.TipoCelda;
 import es.ucm.arblemar.gamelogic.gameobject.Celda;
 
 public class CeldaAzul extends Celda {
-
     private Font _font;
-    private int _tam;
+    private int _tamFont;
 
     public CeldaAzul(Font font, int tamFont, int _valor, Vector2 ind, int _id, Vector2 _pos) {
         super(TipoCelda.AZUL, ind,_id);
@@ -18,7 +17,7 @@ public class CeldaAzul extends Celda {
         pos = _pos;
         color = 0x1CC0E0FF;
         radio = 100;
-        _tam = tamFont;
+        _tamFont = tamFont;
     }
 
 
@@ -49,7 +48,8 @@ public class CeldaAzul extends Celda {
         g.setColor(color);
         g.fillCircle(pos, (int)radio);
         g.setColor(0XFFFFFFFF);
-        g.drawText(Integer.toString(valor), (int)(pos._x + (radio / 2)), (int)(pos._y + (radio / 2)), _font, tam);
+        g.drawText(Integer.toString(valor), (int)(pos._x + (radio / 2) - _tamFont/4), (int)(pos._y + (radio / 2) + _tamFont/3), _font, _tamFont);
+        
 //        if(interactive){
 //            g.setColor(0X333333FF);
 //            g.drawCircle(pos,radio);
