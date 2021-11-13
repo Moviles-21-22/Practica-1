@@ -160,11 +160,9 @@ public class Game implements App {
     private GameObject getObjectClicked(Vector2 eventPos){
         boolean encontrado = false;
         int gameObjIndex = 0;
-        AbstractGraphics g = (AbstractGraphics) _graphics;
         while (!encontrado && gameObjIndex < objects.size()){
-            Vector2 logPos = g.logPos(eventPos);
             //  Buscando entre los objetos que son textos, img ,etc (no incluidas las celdas)
-            if(objects.get(gameObjIndex).isInteractive() && objects.get(gameObjIndex).isClicked(logPos)){
+            if(objects.get(gameObjIndex).isInteractive() && objects.get(gameObjIndex).isClicked(eventPos)){
                 encontrado = true;
                 return objects.get(gameObjIndex);
             }
