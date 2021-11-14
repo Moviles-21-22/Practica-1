@@ -918,6 +918,18 @@ public class Tablero {
         return _size;
     }
 
+    public float GetCeldaSize() {
+        return celdaRd;
+    }
+
+    public List<Pista> GetPistasEncontradas() {
+        return pistasEncontradas;
+    }
+
+    public void PistasToEmpty() {
+        pistasEncontradas = new ArrayList<>();
+    }
+
     public void AgregaPista(Pista p){
         pistasEncontradas.add(p);
     }
