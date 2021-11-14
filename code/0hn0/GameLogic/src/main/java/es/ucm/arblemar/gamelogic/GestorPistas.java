@@ -33,11 +33,11 @@ public class GestorPistas {
     };
 
 
-    public GestorPistas(Tablero t) {
-        _casillas = t.GetCasillas();
-        _indexAzules = t.GetIndexAzules();
-        _size = t.GetSize();
-        _indexAzulesPuestas = t.GetIndexAzulesPuestas();
+    public GestorPistas(Celda[][] t, Vector2 [] idA, int s, Vector<Vector2> idAP) {
+        _casillas = t;
+        _indexAzules = idA;
+        _size = s;
+        _indexAzulesPuestas = idAP;
 
         //actualizaPistas(t);
     }
