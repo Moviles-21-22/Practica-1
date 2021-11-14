@@ -1,8 +1,5 @@
 package es.ucm.arblemar.gamelogic.gameobject;
 
-import java.awt.Rectangle;
-
-import es.ucm.arblemar.engine.ButtonCallback;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Image;
 import es.ucm.arblemar.engine.Vector2;
@@ -16,15 +13,7 @@ public class Boton extends GameObject {
         this._pos = _pos;
         image = _image;
         interactive = true;
-    }
-
-    @Override
-    public boolean isClicked(Vector2 mouseClicked) {
-        if(!interactive) return  false;
-
-        Rectangle clickRect = new Rectangle(mouseClicked._x,mouseClicked._y,1,1);
-        Rectangle imageRect = new Rectangle(_pos._x, _pos._y, image.getWidth(), image.getHeight());
-        return imageRect.intersects(clickRect);
+        _size = new Vector2(image.getWidth(),image.getHeight());
     }
 
     @Override

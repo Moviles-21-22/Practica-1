@@ -30,12 +30,11 @@ public class Texto  extends GameObject {
     public void render(Graphics g){
         if(renderActive){
             g.setColor(color);
-            g.setFont(fuente, tam);
             g.drawText(texto, _pos._x , _pos._y + _size._y, fuente, tam);
-            //if(interactive){
-            //    g.setColor(0xFF0000FF);
-            //    g.drawRect(_pos._x, _pos._y, _size._x, _size._y);
-            //}
+            if(interactive){
+                g.setColor(0xFF0000FF);
+                g.drawRect(_pos._x, _pos._y, _size._x, _size._y);
+            }
         }
     }
 

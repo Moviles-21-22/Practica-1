@@ -156,7 +156,6 @@ public class SelectionMenu implements App {
     @Override
     public void render() {
         Graphics g = engine.getGraphics();
-        g.clear(0);
 
         for(GameObject obj : gameObjects){
             obj.render(g);
@@ -179,9 +178,6 @@ public class SelectionMenu implements App {
                         obj.clicked();
                     }
 
-                    break;
-                }
-                case Input.TouchEvent.touchUp:{
                     break;
                 }
             }

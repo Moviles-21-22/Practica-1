@@ -150,15 +150,15 @@ public class DesktopGraphics extends AbstractGraphics implements ComponentListen
         _graphics = getStrategy().getDrawGraphics();
     }
 
-    //    @Override
-//    public void translate(int x, int y) {
-//        ((Graphics2D)_graphics).translate(x, y);
-//    }
-//
-//    @Override
-//    public void scale(float x, float y) {
-//        ((Graphics2D)_graphics).scale(x, y);
-//    }
+    @Override
+    public void translate(int x, int y) {
+        ((Graphics2D)_graphics).translate(x, y);
+    }
+
+    @Override
+    public void scale(float x, float y) {
+        ((Graphics2D)_graphics).scale(x, y);
+    }
 
     @Override
     public void save() {

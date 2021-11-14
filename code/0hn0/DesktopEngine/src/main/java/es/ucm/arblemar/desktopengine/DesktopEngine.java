@@ -39,6 +39,7 @@ public class DesktopEngine implements Engine {
             do {
                 do {
                     _graphics.updateGraphics();
+                    _graphics.clear(0xFFFFFFFF);
                     try {
                         _currentApp.render();
                     }

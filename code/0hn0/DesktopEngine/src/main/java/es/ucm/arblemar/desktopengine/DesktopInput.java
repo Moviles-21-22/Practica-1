@@ -33,54 +33,41 @@ public class DesktopInput implements Input, MouseListener, MouseMotionListener {
 
     @Override
     public List<TouchEvent> GetTouchEvents() {
-
-        if(!events.isEmpty()){
-            List<TouchEvent> touchEvents = new ArrayList<>();
-            touchEvents.addAll(events);
-            events.clear();
-            return touchEvents;
+        synchronized (events){
+            if(!events.isEmpty()){
+                List<TouchEvent> touchEvents = new ArrayList<>();
+                touchEvents.addAll(events);
+                events.clear();
+                return touchEvents;
+            }
+            else return events;
         }
-        else return events;
-        //  Cuando se implementen los hilos usar el método de abajo
-//        //  sincro para la hebra
-//        synchronized (this){
-//            //  Si tenemos eventos que devolver
-//            if(!events.isEmpty()){
-//                List<TouchEvent> touchEvents = new ArrayList<>();
-//                touchEvents.addAll(events);
-//                events.clear();
-//                return touchEvents;
-//            }
-//            else return events;
-//        }
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-       // System.out.println("MOUSE CLICK");
-       // TouchEvent currEvent =  new TouchEvent();
-       // currEvent.type = TouchEvent.touchDown;
-       // currEvent.x = e.getX();
-       // currEvent.y = e.getY();
-       // events.add(currEvent);
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        TouchEvent currEvent =  new TouchEvent();
-        currEvent.type = TouchEvent.touchDown;
-        currEvent.x = e.getX();
-        currEvent.y = e.getY();
-        events.add(currEvent);
+        synchronized (events){
+            TouchEvent currEvent =  new TouchEvent();
+            currEvent.type = TouchEvent.touchDown;
+            currEvent.x = e.getX();
+            currEvent.y = e.getY();
+            events.add(currEvent);
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        TouchEvent currEvent =  new TouchEvent();
-        currEvent.type = TouchEvent.touchUp;
-        currEvent.x = e.getX();
-        currEvent.y = e.getY();
-        events.add(currEvent);
+        synchronized (events){
+            TouchEvent currEvent =  new TouchEvent();
+            currEvent.type = TouchEvent.touchUp;
+            currEvent.x = e.getX();
+            currEvent.y = e.getY();
+            events.add(currEvent);
+        }
     }
 
     @Override

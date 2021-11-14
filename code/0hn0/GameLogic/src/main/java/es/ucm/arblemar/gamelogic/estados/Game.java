@@ -212,7 +212,6 @@ public class Game implements App {
     @Override
     public void render() {
         Graphics g = engine.getGraphics();
-        g.clear(0xFFFFFFFF);
 
         //  Render de las celdas
         if (tab != null && _pistaPuesta) {
@@ -230,25 +229,21 @@ public class Game implements App {
         List<Input.TouchEvent> events = engine.getInput().GetTouchEvents();
         AbstractGraphics g = (AbstractGraphics) _graphics;
 
-        if (win) {
-            win = false;
-            SelectionMenu menu = new SelectionMenu(engine);
-            engine.initNewApp(menu);
-        }
-
         for(int i = 0 ; i < events.size() ; i++){
             Input.TouchEvent currEvent = events.get(i);
             Vector2 eventPos = g.logPos(new Vector2(currEvent.x, currEvent.y));
             switch (currEvent.type){
                 case Input.TouchEvent.touchDown:{
+                    if (win) {
+                        win = false;
+                        SelectionMenu menu = new SelectionMenu(engine);
+                        engine.initNewApp(menu);
+                    }
                     GameObject obj = getObjectClicked(eventPos);
                     //  Es de tipo texto o imagen
                     if(obj != null){
                         obj.clicked();
                     }
-                    break;
-                }
-                case Input.TouchEvent.touchUp:{
                     break;
                 }
             }

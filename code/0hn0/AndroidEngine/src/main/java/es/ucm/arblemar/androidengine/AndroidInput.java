@@ -25,21 +25,26 @@ public class AndroidInput implements Input , View.OnTouchListener {
 
     @Override
     public List<TouchEvent> GetTouchEvents() {
-        if(!events.isEmpty()){
-            List<TouchEvent> touchEvents = new ArrayList<>();
-            touchEvents.addAll(events);
-            events.clear();
-            return touchEvents;
+        synchronized (events){
+            if(!events.isEmpty()){
+                List<TouchEvent> touchEvents = new ArrayList<>();
+                touchEvents.addAll(events);
+                events.clear();
+                return touchEvents;
+            }
+            else return events;
         }
-        else return events;
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        TouchEvent currEvent = new TouchEvent();
-        currEvent.type = TouchEvent.touchUp;
-        currEvent.x = (int)event.getX();
-        currEvent.y = (int)event.getY();
-        return true;
+        synchronized (events){
+            TouchEvent currEvent = new TouchEvent();
+            currEvent.type = TouchEvent.touchDown;
+            currEvent.x = (int)event.getX();
+            currEvent.y = (int)event.getY();
+            events.add(currEvent);
+            return true;
+        }
     }
 }

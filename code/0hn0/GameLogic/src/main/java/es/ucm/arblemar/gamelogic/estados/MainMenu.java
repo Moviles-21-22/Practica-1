@@ -89,8 +89,6 @@ public class MainMenu implements App {
     @Override
     public void render() {
         Graphics g = _mainEngine.getGraphics();
-        g.clear(0);
-
         for(GameObject obj : gameObjects){
             obj.render(g);
         }

@@ -76,24 +76,24 @@ public abstract class AbstractGraphics implements Graphics {
         return new Vector2(newPosX, newPosY);
     }
 
-    // TODO: Borrar esto si no es necesario
-//    private Vector2 translateWindow() {
-//        float offsetX = (getWidth() - (_wLogWindow * _scaleFactor)) / 2.0f;
-//        float offsetY = (getHeight() - (_hLogWindow) * _scaleFactor) / 2.0f;
-//
-//        int newPosX = (int)((_posLogX * _scaleFactor) + offsetX);
-//        int newPosY = (int)((_posLogY * _scaleFactor) + offsetY);
-//
-//        return new Vector2((int)(newPosX), (int)(newPosY));
-//    }
-//
-//    public void prepareFrame(){
-//        _scaleFactor = scaleFactor();
-//        Vector2 newPos = translateWindow();
-//
-//        translate(150, 100);
-//        scale(_scaleFactor, _scaleFactor);
-//    }
+     //TODO: Borrar esto si no es necesario
+    private Vector2 translateWindow() {
+        float offsetX = (getWidth() - (_wLogWindow * _scaleFactor)) / 2.0f;
+        float offsetY = (getHeight() - (_hLogWindow) * _scaleFactor) / 2.0f;
+
+        int newPosX = (int)((_posLogX * _scaleFactor) + offsetX);
+        int newPosY = (int)((_posLogY * _scaleFactor) + offsetY);
+
+        return new Vector2((int)(newPosX), (int)(newPosY));
+    }
+
+    public void prepareFrame(){
+        _scaleFactor = scaleFactor();
+        Vector2 newPos = translateWindow();
+
+        translate(newPos._x, newPos._y);
+        scale(_scaleFactor, _scaleFactor);
+    }
 
     @Override
     public int getLogWidth(){

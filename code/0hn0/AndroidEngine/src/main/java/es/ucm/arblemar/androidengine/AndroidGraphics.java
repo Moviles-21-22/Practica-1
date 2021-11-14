@@ -4,7 +4,9 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import androidx.appcompat.app.AppCompatActivity;
 import java.io.IOException;
@@ -24,6 +26,8 @@ public class AndroidGraphics extends AbstractGraphics {
     private Paint paint;
     private Bitmap bitmap;
     private AssetManager assetManager;
+    private int widht ;
+    private int height ;
 
 
     public AndroidGraphics(AppCompatActivity appCmtAct,int w,int h,Bitmap bt){
@@ -32,6 +36,10 @@ public class AndroidGraphics extends AbstractGraphics {
         this.canvas = new Canvas(bt);
         this.paint = new Paint();
         this.assetManager = appCmtAct.getAssets();
+        Point p = new Point();
+        appCmtAct.getWindowManager().getDefaultDisplay().getSize(p);
+        this.widht = p.x;
+        this.height = p.y;
     }
 
     @Override
@@ -81,7 +89,11 @@ public class AndroidGraphics extends AbstractGraphics {
 
     @Override
     public void setColor(int color){
-        paint.setColor(color);
+        int red = (int) ((color & 0xffffffffL) >> 24);
+        int green = (color & 0x00ff0000) >> 16;
+        int blue = (color & 0x0000ff00) >> 8;
+        int alpha = color & 0x000000ff;
+        this.paint.setColor(Color.argb(alpha,red,green,blue));
     }
 
     @Override
@@ -92,7 +104,7 @@ public class AndroidGraphics extends AbstractGraphics {
     @Override
     public void drawImage(Image image, int x, int y, int w, int h) {
         Rect source = new Rect(0,0,image.getWidth(),image.getHeight());
-        Rect destiny = new Rect(x,y,x+w,y + h);
+        Rect destiny = new Rect(x,y,x + w, y + h);
         canvas.drawBitmap(((AndroidImage)image).getBitmap() ,source,destiny,null);
     }
 
@@ -113,8 +125,8 @@ public class AndroidGraphics extends AbstractGraphics {
     public void drawText(String text, int x, int y, Font font, int tam) {
         Typeface currFont = ((AndroidFont)font).getFont();
         paint.setTypeface(currFont);
-        paint.setTextSize(realSize(realSize(tam)));
-        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setTextSize(tam);
+        paint.setTextAlign(Paint.Align.LEFT);
         canvas.drawText(text,x,y,paint);
         paint.reset();
     }
@@ -128,7 +140,8 @@ public class AndroidGraphics extends AbstractGraphics {
 
     @Override
     public void fillCircle(Vector2 centro, int dm){
-        canvas.drawCircle(centro._x,centro._y,dm,paint);
+        int aux = dm / 2;
+        canvas.drawCircle(centro._x + aux,centro._y + aux,aux,paint);
     }
 
     @Override
@@ -140,14 +153,12 @@ public class AndroidGraphics extends AbstractGraphics {
 
     @Override
     public int getWidth() {
-        //TODO: ojito
-        return  1;
+        return widht;
     }
 
     @Override
     public int getHeight() {
-        //TODO: ojito
-        return  1;
+        return  height;
     }
 
     @Override
@@ -171,5 +182,15 @@ public class AndroidGraphics extends AbstractGraphics {
 
     public void setCanvas(Canvas _canvas) {
         canvas = _canvas;
+    }
+
+    @Override
+    public void translate(int x, int y) {
+        this.canvas.translate(x, y);
+    }
+
+    @Override
+    public void scale(float x, float y) {
+        this.canvas.scale(x,y);
     }
 }
