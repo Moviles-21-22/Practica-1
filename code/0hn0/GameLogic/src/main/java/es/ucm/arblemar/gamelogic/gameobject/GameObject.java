@@ -48,12 +48,8 @@ public abstract class GameObject {
 
     //  TODO: implementarlo
     public abstract void clicked();
-
     public abstract void init();
     public abstract void render(Graphics g);
     public abstract void update(float deltaTime);
-
     public int getId(){return id;}
-
-
 }

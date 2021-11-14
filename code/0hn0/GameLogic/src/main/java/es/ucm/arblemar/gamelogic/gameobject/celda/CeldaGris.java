@@ -21,16 +21,28 @@ public class CeldaGris extends Celda {
     }
 
     @Override
-    /**
-     * Alterna el color cada vez que se le da click
-     */
-    public boolean Click(){
-
-
-        // LLamada a Graphics para avisar del cambio de color
-        // Graphics->changeColor(Color);
-
-        return _lock;
+    public void clicked(){
+        // Cambia de color
+        switch (_tipoCelda){
+            case GRIS:{
+                _tipoCelda = TipoCelda.AZUL;
+                color = 0x1CC0E0FF;
+                break;
+            }
+            case AZUL: {
+                _tipoCelda = TipoCelda.ROJO;
+                color = 0xFF384BFF;
+                break;
+            }
+            case ROJO: {
+                _tipoCelda = TipoCelda.GRIS;
+                color = 0XEEEEEEFF;
+                break;
+            }
+            default: {
+                break;
+            }
+        }
     }
 
     @Override

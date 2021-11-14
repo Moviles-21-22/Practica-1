@@ -11,7 +11,7 @@ import es.ucm.arblemar.engine.Input.TouchEvent;
 import es.ucm.arblemar.engine.Vector2;
 import es.ucm.arblemar.gamelogic.gameobject.GameObject;
 import es.ucm.arblemar.gamelogic.gameobject.Rectangulo;
-import es.ucm.arblemar.gamelogic.gameobject.StaticImage;
+import es.ucm.arblemar.gamelogic.gameobject.Icon;
 import es.ucm.arblemar.gamelogic.gameobject.Texto;
 import es.ucm.arblemar.gamelogic.assets.Assets;
 
@@ -31,8 +31,13 @@ public class MainMenu implements App {
             gameObjects = new ArrayList<>();
             Graphics g = _mainEngine.getGraphics();
 
-            float width = (g.getLogWidth() / 5) * 3, height = (g.getLogWidth() / 7),
-            posX = (g.getLogWidth() / 5) - 30, posY = (g.getLogHeight() / 14) + 30;
+            int width = g.getLogWidth(), height = g.getLogHeight(),
+            posX = 0, posY = 0;
+            Rectangulo fondo = new Rectangulo(0xFFFFFFFF, posX, posY, width, height, 100);
+            gameObjects.add(fondo);
+
+            width = (g.getLogWidth() / 5) * 3; height = (g.getLogWidth() / 7);
+            posX = (g.getLogWidth() / 5) - 30; posY = (g.getLogHeight() / 14) + 30;
             Rectangle tituloRect = new Rectangle((int)posX, (int)posY, (int)width, (int)height);
             Texto tituloText = new Texto(tituloRect,0X313131FF,Assets.molle,100,01);
             tituloText.setTexto("Oh no");
@@ -59,16 +64,10 @@ public class MainMenu implements App {
             nameText.setTexto("Creado por Martin Kool");
             gameObjects.add(nameText);
 
-            width= g.getLogWidth(); height = g.getLogWidth();
-            posX = 0; posY = 0;
-            Rectangulo fondo = new Rectangulo(0x00000000, (int)posX, (int)posY, (int)width, (int)height, 06);
-            gameObjects.add(fondo);
-
             width = (g.getLogWidth() / 16) * 2 ; height = (g.getLogWidth() / 11) * 2;
             posX = (g.getLogWidth() / 5) * 2 + 20; posY = (g.getLogWidth() / 9) * 8 + 20;
-            StaticImage icono = new StaticImage(Assets.q42, (int)posX, (int)posY + 100, (int)width, (int)height, 05);
+            Icon icono = new Icon(Assets.q42, (int)posX, (int)posY + 100, (int)width, (int)height, 05);
             gameObjects.add(icono);
-
         }
         catch (Exception e){
             return false;
