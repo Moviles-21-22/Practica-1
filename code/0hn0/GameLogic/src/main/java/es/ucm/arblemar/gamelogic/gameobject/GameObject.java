@@ -27,7 +27,7 @@ public abstract class GameObject {
         _cb = cb;
     }
 
-    public Vector2 get_pos() {
+    public Vector2 getPos() {
         return _pos;
     }
 
@@ -60,7 +60,7 @@ public abstract class GameObject {
         }
     };
 
-    public abstract void init();
+    public void init() {};
     public abstract void render(Graphics g);
-    public abstract void update(float deltaTime);
+    public void update(double deltaTime) {};
 }

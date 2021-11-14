@@ -31,9 +31,4 @@ public class Rectangulo extends GameObject{
             g.drawRect(_pos._x, _pos._y, _size._x, _size._y);
         }
     }
-
-    @Override
-    public void update(float deltaTime) {
-
-    }
 }

@@ -17,18 +17,8 @@ public class CeldaGris extends Celda {
     }
 
     @Override
-    public void init() {
-
-    }
-
-    @Override
     public void render(es.ucm.arblemar.engine.Graphics g) {
         g.setColor(color);
         g.fillCircle(_pos, (int) _diametro);
-    }
-
-    @Override
-    public void update(float deltaTime) {
-
     }
 }

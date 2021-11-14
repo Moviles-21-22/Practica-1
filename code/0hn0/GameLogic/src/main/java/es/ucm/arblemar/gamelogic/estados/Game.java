@@ -59,7 +59,7 @@ public class Game implements App {
                     objects.add(casillas[i][j]);
                     final int finalI = i;
                     final int finalJ = j;
-                    switch (casillas[i][j].getTypeColor()){
+                    switch (casillas[i][j].getTypeColor()) {
                         case GRIS: {
                             casillas[i][j].setCallback(new ButtonCallback() {
                                 @Override
@@ -95,7 +95,10 @@ public class Game implements App {
                             casillas[i][j].setCallback(new ButtonCallback() {
                                 @Override
                                 public void doSomething() {
-                                    //TODO: Hacer animación
+                                    //Animación
+                                    casillas[finalI][finalJ].setAnimState(2);
+
+                                    //Candados
                                     muestraCandados = !muestraCandados;
                                     if (!muestraCandados) {
                                         for (int r = 0; r < tab.GetIndexRojas().length; ++r) {
@@ -104,7 +107,7 @@ public class Game implements App {
                                     } else {
                                         candados = new Icon[tab.GetIndexRojas().length];
                                         for (int r = 0; r < tab.GetIndexRojas().length; ++r) {
-                                            Vector2 pos = tab.GetCasillas()[tab.GetIndexRojas()[r]._x][tab.GetIndexRojas()[r]._y].get_pos();
+                                            Vector2 pos = tab.GetCasillas()[tab.GetIndexRojas()[r]._x][tab.GetIndexRojas()[r]._y].getPos();
                                             float width = tab.GetCeldaSize() / 2, height = tab.GetCeldaSize() / 2;
 
                                             candados[r] = new Icon(Assets.lock, (int) (pos._x + width / 2), (int) (pos._y + height / 2), (int) width, (int) height, 1);
@@ -171,7 +174,7 @@ public class Game implements App {
                         //Ponemos una pista
                         _pistaPuesta = true;
                         stringText(id);
-                        posPista = tab.GetCasillas()[pistasEncontradas.get(id).getIndex()._x][pistasEncontradas.get(id).getIndex()._y].get_pos();
+                        posPista = tab.GetCasillas()[pistasEncontradas.get(id).getIndex()._x][pistasEncontradas.get(id).getIndex()._y].getPos();
                         System.out.println("Pistas celda x: " + pistasEncontradas.get(id).getIndex()._x + " y: " + pistasEncontradas.get(id).getIndex()._y);
                     }
                     else {
@@ -200,6 +203,9 @@ public class Game implements App {
     public void update(double deltaTime) {
         if (tab != null && tab.EsSolucion() && !win) {
             gameWin();
+        }
+        for(GameObject obj : objects){
+            obj.update(deltaTime);
         }
     }
 
@@ -350,7 +356,7 @@ public class Game implements App {
         textoSuperior = new Texto(new Vector2(posX, posY), new Vector2(width, height), 0X313131FF, Assets.jose, 32, 0);
         textoSuperior.setTexto(text);
         objects.add(textoSuperior);
-        textoSupDos = new Texto(new Vector2(posX, posY), new Vector2(width, height), 0X313131FF, Assets.jose, 32, 0);
+        textoSupDos = new Texto(new Vector2(posX, posY + dist), new Vector2(width, height), 0X313131FF, Assets.jose, 32, 0);
         textoSupDos.setTexto(text2);
         objects.add(textoSupDos);
     }

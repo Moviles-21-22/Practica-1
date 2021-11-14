@@ -35,14 +35,14 @@ public class Boton extends GameObject {
     @Override
     public void render(Graphics g) {
         g.drawImage(image, _pos._x, _pos._y, image.getWidth(), image.getHeight());
-        if(interactive){
-            g.drawRect(_pos._x , _pos._y ,image.getWidth(), image.getHeight());
-            g.setColor(0X333333FF);
-        }
+        //if(interactive){
+        //    g.drawRect(_pos._x , _pos._y ,image.getWidth(), image.getHeight());
+        //    g.setColor(0X333333FF);
+        //}
     }
 
     @Override
-    public void update(float deltaTime) {
+    public void update(double deltaTime) {
 
     }
 }

@@ -15,19 +15,9 @@ public class Icon extends GameObject{
     }
 
     @Override
-    public void init() {
-
-    }
-
-    @Override
     public void render(Graphics g) {
         if(renderActive){
             g.drawImage(_image, _pos._x , _pos._y, _size._x, _size._y);
         }
-    }
-
-    @Override
-    public void update(float deltaTime) {
-
     }
 }

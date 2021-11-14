@@ -28,12 +28,18 @@ public abstract class Celda extends GameObject {
     protected float _diametro;
     //  Valor de esta celda
     protected int valor;
+    protected int anSt;  //0: no anim; 1: anim grande; 2: anim pequeña
+    protected int contAnim;
+    protected double timer;
 
     public Celda(TipoCelda t, Vector2 ind) {
         super(TipoGO.Celda);
+        anSt = 0;
+        contAnim = 0;
         _tipoCelda = t;
         index = ind;
         interactive = true;
+        timer = 0;
     }
 
     //  Determina si la celda ha sido "clickeada"
@@ -80,8 +86,16 @@ public abstract class Celda extends GameObject {
         valor = v;
     }
 
+    public void setAnimState(int s) {
+        anSt = s;
+    }
+
     public TipoCelda getTypeColor(){
         return _tipoCelda;
+    }
+
+    public int getColor(){
+        return color;
     }
 
     public Vector2 getIndex(){

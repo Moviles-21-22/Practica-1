@@ -36,6 +36,12 @@ public class CeldaRoja extends Celda {
 
     @Override
     public void render(es.ucm.arblemar.engine.Graphics g) {
+        //Poner animación si la tiene
+        if (anSt == 1) {
+            g.setColor(color);
+            g.fillCircle(new Vector2(_pos._x - 5, _pos._y - 5), (int)_diametro + 10);
+        }
+
         g.setColor(color);
         g.fillCircle(_pos, (int) _diametro);
 
@@ -50,7 +56,19 @@ public class CeldaRoja extends Celda {
     }
 
     @Override
-    public void update(float deltaTime) {
+    public void update(double deltaTime) {
+        timer += deltaTime;
 
+        if (timer > 0.1 && anSt > 0) {
+            anSt++;
+            contAnim++;
+            if (anSt > 2)
+                anSt = 1;
+            timer = 0;
+        }
+        if (contAnim >= 6) {
+            anSt = 0;
+            contAnim = 0;
+        }
     }
 }
