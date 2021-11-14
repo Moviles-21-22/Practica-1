@@ -69,7 +69,10 @@ public class Game implements App {
 
     @Override
     public void update(double deltaTime) {
-
+        if (tab != null && tab.EsSolucion()) {
+            SelectionMenu menu = new SelectionMenu(engine);
+            engine.initNewApp(menu);
+        }
     }
 
     @Override

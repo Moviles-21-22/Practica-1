@@ -23,6 +23,8 @@ public class Tablero {
     private int _size;
     //  Contiene todas las celdas de todos los tipos del tablero
     private Celda[][] casillas;
+    //  Contiene todas las celdas de la solucion
+    private Celda[][] casillasSol;
     //  Index de las celdas azules puestas por el juego
     private Vector2[] indexAzulesOriginales;
     //  Index de las celdas rojas puestas por el juego
@@ -47,6 +49,8 @@ public class Tablero {
     private boolean tabCorrecto = false;
     // Auxiliar para contar adyacentes
     private int adyacentes = 0;
+    // Enunciado acabado
+    private boolean enunAcabau = false;
 
     public Tablero(int size,Engine _eng){
         engine = _eng;
@@ -79,6 +83,7 @@ public class Tablero {
                 initPos._y += celdaRd + celdaDistancia;
             }
 
+            enunAcabau = false;
             generaTab();
             //Si sale del while y tabCorrecto es false vuelve a empezar
             //while (tabCorrecto && !solUnica) {
@@ -94,9 +99,9 @@ public class Tablero {
         // Existen algunos casos incorrectos
 
         // Falta analizar que el tablero tiene una única solución antes de gestionar las pistas
-//
+
         //GestorPistas p = new GestorPistas(this);
-//
+
         //RenderizaConsola();
     }
 
@@ -178,6 +183,21 @@ public class Tablero {
             }
         }
 
+        casillasSol = new Celda[_size][_size];
+        //Antes de elegir cuales mostrar guardamos la solucioncita
+        for (int i = 0; i < _size; i++) {
+            for (int j = 0; j < _size; j++) {
+                Vector2 ind = new Vector2(i, j);
+                Vector2 pos = casillas[i][j].getPos();
+                if (casillas[i][j].getTypeColor() == TipoCelda.AZUL) {
+                    casillasSol[i][j] = new CeldaAzul(Assets.jose, (int)(celdaRd * 2/3), 0, ind,0,pos, celdaRd);
+                }
+                else {
+                    casillasSol[i][j] = new CeldaRoja(ind, 0, pos, celdaRd);
+                }
+            }
+        }
+
         indexAzulesOriginales = new Vector2[contA];
         indexRojosOriginales = new Vector2[contR];
 
@@ -206,6 +226,7 @@ public class Tablero {
                 }
             }
         }
+        enunAcabau = true;
 
         ////Comprueba si es sol unica
         //if (compruebaTab()) {
@@ -753,6 +774,19 @@ public class Tablero {
         return  elementos >= casillas[(int)x][(int)y].getValue();
     }
 
+    public boolean EsSolucion() {
+        if (!enunAcabau)
+            return false;
+        for (int i = 0; i < _size; i++) {
+            for (int j = 0; j < _size; j++) {
+                if (casillasSol[i][j].getTypeColor() != casillas[i][j].getTypeColor()) {
+                    return false;
+                }
+            }
+        }
+        System.out.println("Hecho");
+        return true;
+    }
     /**
      * Agrega una celda azul en el tablero
      * */
