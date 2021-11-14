@@ -12,14 +12,15 @@ public class AndroidInput implements Input , View.OnTouchListener {
 
     private List<TouchEvent> events;
 
-    public AndroidInput(){
+    public AndroidInput(View view){
         super();
         events = new ArrayList<>();
+        view.setOnTouchListener(this);
     }
 
     @Override
     public boolean init() {
-        return false;
+        return true;
     }
 
     @Override

@@ -7,26 +7,28 @@ import android.view.SurfaceView;
 
 import java.io.InputStream;
 
+import es.ucm.arblemar.engine.Graphics;
+
 public class AndroidScreen extends SurfaceView implements Runnable {
-    private AndroidGraphics graphics;
+    private Graphics graphics;
     private AndroidInput input;
     private SurfaceHolder holder;
     private Thread renderThread;
     private volatile boolean running = false;
 
-    public AndroidScreen(Context context, AndroidGraphics g, AndroidInput i){
+    public AndroidScreen(Context context, Graphics g, AndroidInput i){
         super(context);
         graphics = g;
         input = i;
         holder = getHolder();
 
         InputStream data = null;
-        try{
-            //data = context.get
-        }
-        catch (Exception e){
-            System.err.println(e);
-        }
+//        try{
+//            //data = context.get
+//        }
+//        catch (Exception e){
+//            System.err.println(e);
+//        }
 
         setOnTouchListener(input);
     }

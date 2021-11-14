@@ -33,6 +33,7 @@ public class DesktopEngine implements Engine {
             updateDeltaTime();
 
             // Refresco del estado actual
+
             _currentApp.handleInput();
             _currentApp.update(_deltaTime);
 

@@ -1,31 +1,40 @@
 package es.ucm.arblemar.androidengine;
 
-import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.view.Surface;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import es.ucm.arblemar.engine.AbstractGraphics;
+import es.ucm.arblemar.engine.App;
 import es.ucm.arblemar.engine.Font;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Image;
-import es.ucm.arblemar.engine.Input;
-import es.ucm.arblemar.engine.Rect;
 import es.ucm.arblemar.engine.Vector2;
 
 public class AndroidGraphics extends AbstractGraphics {
 
     private AndroidScreen screen;
-    private Graphics graphics;
+    private AndroidGraphics graphics;
     private AndroidInput input;
+    private Canvas canvas;
+    private Paint paint;
+    private Bitmap bitmap;
 
-    public AndroidGraphics(AndroidInput i){
-        super(400, 600);
-        input = i;
-        screen = new AndroidScreen(screen.getContext(), this,i);
+
+    public AndroidGraphics(AppCompatActivity appCmtAct,int w,int h,Bitmap bt){
+        super(w, h);
+        bitmap = bt;
+        canvas = new Canvas(bitmap);
+        paint = new Paint();
+        screen = new AndroidScreen(appCmtAct, this,input);
 
     }
 
     @Override
     public boolean init() {
-        screen = new AndroidScreen(screen.getContext(), this,input);
         return true;
     }
 
@@ -56,7 +65,17 @@ public class AndroidGraphics extends AbstractGraphics {
 
     @Override
     public void drawImage(Image image, int x, int y, int w, int h) {
-
+        //Rect srcRect = new Rect(x,y,w,h);
+        //srcRect.left = 0;
+        //srcRect.top = 0;
+        //srcRect.right = image.getWidth();
+        //srcRect.bottom = image.getHeight();
+//
+        //dstRect.left = x;
+        //dstRect.top = y;
+        //dstRect.right = x + w;
+        //dstRect.bottom = y + h;
+        //canvas.drawBitmap(((AndroidImage)image,srcRect,);
     }
 
     @Override
@@ -66,12 +85,13 @@ public class AndroidGraphics extends AbstractGraphics {
 
     @Override
     public void drawCircle(Vector2 centro, int radio) {
-
+        canvas.drawCircle(centro._x, centro._y, radio, this.paint);
     }
 
     @Override
     public void drawText(String text, int x, int y, Font font, int tam) {
-
+        canvas.drawText(text, x, y, paint);
+        paint.reset();
     }
 
     @Override
@@ -116,4 +136,11 @@ public class AndroidGraphics extends AbstractGraphics {
 
     }
 
+    public AndroidScreen getScreen() {
+        return screen;
+    }
+
+    public void setCanvas(Canvas _canvas) {
+        canvas = _canvas;
+    }
 }

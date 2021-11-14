@@ -29,10 +29,12 @@ public class LoadAssets implements App {
             Assets.molle = graphics.newFont("Molle-Regular.ttf", 1, false);
             Assets.jose = graphics.newFont("JosefinSans-Bold.ttf", 1, true);
 
+            //  Falla al inicializar
             App mainMenu = new MainMenu(_mainEngine);
             return _mainEngine.initNewApp(mainMenu);
         }
         catch (Exception e) {
+            System.err.println(e);
             return false;
         }
     }
