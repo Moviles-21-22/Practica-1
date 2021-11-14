@@ -17,6 +17,7 @@ import es.ucm.arblemar.gamelogic.gameobject.Boton;
 import es.ucm.arblemar.gamelogic.gameobject.Celda;
 import es.ucm.arblemar.gamelogic.gameobject.GameObject;
 import es.ucm.arblemar.gamelogic.Tablero;
+import es.ucm.arblemar.gamelogic.gameobject.Icon;
 import es.ucm.arblemar.gamelogic.gameobject.Texto;
 import es.ucm.arblemar.gamelogic.assets.Assets;
 
@@ -27,10 +28,12 @@ public class Game implements App {
     private Tablero tab;
     private List<GameObject> objects;
     private List<Boton> images;
+    private Icon[] candados;
     private Vector2 posPista;
     private Texto textoSuperior;
     private Texto textoSupDos;
     private boolean pistaPuesta = false;
+    private boolean muestraCandados = false;
 
     Game(Engine _engine,int _tam){
         engine = _engine;
@@ -169,7 +172,7 @@ public class Game implements App {
                             }
                         }
                     }
-                    else{
+                    else {
                         //  Es de tipo celda
                         obj = tab.getCeldaClicked(eventPos);
                         if(obj != null){
@@ -192,6 +195,28 @@ public class Game implements App {
                                 }
                             }
                             obj.clicked();
+                        }
+                        else {
+                            obj = tab.getCeldaBlockClicked(eventPos);
+                            if(obj != null){
+                                //TODO: Hacer animación
+                                muestraCandados = !muestraCandados;
+                                if (!muestraCandados) {
+                                    for (int r = 0; r < tab.GetIndexRojas().length; ++r) {
+                                        objects.remove(candados[r]);
+                                    }
+                                }
+                                else {
+                                    candados = new Icon[tab.GetIndexRojas().length];
+                                    for (int r = 0; r < tab.GetIndexRojas().length; ++r) {
+                                        Vector2 pos = tab.GetCasillas()[tab.GetIndexRojas()[r]._x][tab.GetIndexRojas()[r]._y].getPos();
+                                        float width = tab.GetCeldaSize() / 2, height = tab.GetCeldaSize() / 2;
+
+                                        candados[r] = new Icon(Assets.lock, (int)(pos._x + width / 2), (int)(pos._y + height / 2), (int)width, (int)height, 1);
+                                        objects.add(candados[r]);
+                                    }
+                                }
+                            }
                         }
                     }
                     break;

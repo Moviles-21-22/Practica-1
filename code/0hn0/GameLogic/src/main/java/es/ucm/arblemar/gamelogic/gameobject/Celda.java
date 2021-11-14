@@ -38,11 +38,14 @@ public abstract class Celda extends GameObject {
     //  Determina si la celda ha sido "clickeada"
     @Override
     public boolean isClicked(es.ucm.arblemar.engine.Vector2 mouseClicked){
-        if(!interactive) return false;
         double xDiff = (pos._x + (_diametro / 2)) - mouseClicked._x;
         double yDiff = (pos._y + (_diametro / 2)) - mouseClicked._y;
         double distance = Math.sqrt((Math.pow(xDiff, 2) + Math.pow(yDiff, 2)));
         return distance <= (int)(_diametro / 2);
+    }
+
+    public boolean isInteractive() {
+        return interactive;
     }
 
     public boolean isLock(){

@@ -569,14 +569,34 @@ public class Tablero {
 
     //  Devuelve la celda que ha sido pulsada del tablero
     public GameObject getCeldaClicked(Vector2 mousePos){
-        boolean encontrado = false;
         int indX = 0;
         int indY = 0;
         AbstractGraphics g = (AbstractGraphics) engine.getGraphics();
         Vector2 logPos = g.logPos(mousePos);
-        while (!encontrado && indY < _size){
-            if(casillas[indX][indY].isClicked(logPos)){
-                encontrado = true;
+        while (indY < _size) {
+            if(casillas[indX][indY].isClicked(logPos) && casillas[indX][indY].isInteractive()) {
+                //System.out.println(indX + " " + indY);
+                return casillas[indX][indY];
+            }
+            else{
+                indX++;
+                if(indX >= _size) {
+                    indX = 0;
+                    indY++;
+                }
+            }
+        }
+        return null;
+    }
+
+    //  Devuelve la celda que ha sido pulsada del tablero
+    public GameObject getCeldaBlockClicked(Vector2 mousePos){
+        int indX = 0;
+        int indY = 0;
+        AbstractGraphics g = (AbstractGraphics) engine.getGraphics();
+        Vector2 logPos = g.logPos(mousePos);
+        while (indY < _size){
+            if(casillas[indX][indY].isClicked(logPos) && !casillas[indX][indY].isInteractive()) {
                 return casillas[indX][indY];
             }
             else{

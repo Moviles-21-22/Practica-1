@@ -112,7 +112,7 @@ public class SelectionMenu implements App {
                 case Input.TouchEvent.touchDown:{
                     GameObject obj = getObjectClicked(eventPos);
                     if(obj != null){
-                        System.out.println("SUCCESS");
+                        //System.out.println(eventPos._x + " " + eventPos._y);
                         int numGame = ((Celda)obj).getValue();
                         Game game = new Game(engine,numGame);
                         while(!engine.initNewApp(game)) {}
