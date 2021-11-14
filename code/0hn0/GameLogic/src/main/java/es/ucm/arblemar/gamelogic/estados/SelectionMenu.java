@@ -6,11 +6,13 @@ import java.util.List;
 
 import es.ucm.arblemar.engine.AbstractGraphics;
 import es.ucm.arblemar.engine.App;
+import es.ucm.arblemar.engine.ButtonCallback;
 import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Input;
 import es.ucm.arblemar.engine.Vector2;
 import es.ucm.arblemar.gamelogic.gameobject.Celda;
+import es.ucm.arblemar.gamelogic.gameobject.Icon;
 import es.ucm.arblemar.gamelogic.gameobject.Rectangulo;
 import es.ucm.arblemar.gamelogic.gameobject.celda.CeldaAzul;
 import es.ucm.arblemar.gamelogic.gameobject.celda.CeldaRoja;
@@ -53,29 +55,91 @@ public class SelectionMenu implements App {
             textInfo.setTexto("Elija el tamaño a jugar");
             gameObjects.add(textInfo);
 
-            CeldaAzul c1 = new CeldaAzul(Assets.jose, 43,4,new Vector2(0,0),0,new Vector2(88,230), 70);
-            c1.setInteractive();
+            final CeldaAzul c1 = new CeldaAzul(Assets.jose, 43,4,new Vector2(0,0), new Vector2(88,230), 70);
+            c1.setCallback(new ButtonCallback() {
+                @Override
+                public void doSomething() {
+                    //System.out.println(eventPos._x + " " + eventPos._y);
+                    int numGame = c1.getValue();
+                    Game game = new Game(engine,numGame);
+                    while(!engine.initNewApp(game)) {}
+                }
+            });
+
             gameObjects.add(c1);
 
-            CeldaRoja c2 = new CeldaRoja(new Vector2(0,0),0,new Vector2(165,230),5,Assets.jose, 43, 70);
-            c2.setInteractive();
+            final CeldaRoja c2 = new CeldaRoja(new Vector2(0,0), new Vector2(165,230),5,Assets.jose, 43, 70);
+            c2.setCallback(new ButtonCallback() {
+                @Override
+                public void doSomething() {
+                    //System.out.println(eventPos._x + " " + eventPos._y);
+                    int numGame = c2.getValue();
+                    Game game = new Game(engine,numGame);
+                    while(!engine.initNewApp(game)) {}
+                }
+            });
             gameObjects.add(c2);
 
-            CeldaAzul c3 = new CeldaAzul(Assets.jose, 43, 6,new Vector2(0,0),0,new Vector2(243,230), 70);
-            c3.setInteractive();
+            final CeldaAzul c3 = new CeldaAzul(Assets.jose, 43, 6,new Vector2(0,0), new Vector2(243,230), 70);
+            c3.setCallback(new ButtonCallback() {
+                @Override
+                public void doSomething() {
+                    //System.out.println(eventPos._x + " " + eventPos._y);
+                    int numGame = c3.getValue();
+                    Game game = new Game(engine,numGame);
+                    while(!engine.initNewApp(game)) {}
+                }
+            });
             gameObjects.add(c3);
 
-            CeldaRoja c4 =  new CeldaRoja(new Vector2(0,0),0,new Vector2(88,308),7,Assets.jose, 43, 70);
-            c4.setInteractive();
+            final CeldaRoja c4 =  new CeldaRoja(new Vector2(0,0), new Vector2(88,308),7,Assets.jose, 43, 70);
+            c4.setCallback(new ButtonCallback() {
+                @Override
+                public void doSomething() {
+                    //System.out.println(eventPos._x + " " + eventPos._y);
+                    int numGame = c4.getValue();
+                    Game game = new Game(engine,numGame);
+                    while(!engine.initNewApp(game)) {}
+                }
+            });
             gameObjects.add(c4);
 
-            CeldaAzul c5 = new CeldaAzul(Assets.jose, 43, 8,new Vector2(0,0),0,new Vector2(165,308), 70);
-            c5.setInteractive();
+            final CeldaAzul c5 = new CeldaAzul(Assets.jose, 43, 8,new Vector2(0,0), new Vector2(165,308), 70);
+            c5.setCallback(new ButtonCallback() {
+                @Override
+                public void doSomething() {
+                    //System.out.println(eventPos._x + " " + eventPos._y);
+                    int numGame = c5.getValue();
+                    Game game = new Game(engine,numGame);
+                    while(!engine.initNewApp(game)) {}
+                }
+            });
             gameObjects.add(c5);
 
-            CeldaRoja c6 = new CeldaRoja(new Vector2(0,0),0,new Vector2(243,308),9, Assets.jose, 43, 70);
-            c6.setInteractive();
+            final CeldaRoja c6 = new CeldaRoja(new Vector2(0,0), new Vector2(243,308),9, Assets.jose, 43, 70);
+            c6.setCallback(new ButtonCallback() {
+                @Override
+                public void doSomething() {
+                    //System.out.println(eventPos._x + " " + eventPos._y);
+                    int numGame = c6.getValue();
+                    Game game = new Game(engine,numGame);
+                    while(!engine.initNewApp(game)) {}
+                }
+            });
             gameObjects.add(c6);
+
+            width = (g.getLogWidth() / 16) * 2 ; height = (g.getLogWidth() / 16) * 2;
+            posX = (g.getLogWidth() / 2)  - (width / 2); posY = g.getLogHeight() - 200;
+            Icon icono = new Icon(Assets.close, (int)posX, (int)posY + 100, (int)width, (int)height, 05);
+            icono.setInteractive();
+            icono.setCallback(new ButtonCallback() {
+                @Override
+                public void doSomething() {
+                    MainMenu main = new MainMenu(engine);
+                    engine.initNewApp(main);
+                }
+            });
+            gameObjects.add(icono);
         }
         catch (Exception e){
             System.out.println(e);
@@ -111,12 +175,10 @@ public class SelectionMenu implements App {
             switch (currEvent.type){
                 case Input.TouchEvent.touchDown:{
                     GameObject obj = getObjectClicked(eventPos);
-                    if(obj != null){
-                        //System.out.println(eventPos._x + " " + eventPos._y);
-                        int numGame = ((Celda)obj).getValue();
-                        Game game = new Game(engine,numGame);
-                        while(!engine.initNewApp(game)) {}
+                    if(obj != null) {
+                        obj.clicked();
                     }
+
                     break;
                 }
                 case Input.TouchEvent.touchUp:{
@@ -132,7 +194,7 @@ public class SelectionMenu implements App {
         int gameObjIndex = 0;
 
         while (!encontrado && gameObjIndex < gameObjects.size()){
-            if(gameObjects.get(gameObjIndex).isInteractive() && ((Celda) gameObjects.get(gameObjIndex)).isClicked(eventPos)){
+            if(gameObjects.get(gameObjIndex).isInteractive() && (gameObjects.get(gameObjIndex)).isClicked(eventPos)){
                 encontrado = true;
                 return gameObjects.get(gameObjIndex);
             }

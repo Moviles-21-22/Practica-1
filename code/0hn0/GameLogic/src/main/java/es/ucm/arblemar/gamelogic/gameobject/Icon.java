@@ -6,36 +6,18 @@ import es.ucm.arblemar.engine.Vector2;
 
 public class Icon extends GameObject{
     private Image _image;
-    private int width;
-    private int height;
 
     public Icon(Image image, int x, int y, int w, int h, int id){
-        super(id);
-        pos = new Vector2(x, y);
-        width = w;
-        height = h;
+        super(TipoGO.Icon);
+        _pos = new Vector2(x, y);
+        _size = new Vector2(w, h);
         _image = image;
-    }
-
-    @Override
-    public void clicked() {
-
-    }
-
-    @Override
-    public void init() {
-
     }
 
     @Override
     public void render(Graphics g) {
         if(renderActive){
-            g.drawImage(_image, pos._x , pos._y, width, height);
+            g.drawImage(_image, _pos._x , _pos._y, _size._x, _size._y);
         }
-    }
-
-    @Override
-    public void update(float deltaTime) {
-
     }
 }
