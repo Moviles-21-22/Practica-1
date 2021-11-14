@@ -62,7 +62,7 @@ public class Tablero {
         // Inicialización de las celdas en modo gris
         Graphics g = _eng.getGraphics();
 
-        celdaRd = (float)g.getWidth() / (1.1f * _size + 0.1f);
+        celdaRd = (float)g.getLogWidth() / (1.1f * _size + 0.1f);
         celdaDistancia = celdaRd * 0.1f;
 
         //while (!tabCorrecto) {

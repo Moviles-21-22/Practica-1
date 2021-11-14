@@ -13,6 +13,7 @@ public class Rectangulo extends GameObject{
         pos = new Vector2(x, y);
         _width = w;
         _height = h;
+        _color = color;
     }
 
     @Override

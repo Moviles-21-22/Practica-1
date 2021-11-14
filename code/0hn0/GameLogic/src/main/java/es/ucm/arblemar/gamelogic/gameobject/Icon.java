@@ -4,12 +4,12 @@ import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Image;
 import es.ucm.arblemar.engine.Vector2;
 
-public class StaticImage extends GameObject{
+public class Icon extends GameObject{
     private Image _image;
     private int width;
     private int height;
 
-    public StaticImage(Image image, int x, int y, int w, int h, int id){
+    public Icon(Image image, int x, int y, int w, int h, int id){
         super(id);
         pos = new Vector2(x, y);
         width = w;

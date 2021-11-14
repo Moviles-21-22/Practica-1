@@ -35,8 +35,6 @@ public abstract class Celda extends GameObject {
         index = ind;
     }
 
-    protected abstract boolean Click();
-
     //  Determina si la celda ha sido "clickeada"
     @Override
     public boolean isClicked(es.ucm.arblemar.engine.Vector2 mouseClicked){
@@ -51,28 +49,9 @@ public abstract class Celda extends GameObject {
         return _lock;
     }
 
+    @Override
     public void clicked() {
-        // Cambia de color
-        switch (_tipoCelda){
-            case GRIS:{
-                _tipoCelda = TipoCelda.AZUL;
-                color = 0x1CC0E0FF;
-                break;
-            }
-            case AZUL: {
-                _tipoCelda = TipoCelda.ROJO;
-                color = 0xFF384BFF;
-                break;
-            }
-            case ROJO: {
-                _tipoCelda = TipoCelda.GRIS;
-                color = 0XEEEEEEFF;
-                break;
-            }
-            default: {
-                break;
-            }
-        }
+
     }
 
     public void setLock(boolean lock){
