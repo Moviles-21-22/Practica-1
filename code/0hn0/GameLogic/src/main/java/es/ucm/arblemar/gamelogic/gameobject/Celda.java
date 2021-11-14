@@ -23,7 +23,9 @@ public abstract class Celda extends GameObject {
     protected Vector2 index;
 
     //  color para pintar el circulo
+    protected int targetColor;
     protected int color;
+    protected int newColor;
     //  Radio del circulo
     protected float _diametro;
     //  Valor de esta celda
@@ -31,6 +33,7 @@ public abstract class Celda extends GameObject {
     protected int anSt;  //0: no anim; 1: anim grande; 2: anim pequeña
     protected int contAnim;
     protected double timer;
+    protected int cont;
 
     public Celda(TipoCelda t, Vector2 ind) {
         super(TipoGO.Celda);
@@ -39,6 +42,10 @@ public abstract class Celda extends GameObject {
         _tipoCelda = t;
         index = ind;
         interactive = true;
+        timer = 0;
+        targetColor = color;
+        newColor = color;
+        cont = 0;
         timer = 0;
     }
 
@@ -64,16 +71,30 @@ public abstract class Celda extends GameObject {
     }
 
     public void setTypeColor(TipoCelda type) {
+        TipoCelda antType = _tipoCelda;
         _tipoCelda = type;
+        timer = 0;
         switch (type){
             case GRIS:
-                color = 0XEEEEEEFF;
+                targetColor = 0XEEEEEEFF;
+                if (antType == TipoCelda.AZUL)
+                    newColor = 0xbee7eeFF;
+                else if (antType == TipoCelda.ROJO)
+                    newColor = 0xf6c5caFF;
                 break;
             case AZUL:
-                color = 0x1CC0E0FF;
+                targetColor = 0x1CC0E0FF;
+                if (antType == TipoCelda.GRIS)
+                    newColor = 0xbee7eeFF;
+                else if (antType == TipoCelda.ROJO)
+                    newColor = 0xc68b9dFF;
                 break;
             case ROJO:
-                color = 0xFF384BFF;
+                targetColor = 0xFF384BFF;
+                if (antType == TipoCelda.AZUL)
+                    newColor = 0xc68b9dFF;
+                else if (antType == TipoCelda.GRIS)
+                    newColor = 0xf6c5caFF;
                 break;
         }
     }

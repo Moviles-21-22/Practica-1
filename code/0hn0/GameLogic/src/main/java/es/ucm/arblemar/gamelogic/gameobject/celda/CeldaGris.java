@@ -13,12 +13,30 @@ public class CeldaGris extends Celda {
         valor = 0;
         //  Color gris
         color = 0XEEEEEEFF;
+        targetColor = color;
         _diametro = d;
+        cont = 0;
     }
 
     @Override
     public void render(es.ucm.arblemar.engine.Graphics g) {
         g.setColor(color);
         g.fillCircle(_pos, (int) _diametro);
+    }
+
+    @Override
+    public void update(double deltaTime) {
+        timer += deltaTime;
+
+        if (timer > 0.03 && cont < 1 && targetColor != color) {
+            color = newColor;
+            cont++;
+            timer = 0;
+        }
+        else if (timer > 0.03) {
+            cont = 0;
+            color = targetColor;
+            timer = 0;
+        }
     }
 }
