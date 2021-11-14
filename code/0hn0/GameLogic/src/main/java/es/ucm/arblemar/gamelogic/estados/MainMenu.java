@@ -5,6 +5,7 @@ import java.util.List;
 
 import es.ucm.arblemar.engine.AbstractGraphics;
 import es.ucm.arblemar.engine.App;
+import es.ucm.arblemar.engine.ButtonCallback;
 import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Input.TouchEvent;
@@ -40,9 +41,6 @@ public class MainMenu implements App {
             width = (g.getLogWidth() / 10) * 7; height = (g.getLogWidth() / 6);
             posX = (g.getLogWidth() / 2)  - (width / 2); posY = height;
 
-            Rectangulo aux = new Rectangulo(false, 0xFF0000FF, posX, posY, width, height, 101);
-            gameObjects.add(aux);
-
             Texto tituloText = new Texto(new Vector2(posX, posY), new Vector2(width, height),0X313131FF,Assets.molle,100,01);
             tituloText.setTexto("Oh no");
             gameObjects.add(tituloText);
@@ -50,29 +48,26 @@ public class MainMenu implements App {
             width = (g.getLogWidth() / 10) * 3; height = (g.getLogHeight() / 10);
             posX = (g.getLogWidth() / 2)  - (width / 2); posY = (g.getLogHeight() / 10) * 3;
 
-            aux = new Rectangulo(false, 0xFF0000FF, posX, posY, width, height, 101);
-            gameObjects.add(aux);
-
             Texto t = new Texto(new Vector2(posX, posY), new Vector2(width, height),0X313131FF,Assets.jose,56,02);
             t.setTexto("Jugar");
+            t.setCallback(new ButtonCallback() {
+                @Override
+                public void doSomething() {
+                    SelectionMenu sMenu = new SelectionMenu(_mainEngine);
+                    _mainEngine.initNewApp(sMenu);
+                }
+            });
             t.setInteractive();
             gameObjects.add(t);
 
             width = (g.getLogWidth() / 2); height = (g.getLogHeight() / 20);
             posX = (g.getLogWidth() / 2)  - (width / 2); posY = (g.getLogWidth() / 5) * 4;
 
-            aux = new Rectangulo(false, 0xFF0000FF, posX, posY, width, height, 101);
-            gameObjects.add(aux);
-
             Texto infoText = new Texto(new Vector2(posX, posY), new Vector2(width, height),0XB6B3B6FF, Assets.jose, 20,03);
             infoText.setTexto("Un juego copiado a Q42");
             gameObjects.add(infoText);
 
             posY += height;
-
-            aux = new Rectangulo(false, 0xFF0000FF, posX, posY, width, height, 101);
-            gameObjects.add(aux);
-
             Texto nameText = new Texto(new Vector2(posX, posY), new Vector2(width, height),0XB6B3B6FF, Assets.jose, 20,04);
             nameText.setTexto("Creado por Martin Kool");
             gameObjects.add(nameText);
@@ -116,8 +111,7 @@ public class MainMenu implements App {
                 case TouchEvent.touchDown:{
                     GameObject obj = getObjectClicked(eventPos);
                     if(obj != null){
-                        SelectionMenu sMenu = new SelectionMenu(_mainEngine);
-                        _mainEngine.initNewApp(sMenu);
+                        obj.clicked();
                     }
                     break;
                 }

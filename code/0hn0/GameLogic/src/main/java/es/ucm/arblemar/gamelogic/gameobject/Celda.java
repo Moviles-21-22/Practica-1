@@ -29,17 +29,18 @@ public abstract class Celda extends GameObject {
     //  Valor de esta celda
     protected int valor;
 
-    public Celda(TipoCelda t, Vector2 ind,int _id) {
-        super(_id);
+    public Celda(TipoCelda t, Vector2 ind) {
+        super(TipoGO.Celda);
         _tipoCelda = t;
         index = ind;
+        interactive = true;
     }
 
     //  Determina si la celda ha sido "clickeada"
     @Override
     public boolean isClicked(es.ucm.arblemar.engine.Vector2 mouseClicked){
-        double xDiff = (pos._x + (_diametro / 2)) - mouseClicked._x;
-        double yDiff = (pos._y + (_diametro / 2)) - mouseClicked._y;
+        double xDiff = (_pos._x + (_diametro / 2)) - mouseClicked._x;
+        double yDiff = (_pos._y + (_diametro / 2)) - mouseClicked._y;
         double distance = Math.sqrt((Math.pow(xDiff, 2) + Math.pow(yDiff, 2)));
         return distance <= (int)(_diametro / 2);
     }
@@ -52,17 +53,23 @@ public abstract class Celda extends GameObject {
         return _lock;
     }
 
-    @Override
-    public void clicked() {
-
-    }
-
     public void setLock(boolean lock){
         _lock = lock;
     }
 
     public void setTypeColor(TipoCelda type) {
         _tipoCelda = type;
+        switch (type){
+            case GRIS:
+                color = 0XEEEEEEFF;
+                break;
+            case AZUL:
+                color = 0x1CC0E0FF;
+                break;
+            case ROJO:
+                color = 0xFF384BFF;
+                break;
+        }
     }
 
     public void setColor(int c) {

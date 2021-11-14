@@ -8,8 +8,6 @@ import es.ucm.arblemar.engine.App;
 import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Input;
-import es.ucm.arblemar.engine.Vector2;
-
 
 public class DesktopEngine implements Engine {
     public DesktopEngine(){

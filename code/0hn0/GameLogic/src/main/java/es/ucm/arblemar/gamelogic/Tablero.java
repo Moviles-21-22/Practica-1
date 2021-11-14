@@ -6,8 +6,8 @@ import java.util.Random;
 import java.util.Vector;
 
 import es.ucm.arblemar.engine.AbstractGraphics;
+import es.ucm.arblemar.engine.ButtonCallback;
 import es.ucm.arblemar.engine.Engine;
-import es.ucm.arblemar.engine.Font;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Vector2;
 import es.ucm.arblemar.gamelogic.assets.Assets;
@@ -82,7 +82,7 @@ public class Tablero {
             for (int i = 0; i < _size; i++) {
                 for (int j = 0; j < _size; j++) {
                     Vector2 ind = new Vector2(i, j);
-                    casillas[i][j] = new CeldaGris(ind, 0, new Vector2(initPos._x, initPos._y), celdaRd);
+                    casillas[i][j] = new CeldaGris(ind, new Vector2(initPos._x, initPos._y), celdaRd);
                     initPos._x += celdaRd + celdaDistancia;
                 }
                 initPos._x = (int) celdaPosX;
@@ -121,13 +121,13 @@ public class Tablero {
             for (int j = 0; j < _size; j++) {
                 Vector2 ind = new Vector2(i, j);
                 int prob = r.nextInt(10);
-                Vector2 pos = casillas[i][j].getPos();
+                Vector2 pos = casillas[i][j].get_pos();
                 if (prob < 4) {
-                    casillas[i][j] = new CeldaRoja(ind, 0, pos, celdaRd);
+                    casillas[i][j] = new CeldaRoja(ind, pos, celdaRd);
                     contR++;
                 }
                 else {
-                    casillas[i][j] = new CeldaAzul(Assets.jose, (int)(celdaRd * 2/3), 0, ind,0,pos, celdaRd);
+                    casillas[i][j] = new CeldaAzul(Assets.jose, (int)(celdaRd * 2/3), 0, ind, pos, celdaRd);
                     indexAzules[contAzul] = new Vector2(i,j);
                     contAzul++;
                 }
@@ -179,8 +179,8 @@ public class Tablero {
             }
             //Si no tiene vecinas
             if (ady == 0) {
-                Vector2 pos = casillas[ind._x][ind._y].getPos();
-                casillas[ind._x][ind._y] = new CeldaRoja(ind, 0, pos, celdaRd);
+                Vector2 pos = casillas[ind._x][ind._y].get_pos();
+                casillas[ind._x][ind._y] = new CeldaRoja(ind, pos, celdaRd);
                 contR++;
                 contA--;
             }
@@ -194,12 +194,12 @@ public class Tablero {
         for (int i = 0; i < _size; i++) {
             for (int j = 0; j < _size; j++) {
                 Vector2 ind = new Vector2(i, j);
-                Vector2 pos = casillas[i][j].getPos();
+                Vector2 pos = casillas[i][j].get_pos();
                 if (casillas[i][j].getTypeColor() == TipoCelda.AZUL) {
-                    casillasSol[i][j] = new CeldaAzul(Assets.jose, (int)(celdaRd * 2/3), 0, ind,0,pos, celdaRd);
+                    casillasSol[i][j] = new CeldaAzul(Assets.jose, (int)(celdaRd * 2/3), 0, ind, pos, celdaRd);
                 }
                 else {
-                    casillasSol[i][j] = new CeldaRoja(ind, 0, pos, celdaRd);
+                    casillasSol[i][j] = new CeldaRoja(ind, pos, celdaRd);
                 }
             }
         }
@@ -215,7 +215,7 @@ public class Tablero {
             for (int j = 0; j < _size; j++) {
                 Vector2 ind = new Vector2(i, j);
                 int prob = r.nextInt(2);
-                Vector2 pos = casillas[i][j].getPos();
+                Vector2 pos = casillas[i][j].get_pos();
                 if (prob == 0) {
                     if (casillas[i][j].getTypeColor() == TipoCelda.ROJO) {
                         ponAzul = true;
@@ -238,7 +238,7 @@ public class Tablero {
                         contA++;
                     }
                     else
-                        casillas[i][j] = new CeldaGris(ind, 0, pos, celdaRd);
+                        casillas[i][j] = new CeldaGris(ind, pos, celdaRd);
                 }
             }
             ponAzul = true;
@@ -264,12 +264,12 @@ public class Tablero {
         for (int i = 0; i < _size; i++) {
             for (int j = 0; j < _size; j++) {
                 Vector2 ind = new Vector2(i, j);
-                Vector2 pos = casillas[i][j].getPos();
+                Vector2 pos = casillas[i][j].get_pos();
                 if (casillas[i][j].getTypeColor() == TipoCelda.AZUL) {
-                    casillasPistas[i][j] = new CeldaAzul(Assets.jose, (int)(celdaRd * 2/3), 0, ind,0,pos, celdaRd);
+                    casillasPistas[i][j] = new CeldaAzul(Assets.jose, (int)(celdaRd * 2/3), 0, ind, pos, celdaRd);
                 }
                 else {
-                    casillasPistas[i][j] = new CeldaRoja(ind, 0, pos, celdaRd);
+                    casillasPistas[i][j] = new CeldaRoja(ind, pos, celdaRd);
                 }
             }
         }
@@ -507,15 +507,15 @@ public class Tablero {
                         for (int x = 0; x < _size; x++) {
                             for (int y = 0; y < _size; y++) {
                                 Vector2 ind = new Vector2(x, y);
-                                Vector2 pos = casillas[x][y].getPos();
+                                Vector2 pos = casillas[x][y].get_pos();
                                 if (casillasPistas[x][y].getTypeColor() == TipoCelda.GRIS) {
                                     //return true;
                                     if (casillasSol[x][y].getTypeColor() == TipoCelda.AZUL) {
-                                        casillas[x][y] = new CeldaAzul(Assets.jose, (int)(celdaRd * 2/3), 0, ind,0,pos, celdaRd);
+                                        casillas[x][y] = new CeldaAzul(Assets.jose, (int)(celdaRd * 2/3), 0, ind, pos, celdaRd);
                                         contA++;
                                     }
                                     else {
-                                        casillas[x][y] = new CeldaRoja(ind, 0, pos, celdaRd);
+                                        casillas[x][y] = new CeldaRoja(ind, pos, celdaRd);
                                         contR++;
                                     }
                                     f = true;
@@ -578,7 +578,7 @@ public class Tablero {
         while (indY < _size) {
             if(casillas[indX][indY].isClicked(mousePos) && casillas[indX][indY].isInteractive()) {
                 //Añadimos la celda como última modificación
-                ultMod.add(new Vector2(indX, indY));
+
                 return casillas[indX][indY];
             }
             else{
@@ -637,8 +637,8 @@ public class Tablero {
                 int valor = r.nextInt(_size) + 1;
                 if(AzulesValidos(indX, indY, valor)) {
                     Vector2 ind = new Vector2(indX,indY);
-                    Vector2 pos = casillas[indX][indY].getPos();
-                    casillas[indX][indY] = new CeldaAzul(Assets.jose, (int)(celdaRd * 2/3), valor, ind,0,pos, celdaRd);
+                    Vector2 pos = casillas[indX][indY].get_pos();
+                    casillas[indX][indY] = new CeldaAzul(Assets.jose, (int)(celdaRd * 2/3), valor, ind, pos, celdaRd);
                     casillas[indX][indY].setLock(true);
                     indexAzulesOriginales[contAzul] = new Vector2(indX,indY);
                     contAzul++;
@@ -669,8 +669,8 @@ public class Tablero {
                 //if(RojosValidos(indX,indY)){
                 if(casillas[indX][indY].getTypeColor() == TipoCelda.GRIS) {
                     Vector2 ind = new Vector2(indX,indY);
-                    Vector2 pos = casillas[indX][indY].getPos();
-                    casillas[indX][indY] = new CeldaRoja(ind,0,pos, celdaRd);
+                    Vector2 pos = casillas[indX][indY].get_pos();
+                    casillas[indX][indY] = new CeldaRoja(ind, pos, celdaRd);
                     casillas[indX][indY].setLock(true);
                     indexRojosOriginales[contRojos] = new Vector2(indX,indY);
                     contRojos++;
@@ -857,6 +857,10 @@ public class Tablero {
             }
         }
         return  elementos >= casillas[(int)x][(int)y].getValue();
+    }
+
+    public void addMovement(Vector2 ind){
+        ultMod.add(ind);
     }
 
     public void Deshacer() {

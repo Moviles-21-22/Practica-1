@@ -13,36 +13,18 @@ public class Texto  extends GameObject {
     private int tam;
     //  Texto a escribir
     private String texto;
-    //  Anchura de la zona interactuable
-    private int _w;
-    //  Altura de la zona interactuable
-    private int _h;
 
-    public Texto(Vector2 _pos, Vector2 _size ,int _color, Font _fuente, int _tam,int _id) {
-        super(_id);
+    public Texto(Vector2 pos, Vector2 size ,int _color, Font _fuente, int _tam,int _id) {
+        super(TipoGO.Texto);
         color = _color;
         fuente = _fuente;
         tam = _tam;
-        pos = _pos;
-        _w = _size._x;
-        _h = _size._y;
+        _pos = pos;
+        _size = size;
     }
 
     public int getColor(){
         return color;
-    }
-
-    @Override
-    // TODO : TIWARDO
-    public boolean isClicked(Vector2 mouseClicked) {
-        if(!interactive) return  false;
-        return mouseClicked._x > pos._x && mouseClicked._x < pos._x + _w    // Limite superior
-                && mouseClicked._y > pos._y && mouseClicked._y < pos._y + _h;                     // Limite inferior
-    }
-
-    @Override
-    public void clicked() {
-
     }
 
     @Override
@@ -54,10 +36,10 @@ public class Texto  extends GameObject {
         if(renderActive){
             g.setColor(color);
             g.setFont(fuente, tam);
-            g.drawText(texto, pos._x , pos._y + _h, fuente, tam);
+            g.drawText(texto, _pos._x , _pos._y + _size._y, fuente, tam);
             if(interactive){
-                g.drawRect(pos._x, pos._y, _w, _h);
-                g.setColor(0X333333FF);
+                g.setColor(0xFF0000FF);
+                g.drawRect(_pos._x, _pos._y, _size._x, _size._y);
             }
         }
     }
