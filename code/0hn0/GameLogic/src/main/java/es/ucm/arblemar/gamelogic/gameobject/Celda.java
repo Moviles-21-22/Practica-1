@@ -65,6 +65,10 @@ public abstract class Celda extends GameObject {
         _tipoCelda = type;
     }
 
+    public void setColor(int c) {
+        color = c;
+    }
+
     public void setValue(int v){
         valor = v;
     }

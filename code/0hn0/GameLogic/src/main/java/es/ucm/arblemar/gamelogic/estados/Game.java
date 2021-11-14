@@ -138,6 +138,7 @@ public class Game implements App {
                             case 1://HistoryButton
                             {
                                 //  Deshacer movimiento
+                                tab.Deshacer();
                                 break;
                             }
                             case 2://pistaButton

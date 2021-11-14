@@ -39,6 +39,7 @@ public class Tablero {
     private Vector<Vector2> indexRojasPuestas;
     //  Vector de todas las pistas encontradas en el tablero
     private List<Pista> pistasEncontradas;
+    private List<Vector2> ultMod;
     //  Distancia que existe entre las celdas para posicionarlas
     private float celdaDistancia;
     //  Radio de las celdas
@@ -69,6 +70,7 @@ public class Tablero {
             tabCorrecto = true;
             casillas = new Celda[_size][_size];
             pistasEncontradas = new ArrayList<>();
+            ultMod = new ArrayList<>();
             indexRojasPuestas = new Vector<>();
             indexAzulesPuestas = new Vector<>();
 
@@ -575,7 +577,8 @@ public class Tablero {
         AbstractGraphics g = (AbstractGraphics) engine.getGraphics();
         while (indY < _size) {
             if(casillas[indX][indY].isClicked(mousePos) && casillas[indX][indY].isInteractive()) {
-                //System.out.println(indX + " " + indY);
+                //Añadimos la celda como última modificación
+                ultMod.add(new Vector2(indX, indY));
                 return casillas[indX][indY];
             }
             else{
@@ -854,6 +857,41 @@ public class Tablero {
             }
         }
         return  elementos >= casillas[(int)x][(int)y].getValue();
+    }
+
+    public void Deshacer() {
+        if (ultMod.size() > 0) {
+            Vector2 pos = ultMod.get(ultMod.size() - 1);
+
+            // Cambia de color
+            switch (casillas[pos._x][pos._y].getTypeColor()) {
+                case GRIS: {
+                    int color = 0xFF384BFF;
+                    casillas[pos._x][pos._y].setTypeColor(TipoCelda.ROJO);
+                    casillas[pos._x][pos._y].setColor(color);
+                    ultMod.remove(pos);
+                    break;
+                }
+                case AZUL: {
+                    int color = 0XEEEEEEFF;
+                    casillas[pos._x][pos._y].setTypeColor(TipoCelda.GRIS);
+                    casillas[pos._x][pos._y].setColor(color);
+                    ultMod.remove(pos);
+                    break;
+                }
+                case ROJO: {
+                    int color = 0x1CC0E0FF;
+                    casillas[pos._x][pos._y].setTypeColor(TipoCelda.AZUL);
+                    casillas[pos._x][pos._y].setColor(color);
+                    ultMod.remove(pos);
+
+                    break;
+                }
+                default: {
+                    break;
+                }
+            }
+        }
     }
 
     public boolean EsSolucion() {
