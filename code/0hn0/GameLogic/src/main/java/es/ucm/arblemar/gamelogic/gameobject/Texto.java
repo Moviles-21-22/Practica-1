@@ -1,10 +1,7 @@
 package es.ucm.arblemar.gamelogic.gameobject;
-import java.awt.Rectangle;
 
-import es.ucm.arblemar.engine.AbstractGraphics;
 import es.ucm.arblemar.engine.Font;
 import es.ucm.arblemar.engine.Graphics;
-import es.ucm.arblemar.engine.Rect;
 import es.ucm.arblemar.engine.Vector2;
 
 public class Texto  extends GameObject {
@@ -16,35 +13,31 @@ public class Texto  extends GameObject {
     private int tam;
     //  Texto a escribir
     private String texto;
-    //  Rectangulo para las colisiones
-    Rectangle _rect;
+    //  Anchura de la zona interactuable
+    private int anchura;
+    //  Altura de la zona interactuable
+    private int altura;
 
-    public Texto(Rectangle rect, int _color, Font _fuente, int _tam,int _id) {
+    public Texto(Vector2 _pos ,int _color, Font _fuente, int _tam,int _id,int _altura, int _anchura) {
         super(_id);
-
         color = _color;
         fuente = _fuente;
         tam = _tam;
-        _rect = rect;
-        pos = new Vector2(_rect.x, _rect.y);
+        pos = _pos;
+        altura = _altura;
+        anchura = _anchura;
     }
 
     public int getColor(){
         return color;
     }
 
-    public void set_rect(Rectangle _rect){
-        this._rect = _rect;
-        pos._x = this._rect.x - (this._rect.width / 2);
-        pos._y = this._rect.y - (this._rect.height / 2);
-    }
-
-
     @Override
+    // TODO : TIWARDO
     public boolean isClicked(Vector2 mouseClicked) {
         if(!interactive) return  false;
-        Rectangle clickRect = new Rectangle(mouseClicked._x,mouseClicked._y,1,1);
-        return _rect.intersects(clickRect);
+        //Rectangle clickRect = new Rectangle(mouseClicked._x,mouseClicked._y,1,1);
+        return false;
     }
 
     @Override
@@ -61,9 +54,9 @@ public class Texto  extends GameObject {
         if(renderActive){
             g.setColor(color);
             g.setFont(fuente, tam);
-            g.drawText(texto, pos._x , pos._y + _rect.height, fuente, tam);
+            g.drawText(texto, pos._x , pos._y + altura, fuente, tam);
             if(interactive){
-                g.drawRect(pos._x, pos._y, (int) _rect.width, (int) _rect.height);
+                g.drawRect(pos._x, pos._y, anchura, altura);
                 g.setColor(0X333333FF);
             }
         }

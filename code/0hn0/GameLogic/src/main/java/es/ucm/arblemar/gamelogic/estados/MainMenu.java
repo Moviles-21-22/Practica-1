@@ -8,6 +8,7 @@ import es.ucm.arblemar.engine.App;
 import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Input.TouchEvent;
+import es.ucm.arblemar.engine.Rect;
 import es.ucm.arblemar.engine.Vector2;
 import es.ucm.arblemar.gamelogic.gameobject.GameObject;
 import es.ucm.arblemar.gamelogic.gameobject.Rectangulo;
@@ -38,29 +39,26 @@ public class MainMenu implements App {
 
             width = (g.getLogWidth() / 5) * 3; height = (g.getLogWidth() / 7);
             posX = (g.getLogWidth() / 5) - 30; posY = (g.getLogHeight() / 14) + 30;
-            Rectangle tituloRect = new Rectangle((int)posX, (int)posY, (int)width, (int)height);
-            Texto tituloText = new Texto(tituloRect,0X313131FF,Assets.molle,100,01);
+
+            Texto tituloText = new Texto(new Vector2(posX,posY),0X313131FF,Assets.molle,100,01,width,height);
             tituloText.setTexto("Oh no");
             gameObjects.add(tituloText);
 
             width = (g.getLogWidth() / 3); height = (g.getLogWidth() / 7);
             posX = (g.getLogWidth() / 3); posY = (g.getLogWidth() / 7) * 2 + 10;
-            Rectangle tRect = new Rectangle((int)posX,(int)posY + 100,(int)width, (int)height);
-            Texto t = new Texto(tRect,0X313131FF,Assets.jose,56,02);
+            Texto t = new Texto(new Vector2(posX,posY + 100),0X313131FF,Assets.jose,56,02,width,height);
             t.setTexto("Jugar");
             t.setInteractive();
             gameObjects.add(t);
 
             width = (g.getLogWidth() / 5) * 4 ; height = (g.getLogWidth() / 12);
             posX = (g.getLogWidth() / 10) + 60; posY = (g.getLogWidth() / 3) * 2 + 10;
-            Rectangle infoRect = new Rectangle((int)posX, (int)posY + 100, (int)width, (int)height);
-            Texto infoText = new Texto(infoRect,0XB6B3B6FF, Assets.jose, 20,03);
+            Texto infoText = new Texto(new Vector2(posX,posY + 100),0XB6B3B6FF, Assets.jose, 20,03,width,height);
             infoText.setTexto("Un juego copiado a Q42");
             gameObjects.add(infoText);
 
             posY = (g.getLogWidth() / 4) * 3 + 10;
-            Rectangle nameRect = new Rectangle((int)posX, (int)posY + 100, (int)width, (int)height);
-            Texto nameText = new Texto(nameRect,0XB6B3B6FF, Assets.jose, 20,04);
+            Texto nameText = new Texto(new Vector2(posX,posY + 100),0XB6B3B6FF, Assets.jose, 20,04, width,height);
             nameText.setTexto("Creado por Martin Kool");
             gameObjects.add(nameText);
 

@@ -1,10 +1,8 @@
 package es.ucm.arblemar.gamelogic.estados;
 
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import es.ucm.arblemar.engine.AbstractGraphics;
 import es.ucm.arblemar.engine.App;
 import es.ucm.arblemar.engine.Engine;
@@ -47,11 +45,10 @@ public class Game implements App {
     public boolean init() {
         try {
             tab = new Tablero(tam,engine);
-            float width = (_graphics.getLogWidth() / 2) * 3, height = (_graphics.getLogWidth() / 7),
+            int width = (_graphics.getLogWidth() / 2) * 3, height = (_graphics.getLogWidth() / 7),
                     posX = (_graphics.getLogWidth() / 3) - 15, posY = (_graphics.getLogHeight() / 12) - 10;
 
-            Rectangle texSuperRect = new Rectangle((int)posX, (int)posY, (int)width, (int)height);
-            textoSuperior = new Texto(texSuperRect,0X313131FF ,Assets.jose,72,0);
+            textoSuperior = new Texto(new Vector2(posX,posY),0X313131FF ,Assets.jose,72,0,width,height);
             textoSuperior.setTexto(tam + " x " + tam);
             objects.add(textoSuperior);
 
@@ -160,11 +157,10 @@ public class Game implements App {
                                 else {
                                     //Volvemos a poner el _size x _size
                                     pistaPuesta = false;
-                                    float width = (_graphics.getLogWidth() / 2) * 3, height = (_graphics.getLogWidth() / 7),
+                                    int width = (_graphics.getLogWidth() / 2) * 3, height = (_graphics.getLogWidth() / 7),
                                             posX = (_graphics.getLogWidth() / 3) - 15, posY = (_graphics.getLogHeight() / 12) - 10;
 
-                                    Rectangle texSuperRect = new Rectangle((int)posX, (int)posY, (int)width, (int)height);
-                                    textoSuperior = new Texto(texSuperRect,0X313131FF ,Assets.jose,72,0);
+                                    textoSuperior = new Texto(new Vector2(posX,posY),0X313131FF ,Assets.jose,72,0,width,height);
                                     textoSuperior.setTexto(tam + " x " + tam);
                                     objects.add(textoSuperior);
                                 }
@@ -248,7 +244,7 @@ public class Game implements App {
     //Escribe un texto en función de la pista elegida
     private void stringText(int id) {
         String text = "", text2 = "";
-        float width = (_graphics.getLogWidth() / 2) * 3, height = (_graphics.getLogWidth() / 7),
+        int width = (_graphics.getLogWidth() / 2) * 3, height = (_graphics.getLogWidth() / 7),
                 posX = (_graphics.getLogWidth() / 22), posY = (_graphics.getLogHeight() / 50),
                 dist = height / 2;
 
@@ -306,12 +302,10 @@ public class Game implements App {
                 break;
             }
         }
-        Rectangle texSuperRect = new Rectangle((int) posX, (int) posY, (int) width, (int) height);
-        textoSuperior = new Texto(texSuperRect, 0X313131FF, Assets.jose, 32, 0);
+        textoSuperior = new Texto(new Vector2(posX,posY), 0X313131FF, Assets.jose, 32, 0,width,height);
         textoSuperior.setTexto(text);
         objects.add(textoSuperior);
-        texSuperRect = new Rectangle((int) posX, (int) posY + (int) dist, (int) width, (int) height);
-        textoSupDos = new Texto(texSuperRect, 0X313131FF, Assets.jose, 32, 0);
+        textoSupDos = new Texto(new Vector2(posX,posX + dist), 0X313131FF, Assets.jose, 32, 0,width,height);
         textoSupDos.setTexto(text2);
         objects.add(textoSupDos);
     }

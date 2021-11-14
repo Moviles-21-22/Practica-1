@@ -1,5 +1,8 @@
 package es.ucm.arblemar.desktopengine;
 
+import org.w3c.dom.css.CSSPrimitiveValue;
+import org.w3c.dom.css.Rect;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.ComponentEvent;

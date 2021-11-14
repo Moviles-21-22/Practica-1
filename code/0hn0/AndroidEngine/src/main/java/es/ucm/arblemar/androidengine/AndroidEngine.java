@@ -71,7 +71,8 @@ public class AndroidEngine implements Engine, Runnable {
 
     @Override
     public boolean initNewApp(App newApp) {
-        return false;
+        currApp = newApp;
+        return currApp.init();
     }
 
 
