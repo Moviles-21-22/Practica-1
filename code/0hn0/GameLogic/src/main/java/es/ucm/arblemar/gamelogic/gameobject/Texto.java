@@ -14,18 +14,18 @@ public class Texto  extends GameObject {
     //  Texto a escribir
     private String texto;
     //  Anchura de la zona interactuable
-    private int anchura;
+    private int _w;
     //  Altura de la zona interactuable
-    private int altura;
+    private int _h;
 
-    public Texto(Vector2 _pos ,int _color, Font _fuente, int _tam,int _id,int _altura, int _anchura) {
+    public Texto(Vector2 _pos, Vector2 _size ,int _color, Font _fuente, int _tam,int _id) {
         super(_id);
         color = _color;
         fuente = _fuente;
         tam = _tam;
         pos = _pos;
-        altura = _altura;
-        anchura = _anchura;
+        _w = _size._x;
+        _h = _size._y;
     }
 
     public int getColor(){
@@ -36,8 +36,8 @@ public class Texto  extends GameObject {
     // TODO : TIWARDO
     public boolean isClicked(Vector2 mouseClicked) {
         if(!interactive) return  false;
-        //Rectangle clickRect = new Rectangle(mouseClicked._x,mouseClicked._y,1,1);
-        return false;
+        return mouseClicked._x > pos._x && mouseClicked._x < pos._x + _w    // Limite superior
+                && mouseClicked._y > pos._y && mouseClicked._y < pos._y + _h;                     // Limite inferior
     }
 
     @Override
@@ -54,9 +54,9 @@ public class Texto  extends GameObject {
         if(renderActive){
             g.setColor(color);
             g.setFont(fuente, tam);
-            g.drawText(texto, pos._x , pos._y + altura, fuente, tam);
+            g.drawText(texto, pos._x , pos._y + _h, fuente, tam);
             if(interactive){
-                g.drawRect(pos._x, pos._y, anchura, altura);
+                g.drawRect(pos._x, pos._y, _w, _h);
                 g.setColor(0X333333FF);
             }
         }

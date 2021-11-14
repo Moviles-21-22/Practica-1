@@ -34,14 +34,14 @@ public class SelectionMenu implements App {
 
             int width = g.getLogWidth(), height = g.getLogHeight(),
             posX = 0, posY = 0;
-            Rectangulo fondo = new Rectangulo(0xFFFFFFFF, posX, posY, width, height, 100);
+            Rectangulo fondo = new Rectangulo(true, 0xFFFFFFFF, posX, posY, width, height, 100);
             gameObjects.add(fondo);
 
             width = (g.getLogWidth() / 2); height = (g.getLogWidth() / 8);
             posX = (g.getLogWidth() / 5); posY = (g.getLogHeight() / 14) + 20;
             //  Texto de cabecera
             //Rectangle rectCabecera = new Rectangle((int)posX, (int)posY, (int)width, (int)height);
-            Texto textoCabecera = new Texto(new Vector2(posX,posY),0x313131FF, Assets.molle,80,00,width,height);
+            Texto textoCabecera = new Texto(new Vector2(posX, posY), new Vector2(width, height),0x313131FF, Assets.molle,80,00);
             textoCabecera.setTexto("Oh no");
             gameObjects.add(textoCabecera);
 
@@ -49,7 +49,7 @@ public class SelectionMenu implements App {
             posX = (g.getLogWidth() / 7); posY = (g.getLogHeight() / 3) - 30;
             //  Texto informativo
             //Rectangle rectInfo = new Rectangle((int)posX, (int)posY, (int)width, (int)height);
-            Texto textInfo = new Texto(new Vector2(posX,posY),0x313131FF, Assets.jose,32,01,width,height);
+            Texto textInfo = new Texto(new Vector2(posX, posY), new Vector2(width, height),0x313131FF, Assets.jose,32,01);
             textInfo.setTexto("Elija el tamaño a jugar");
             gameObjects.add(textInfo);
 

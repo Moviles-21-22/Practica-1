@@ -48,7 +48,7 @@ public class Game implements App {
             int width = (_graphics.getLogWidth() / 2) * 3, height = (_graphics.getLogWidth() / 7),
                     posX = (_graphics.getLogWidth() / 3) - 15, posY = (_graphics.getLogHeight() / 12) - 10;
 
-            textoSuperior = new Texto(new Vector2(posX,posY),0X313131FF ,Assets.jose,72,0,width,height);
+            textoSuperior = new Texto(new Vector2(posX, posY), new Vector2(width, height),0X313131FF ,Assets.jose,72,0);
             textoSuperior.setTexto(tam + " x " + tam);
             objects.add(textoSuperior);
 
@@ -160,7 +160,7 @@ public class Game implements App {
                                     int width = (_graphics.getLogWidth() / 2) * 3, height = (_graphics.getLogWidth() / 7),
                                             posX = (_graphics.getLogWidth() / 3) - 15, posY = (_graphics.getLogHeight() / 12) - 10;
 
-                                    textoSuperior = new Texto(new Vector2(posX,posY),0X313131FF ,Assets.jose,72,0,width,height);
+                                    textoSuperior = new Texto(new Vector2(posX, posY), new Vector2(width, height),0X313131FF ,Assets.jose,72,0);
                                     textoSuperior.setTexto(tam + " x " + tam);
                                     objects.add(textoSuperior);
                                 }
@@ -302,10 +302,10 @@ public class Game implements App {
                 break;
             }
         }
-        textoSuperior = new Texto(new Vector2(posX,posY), 0X313131FF, Assets.jose, 32, 0,width,height);
+        textoSuperior = new Texto(new Vector2(posX, posY), new Vector2(width, height), 0X313131FF, Assets.jose, 32, 0);
         textoSuperior.setTexto(text);
         objects.add(textoSuperior);
-        textoSupDos = new Texto(new Vector2(posX,posX + dist), 0X313131FF, Assets.jose, 32, 0,width,height);
+        textoSupDos = new Texto(new Vector2(posX, posY), new Vector2(width, height), 0X313131FF, Assets.jose, 32, 0);
         textoSupDos.setTexto(text2);
         objects.add(textoSupDos);
     }
