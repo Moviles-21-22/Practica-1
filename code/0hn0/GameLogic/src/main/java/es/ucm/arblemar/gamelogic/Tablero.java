@@ -918,6 +918,10 @@ public class Tablero {
         return _size;
     }
 
+    public float GetCeldaSize() {
+        return celdaRd;
+    }
+
     public List<Pista> GetPistasEncontradas() {
         return pistasEncontradas;
     }

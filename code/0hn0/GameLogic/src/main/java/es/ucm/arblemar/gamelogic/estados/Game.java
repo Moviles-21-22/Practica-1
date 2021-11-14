@@ -27,6 +27,7 @@ public class Game implements App {
     private Tablero tab;
     private List<GameObject> objects;
     private List<Boton> images;
+    private Vector2 posPista;
     private Texto textoSuperior;
     private Texto textoSupDos;
     private boolean pistaPuesta = false;
@@ -87,6 +88,10 @@ public class Game implements App {
 
         //  Render de las celdas
         if (tab != null) {
+            if (pistaPuesta) {
+                _graphics.setColor(0x313131FF);
+                _graphics.fillCircle(new Vector2(posPista._x - 3, posPista._y - 3), (int)tab.GetCeldaSize() + 6);
+            }
             Celda casillas[][] = tab.GetCasillas();
             for (int i = 0; i < tab.GetSize(); i++) {
                 for (int j = 0; j < tab.GetSize(); j++) {
@@ -142,10 +147,12 @@ public class Game implements App {
                                 }
 
                                 //Cambia entre _size x _size y una pista
-                                if (!pistaPuesta) {
+                                if (!pistaPuesta && id < 10) {
                                     //Ponemos una pista
                                     pistaPuesta = true;
                                     stringText(id);
+                                    posPista = tab.GetCasillas()[pistasEncontradas.get(id).getIndex()._x][pistasEncontradas.get(id).getIndex()._y].getPos();
+                                    System.out.println("Pistas celda x: " + pistasEncontradas.get(id).getIndex()._x + " y: " + pistasEncontradas.get(id).getIndex()._y);
                                 }
                                 else {
                                     //Volvemos a poner el _size x _size
@@ -273,27 +280,14 @@ public class Game implements App {
                 text2 = "con las adyacentes que tiene";
                 break;
             }
-            default: {
-                //Volvemos a poner el _size x _size
-                pistaPuesta = false;
-                width = (_graphics.getLogWidth() / 2) * 3; height = (_graphics.getLogWidth() / 7);
-                posX = (_graphics.getLogWidth() / 3) - 15; posY = (_graphics.getLogHeight() / 12) - 10;
-
-                Rectangle texSuperRect = new Rectangle((int)posX, (int)posY, (int)width, (int)height);
-                textoSuperior = new Texto(texSuperRect,0X313131FF ,Assets.jose,72,0);
-                textoSuperior.setTexto(tam + " x " + tam);
-                objects.add(textoSuperior);
-            }
         }
-        if (pistaPuesta) {
-            Rectangle texSuperRect = new Rectangle((int) posX, (int) posY, (int) width, (int) height);
-            textoSuperior = new Texto(texSuperRect, 0X313131FF, Assets.jose, 32, 0);
-            textoSuperior.setTexto(text);
-            objects.add(textoSuperior);
-            texSuperRect = new Rectangle((int) posX, (int) posY + (int) dist, (int) width, (int) height);
-            textoSupDos = new Texto(texSuperRect, 0X313131FF, Assets.jose, 32, 0);
-            textoSupDos.setTexto(text2);
-            objects.add(textoSupDos);
-        }
+        Rectangle texSuperRect = new Rectangle((int) posX, (int) posY, (int) width, (int) height);
+        textoSuperior = new Texto(texSuperRect, 0X313131FF, Assets.jose, 32, 0);
+        textoSuperior.setTexto(text);
+        objects.add(textoSuperior);
+        texSuperRect = new Rectangle((int) posX, (int) posY + (int) dist, (int) width, (int) height);
+        textoSupDos = new Texto(texSuperRect, 0X313131FF, Assets.jose, 32, 0);
+        textoSupDos.setTexto(text2);
+        objects.add(textoSupDos);
     }
 }
