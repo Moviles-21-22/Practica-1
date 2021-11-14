@@ -27,11 +27,15 @@ public class Game implements App {
     private List<GameObject> objects;
     private List<Boton> images;
     private Icon[] candados;
+    private Boton backButton;
+    private Boton restButton;
+    private Boton pistabutton;
     private Vector2 posPista;
     private Texto textoSuperior;
     private Texto textoSupDos;
     private boolean pistaPuesta = false;
     private boolean muestraCandados = false;
+    private boolean win = false;
 
     Game(Engine _engine,int _tam){
         engine = _engine;
@@ -44,6 +48,7 @@ public class Game implements App {
     @Override
     public boolean init() {
         try {
+            win = false;
             tab = new Tablero(tam,engine);
             int width = (_graphics.getLogWidth() / 2) * 3, height = (_graphics.getLogWidth() / 7),
                     posX = (_graphics.getLogWidth() / 3) - 15, posY = (_graphics.getLogHeight() / 12) - 10;
@@ -53,15 +58,15 @@ public class Game implements App {
             objects.add(textoSuperior);
 
             //  botón para volver
-            Boton backButton = new Boton(0,new Vector2(30, _graphics.getLogHeight() - Assets.close.getHeight() - 30),Assets.close);
+            backButton = new Boton(0,new Vector2(30, _graphics.getLogHeight() - Assets.close.getHeight() - 30),Assets.close);
             objects.add(backButton);
 
             //  botón para restarurar
-            Boton restButton = new Boton(1,new Vector2((_graphics.getLogWidth() / 2) - (Assets.history.getWidth() / 2), _graphics.getLogHeight() - Assets.history.getHeight() - 30), Assets.history);
+            restButton = new Boton(1,new Vector2((_graphics.getLogWidth() / 2) - (Assets.history.getWidth() / 2), _graphics.getLogHeight() - Assets.history.getHeight() - 30), Assets.history);
             objects.add(restButton);
 
             //  botón para pista
-            Boton pistabutton = new Boton(2,new Vector2((_graphics.getLogWidth() - 100), _graphics.getLogHeight() - Assets.eye.getHeight() - 30), Assets.eye);
+            pistabutton = new Boton(2,new Vector2((_graphics.getLogWidth() - 100), _graphics.getLogHeight() - Assets.eye.getHeight() - 30), Assets.eye);
             objects.add(pistabutton);
 
         }
@@ -75,9 +80,8 @@ public class Game implements App {
 
     @Override
     public void update(double deltaTime) {
-        if (tab != null && tab.EsSolucion()) {
-            SelectionMenu menu = new SelectionMenu(engine);
-            engine.initNewApp(menu);
+        if (tab != null && tab.EsSolucion() && !win) {
+            gameWin();
         }
     }
 
@@ -109,6 +113,12 @@ public class Game implements App {
     public void handleInput() {
         List<Input.TouchEvent> events = engine.getInput().GetTouchEvents();
         AbstractGraphics g = (AbstractGraphics) _graphics;
+
+        if (win) {
+            win = false;
+            SelectionMenu menu = new SelectionMenu(engine);
+            engine.initNewApp(menu);
+        }
 
         for(int i = 0 ; i < events.size() ; i++){
             Input.TouchEvent currEvent = events.get(i);
@@ -222,6 +232,25 @@ public class Game implements App {
                 }
             }
         }
+    }
+
+    private void gameWin() {
+        win = true;
+        objects.remove(textoSuperior);
+        if (textoSupDos != null) {
+            objects.remove(textoSupDos);
+            textoSupDos = null;
+        }
+        objects.remove(backButton);
+        objects.remove(restButton);
+        objects.remove(pistabutton);
+
+        int width = (_graphics.getLogWidth() / 2) * 3, height = (_graphics.getLogWidth() / 7),
+                posX = (_graphics.getLogWidth() / 3) - 15, posY = (_graphics.getLogHeight() / 12) - 10;
+
+        textoSuperior = new Texto(new Vector2(posX,posY),0X313131FF ,Assets.jose,72,0,width,height);
+        textoSuperior.setTexto("Super");
+        objects.add(textoSuperior);
     }
 
     // Devuelve el objecto que ha sido pulsado
