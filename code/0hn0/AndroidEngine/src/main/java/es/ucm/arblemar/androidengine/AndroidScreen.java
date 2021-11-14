@@ -37,4 +37,8 @@ public class AndroidScreen extends SurfaceView implements Runnable {
     public void run() {
 
     }
+
+    public SurfaceHolder getSurfaceHolder(){
+        return getHolder();
+    }
 }

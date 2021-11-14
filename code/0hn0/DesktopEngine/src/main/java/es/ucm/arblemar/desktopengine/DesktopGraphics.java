@@ -45,7 +45,7 @@ public class DesktopGraphics extends AbstractGraphics implements ComponentListen
 
     @Override
     public Image newImage(String name) throws Exception {
-        Image newImage = new DesktopImage("./recursos/sprites/" + name);
+        Image newImage = new DesktopImage("./assets/" + name);
         if (!newImage.init())
             throw new Exception();
         return newImage;
@@ -53,7 +53,7 @@ public class DesktopGraphics extends AbstractGraphics implements ComponentListen
 
     @Override
     public Font newFont(String name, int size, boolean isBold) throws Exception {
-        Font newFont = new DesktopFont("./recursos/fonts/" + name, size, isBold);
+        Font newFont = new DesktopFont("./assets/" + name, size, isBold);
         if (!newFont.init())
             throw new Exception();
         return newFont;

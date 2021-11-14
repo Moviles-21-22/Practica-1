@@ -1,18 +1,19 @@
 package es.ucm.arblemar.androidengine;
 
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.view.Surface;
-
+import android.graphics.Typeface;
 import androidx.appcompat.app.AppCompatActivity;
-
+import java.io.IOException;
+import java.io.InputStream;
 import es.ucm.arblemar.engine.AbstractGraphics;
-import es.ucm.arblemar.engine.App;
 import es.ucm.arblemar.engine.Font;
-import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Image;
 import es.ucm.arblemar.engine.Vector2;
+import android.graphics.Rect;
 
 public class AndroidGraphics extends AbstractGraphics {
 
@@ -22,15 +23,15 @@ public class AndroidGraphics extends AbstractGraphics {
     private Canvas canvas;
     private Paint paint;
     private Bitmap bitmap;
+    private AssetManager assetManager;
 
 
     public AndroidGraphics(AppCompatActivity appCmtAct,int w,int h,Bitmap bt){
         super(w, h);
-        bitmap = bt;
-        canvas = new Canvas(bitmap);
-        paint = new Paint();
-        screen = new AndroidScreen(appCmtAct, this,input);
-
+        this.bitmap = bt;
+        this.canvas = new Canvas(bt);
+        this.paint = new Paint();
+        this.assetManager = appCmtAct.getAssets();
     }
 
     @Override
@@ -40,42 +41,59 @@ public class AndroidGraphics extends AbstractGraphics {
 
     @Override
     public Image newImage(String name){
-        return null;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = null;
+        Bitmap currBitMap = null;
+        InputStream inputStream = null;
+
+        try{
+            inputStream = assetManager.open(name);
+            currBitMap = BitmapFactory.decodeStream(inputStream);
+            if(currBitMap == null){
+                throw new RuntimeException("No se ha podido cargar el bitmap del asset " + name);
+            }
+        }
+        catch (IOException e){
+            throw new RuntimeException("No se ha podido cargar el bitmap del asset " + name);
+        }
+        finally {
+            if(inputStream != null){
+                try{
+                    inputStream.close();
+                }
+                catch (IOException e){
+                    throw new RuntimeException("InputStream null en la carga del asset " + name);
+                }
+            }
+        }
+        return new AndroidImage(currBitMap);
     }
 
     @Override
     public Font newFont(String filename, int size, boolean isBold){
-        return null;
+        return new AndroidFont(Typeface.createFromAsset(assetManager,filename),size,filename);
     }
 
     @Override
     public void clear(int color){
-
+        canvas.drawColor(color);
     }
 
     @Override
     public void setColor(int color){
-
+        paint.setColor(color);
     }
 
     @Override
     public void setFont(Font font, int tam) {
-        
+        paint.setTypeface(((AndroidFont)font).getFont());
     }
 
     @Override
     public void drawImage(Image image, int x, int y, int w, int h) {
-        //Rect srcRect = new Rect(x,y,w,h);
-        //srcRect.left = 0;
-        //srcRect.top = 0;
-        //srcRect.right = image.getWidth();
-        //srcRect.bottom = image.getHeight();
-//
-        //dstRect.left = x;
-        //dstRect.top = y;
-        //dstRect.right = x + w;
-        //dstRect.bottom = y + h;
-        //canvas.drawBitmap(((AndroidImage)image,srcRect,);
+        Rect source = new Rect(0,0,image.getWidth(),image.getHeight());
+        Rect destiny = new Rect(x,y,x+w,y + h);
+        canvas.drawBitmap(((AndroidImage)image).getBitmap() ,source,destiny,null);
     }
 
     @Override
@@ -85,28 +103,39 @@ public class AndroidGraphics extends AbstractGraphics {
 
     @Override
     public void drawCircle(Vector2 centro, int radio) {
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(2);
         canvas.drawCircle(centro._x, centro._y, radio, this.paint);
+        paint.setStyle(Paint.Style.FILL);
     }
 
     @Override
     public void drawText(String text, int x, int y, Font font, int tam) {
-        canvas.drawText(text, x, y, paint);
+        Typeface currFont = ((AndroidFont)font).getFont();
+        paint.setTypeface(currFont);
+        paint.setTextSize(realSize(realSize(tam)));
+        paint.setTextAlign(Paint.Align.CENTER);
+        canvas.drawText(text,x,y,paint);
         paint.reset();
     }
 
     @Override
     public void drawRect(int x, int y, int width, int height){
-
+        paint.setStyle(Paint.Style.STROKE);
+        canvas.drawRect(x,y,x + width, y + width, paint);
+        paint.reset();
     }
 
     @Override
     public void fillCircle(Vector2 centro, int dm){
-
+        canvas.drawCircle(centro._x,centro._y,dm,paint);
     }
 
     @Override
     public void fillRect(int x, int y, int width, int height) {
-
+        paint.setStyle(Paint.Style.STROKE);
+        canvas.drawRect(x,y,x + width,y +width,paint);
+        paint.reset();
     }
 
     @Override

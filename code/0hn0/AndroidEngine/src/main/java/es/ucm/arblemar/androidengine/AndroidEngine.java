@@ -22,13 +22,15 @@ public class AndroidEngine implements Engine, Runnable {
     private SurfaceView surface;
     private App currApp;
     private float _lastFrameTime;
-    private volatile boolean running;
+    private volatile boolean running = false;
+    private Thread thread;
 
     public AndroidEngine(AppCompatActivity activity, int logicW, int logicH){
 
         activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         boolean landScape = activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
         int bufferW = landScape ? logicH : logicW;
         int bufferH = landScape ? logicW : logicH;
@@ -55,16 +57,12 @@ public class AndroidEngine implements Engine, Runnable {
 
         running = true;
         while (running){
-            Canvas canvas = holder.lockCanvas();
-            graphics.setCanvas(canvas);
-
             currApp.handleInput();
             //currApp.update(_deltaTime);
-
             while (!holder.getSurface().isValid());
-
+            Canvas canvas = holder.lockCanvas();
+            graphics.setCanvas(canvas);
             currApp.render();
-
             holder.unlockCanvasAndPost(canvas);
         }
     }
@@ -84,6 +82,28 @@ public class AndroidEngine implements Engine, Runnable {
     @Override
     public Input getInput(){
         return input;
+    }
+
+
+    public void onResume() {
+        if (!running) {
+            running = true;
+            thread = new Thread(this);
+            thread.start();
+        }
+    }
+
+    public void onPause() {
+        running = false;
+        while (true) {
+            try {
+                thread.join();
+                break;
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
 

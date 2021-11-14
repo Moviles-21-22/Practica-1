@@ -1,28 +1,32 @@
 package es.ucm.arblemar.androidengine;
 
+import android.graphics.Bitmap;
+
 import es.ucm.arblemar.engine.Image;
 
 public class AndroidImage implements Image {
-    public AndroidImage(int w, int h){
-        _width = w;
-        _height = h;
+    private Bitmap bitmap;
+
+    public AndroidImage(Bitmap _bitmap){
+        bitmap = _bitmap;
     }
 
     @Override
     public boolean init() {
-        return false;
+        return true;
     }
 
     @Override
     public int getHeight() {
-        return 0;
+        return bitmap.getHeight();
     }
 
     @Override
     public int getWidth() {
-        return 0;
+        return bitmap.getWidth();
     }
 
-    int _width;
-    int _height;
+    public Bitmap getBitmap(){
+        return bitmap;
+    }
 }

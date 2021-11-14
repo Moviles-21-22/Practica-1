@@ -2,10 +2,8 @@ package es.ucm.arblemar.desktopengine;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
-
 import es.ucm.arblemar.engine.Font;
-import es.ucm.arblemar.engine.Graphics;
-import es.ucm.arblemar.engine.Vector2;
+
 
 public class DesktopFont implements Font {
     public DesktopFont(String fileName, float size, boolean isBold) {

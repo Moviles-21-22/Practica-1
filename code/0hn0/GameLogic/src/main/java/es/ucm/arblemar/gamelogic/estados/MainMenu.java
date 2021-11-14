@@ -1,14 +1,12 @@
 package es.ucm.arblemar.gamelogic.estados;
-import java.awt.Rectangle;
+
 import java.util.ArrayList;
 import java.util.List;
-
 import es.ucm.arblemar.engine.AbstractGraphics;
 import es.ucm.arblemar.engine.App;
 import es.ucm.arblemar.engine.Engine;
 import es.ucm.arblemar.engine.Graphics;
 import es.ucm.arblemar.engine.Input.TouchEvent;
-import es.ucm.arblemar.engine.Rect;
 import es.ucm.arblemar.engine.Vector2;
 import es.ucm.arblemar.gamelogic.gameobject.GameObject;
 import es.ucm.arblemar.gamelogic.gameobject.Rectangulo;
