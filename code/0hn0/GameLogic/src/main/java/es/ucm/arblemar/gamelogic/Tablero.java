@@ -571,10 +571,10 @@ public class Tablero {
     public GameObject getCeldaClicked(Vector2 mousePos){
         int indX = 0;
         int indY = 0;
+
         AbstractGraphics g = (AbstractGraphics) engine.getGraphics();
-        Vector2 logPos = g.logPos(mousePos);
         while (indY < _size) {
-            if(casillas[indX][indY].isClicked(logPos) && casillas[indX][indY].isInteractive()) {
+            if(casillas[indX][indY].isClicked(mousePos) && casillas[indX][indY].isInteractive()) {
                 //System.out.println(indX + " " + indY);
                 return casillas[indX][indY];
             }

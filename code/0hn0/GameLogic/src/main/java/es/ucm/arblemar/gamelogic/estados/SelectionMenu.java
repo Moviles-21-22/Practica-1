@@ -105,7 +105,7 @@ public class SelectionMenu implements App {
         List<Input.TouchEvent> events = engine.getInput().GetTouchEvents();
         AbstractGraphics g = (AbstractGraphics) engine.getGraphics();
 
-        for(int i = 0 ; i < events.size() ; i++){
+        for(int i = 0 ; i < events.size() ; i++) {
             Input.TouchEvent currEvent = events.get(i);
             Vector2 eventPos = g.logPos(new Vector2(currEvent.x, currEvent.y));
             switch (currEvent.type){
