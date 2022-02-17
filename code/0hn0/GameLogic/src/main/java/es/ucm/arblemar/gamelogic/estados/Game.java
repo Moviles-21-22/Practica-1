@@ -231,9 +231,9 @@ public class Game implements App {
 
         for(int i = 0 ; i < events.size() ; i++){
             Input.TouchEvent currEvent = events.get(i);
-            Vector2 eventPos = g.logPos(new Vector2(currEvent.x, currEvent.y));
-            switch (currEvent.type){
-                case Input.TouchEvent.touchDown:{
+            Vector2 eventPos = g.logPos(new Vector2(currEvent.getX(), currEvent.y));
+            switch (currEvent) {
+                case touchDown: {
                     if (win) {
                         win = false;
                         SelectionMenu menu = new SelectionMenu(engine);

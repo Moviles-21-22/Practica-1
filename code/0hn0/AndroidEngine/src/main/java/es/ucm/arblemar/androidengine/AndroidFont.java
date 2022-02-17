@@ -16,11 +16,6 @@ public class AndroidFont implements Font {
     }
 
     @Override
-    public boolean init() {
-        return true;
-    }
-
-    @Override
     public void setSize(float newSize) {
         size = newSize;
     }

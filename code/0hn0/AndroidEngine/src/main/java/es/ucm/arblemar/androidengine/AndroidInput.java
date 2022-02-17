@@ -19,11 +19,6 @@ public class AndroidInput implements Input , View.OnTouchListener {
     }
 
     @Override
-    public boolean init() {
-        return true;
-    }
-
-    @Override
     public List<TouchEvent> GetTouchEvents() {
         synchronized (events){
             if(!events.isEmpty()){
@@ -39,10 +34,10 @@ public class AndroidInput implements Input , View.OnTouchListener {
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         synchronized (events){
-            TouchEvent currEvent = new TouchEvent();
-            currEvent.type = TouchEvent.touchDown;
-            currEvent.x = (int)event.getX();
-            currEvent.y = (int)event.getY();
+            //TouchEvent currEvent = new TouchEvent();
+            TouchEvent currEvent = TouchEvent.touchDown;
+            currEvent.setX((int)event.getX());
+            currEvent.setY((int)event.getY());
             events.add(currEvent);
             return true;
         }

@@ -30,7 +30,6 @@ public class DesktopGraphics extends AbstractGraphics implements ComponentListen
         _titulo = titulo;
     }
 
-    @Override
     public boolean init() {
         // Creación de la ventana
         _screen = new DesktopScreen(_titulo);
@@ -45,7 +44,7 @@ public class DesktopGraphics extends AbstractGraphics implements ComponentListen
 
     @Override
     public Image newImage(String name) throws Exception {
-        Image newImage = new DesktopImage("./assets/" + name);
+        DesktopImage newImage = new DesktopImage("./assets/" + name);
         if (!newImage.init())
             throw new Exception();
         return newImage;
@@ -53,7 +52,7 @@ public class DesktopGraphics extends AbstractGraphics implements ComponentListen
 
     @Override
     public Font newFont(String name, int size, boolean isBold) throws Exception {
-        Font newFont = new DesktopFont("./assets/" + name, size, isBold);
+        DesktopFont newFont = new DesktopFont("./assets/" + name, size, isBold);
         if (!newFont.init())
             throw new Exception();
         return newFont;

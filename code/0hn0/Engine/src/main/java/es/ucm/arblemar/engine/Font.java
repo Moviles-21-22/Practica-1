@@ -6,7 +6,5 @@ package es.ucm.arblemar.engine;
  * posición y contenido del texto que se va a mostrar
  */
 public interface Font {
-    public boolean init();
-
     public void setSize(float newSize);
 }

@@ -26,7 +26,6 @@ public class DesktopInput implements Input, MouseListener, MouseMotionListener {
         return this;
     }
 
-    @Override
     public boolean init() {
         return true;
     }
@@ -51,10 +50,9 @@ public class DesktopInput implements Input, MouseListener, MouseMotionListener {
     @Override
     public void mousePressed(MouseEvent e) {
         synchronized (events){
-            TouchEvent currEvent =  new TouchEvent();
-            currEvent.type = TouchEvent.touchDown;
-            currEvent.x = e.getX();
-            currEvent.y = e.getY();
+            TouchEvent currEvent = TouchEvent.touchDown;
+            currEvent.setX(e.getX());
+            currEvent.setY(e.getY());
             events.add(currEvent);
         }
     }
@@ -62,10 +60,9 @@ public class DesktopInput implements Input, MouseListener, MouseMotionListener {
     @Override
     public void mouseReleased(MouseEvent e) {
         synchronized (events){
-            TouchEvent currEvent =  new TouchEvent();
-            currEvent.type = TouchEvent.touchUp;
-            currEvent.x = e.getX();
-            currEvent.y = e.getY();
+            TouchEvent currEvent = TouchEvent.touchUp;
+            currEvent.setX(e.getX());
+            currEvent.setY(e.getY());
             events.add(currEvent);
         }
     }

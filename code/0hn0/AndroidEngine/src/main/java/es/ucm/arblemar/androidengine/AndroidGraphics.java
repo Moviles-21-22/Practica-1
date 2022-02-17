@@ -43,11 +43,6 @@ public class AndroidGraphics extends AbstractGraphics {
     }
 
     @Override
-    public boolean init() {
-        return true;
-    }
-
-    @Override
     public Image newImage(String name){
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = null;

@@ -12,7 +12,6 @@ public class DesktopFont implements Font {
         _isBold = isBold;
     }
 
-    @Override
     public boolean init() {
         try (InputStream is = new FileInputStream(_fileName)) {
             _javaFont = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, is);

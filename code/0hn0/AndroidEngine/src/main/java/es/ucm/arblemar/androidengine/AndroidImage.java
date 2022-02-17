@@ -12,11 +12,6 @@ public class AndroidImage implements Image {
     }
 
     @Override
-    public boolean init() {
-        return true;
-    }
-
-    @Override
     public int getHeight() {
         return bitmap.getHeight();
     }

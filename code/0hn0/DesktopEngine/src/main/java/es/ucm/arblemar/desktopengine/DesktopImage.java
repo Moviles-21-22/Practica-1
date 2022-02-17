@@ -18,7 +18,6 @@ public class DesktopImage implements Image {
         _fileName = filename;
     }
 
-    @Override
     public boolean init(){
         try (InputStream is = new FileInputStream(_fileName)) {
             _javaImage = ImageIO.read(new File(_fileName));

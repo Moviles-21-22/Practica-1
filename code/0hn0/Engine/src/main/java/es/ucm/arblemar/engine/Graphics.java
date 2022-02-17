@@ -2,11 +2,6 @@ package es.ucm.arblemar.engine;
 
 public interface Graphics {
     /**
-     * Inicializa la interfaz gráfica
-     * @return false si algo ha ido mal
-     * */
-    boolean init();
-    /**
      * Carga una imagen almacenada en el contenedor de recursos de la aplicación a partir de su nombre
      * */
     Image newImage(String name) throws Exception;
