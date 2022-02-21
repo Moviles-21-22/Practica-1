@@ -20,11 +20,13 @@ public class AndroidEngine implements Engine, Runnable {
     private AndroidInput input;
     private SurfaceView surface;
     private App currApp;
+    private App _newApp;
     private volatile boolean running = false;
     private Thread thread;
     private long _lastFrameTime = 0;
     private long _currentTime = 0;
     private double _deltaTime = 0;
+    private boolean _changeApp = false;
 
     public AndroidEngine(AppCompatActivity activity, int logicW, int logicH){
 
@@ -57,15 +59,28 @@ public class AndroidEngine implements Engine, Runnable {
         running = true;
         while (running){
             updateDeltaTime();
+
             currApp.handleInput();
             currApp.update(_deltaTime);
+
             while (!holder.getSurface().isValid());
             Canvas canvas = holder.lockCanvas();
+
             graphics.setCanvas(canvas);
             graphics.prepareFrame();
+
             graphics.clear(0xFFFFFFFF);
             currApp.render();
+
             holder.unlockCanvasAndPost(canvas);
+
+            // Inicialización en diferido del nuevo estado
+            if(_changeApp)
+            {
+                _changeApp = false;
+                currApp = _newApp;
+                currApp.init();
+            }
         }
     }
 
@@ -77,9 +92,9 @@ public class AndroidEngine implements Engine, Runnable {
     }
 
     @Override
-    public boolean initNewApp(App newApp) {
-        currApp = newApp;
-        return currApp.init();
+    public void initNewApp(App newApp) {
+        _changeApp = true;
+        _newApp = newApp;
     }
 
 

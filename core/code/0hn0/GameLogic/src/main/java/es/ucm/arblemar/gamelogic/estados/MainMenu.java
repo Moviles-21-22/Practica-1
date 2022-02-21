@@ -26,7 +26,6 @@ public class MainMenu implements App {
 
     @Override
     public boolean init() {
-        // TODO: Aquí se iniciarian cosas de la lógica del mainMenu
         try{
             gameObjects = new ArrayList<>();
             Graphics g = _mainEngine.getGraphics();

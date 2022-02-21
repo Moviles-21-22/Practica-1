@@ -1,8 +1,6 @@
 package es.ucm.arblemar.desktopgame;
 import es.ucm.arblemar.desktopengine.DesktopEngine;
 import es.ucm.arblemar.engine.App;
-import es.ucm.arblemar.gamelogic.GameLogic;
-import es.ucm.arblemar.gamelogic.TipoCelda;
 import es.ucm.arblemar.gamelogic.estados.LoadAssets;
 
 public class Main {

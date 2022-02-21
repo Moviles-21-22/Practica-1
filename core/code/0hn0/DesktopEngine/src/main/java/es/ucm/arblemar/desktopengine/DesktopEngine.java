@@ -47,13 +47,20 @@ public class DesktopEngine implements Engine {
                 } while(strategy.contentsRestored());
                 strategy.show();
             } while(strategy.contentsLost());
+
+            if(_changeApp)
+            {
+                _changeApp = false;
+                _currentApp = _newApp;
+                _currentApp.init();
+            }
         }
     }
 
     @Override
-    public boolean initNewApp(App newApp){
-        _currentApp = newApp;
-        return _currentApp.init();
+    public void initNewApp(App newApp){
+        _changeApp = true;
+        _newApp = newApp;
     }
 
     @Override
@@ -80,6 +87,8 @@ public class DesktopEngine implements Engine {
     private long _lastFrameTime = 0;
     private long _currentTime = 0;
     private double _deltaTime = 0;
+    boolean _changeApp = false;
+    private App _newApp;
     private App _currentApp;
     private DesktopGraphics _graphics;
     private DesktopInput _input;

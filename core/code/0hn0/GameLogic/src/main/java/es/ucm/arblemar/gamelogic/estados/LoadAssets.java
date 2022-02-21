@@ -31,12 +31,14 @@ public class LoadAssets implements App {
 
             //  Falla al inicializar
             App mainMenu = new MainMenu(_mainEngine);
-            return _mainEngine.initNewApp(mainMenu);
+            _mainEngine.initNewApp(mainMenu);
         }
         catch (Exception e) {
             System.err.println(e);
             return false;
         }
+
+        return true;
     }
 
     @Override

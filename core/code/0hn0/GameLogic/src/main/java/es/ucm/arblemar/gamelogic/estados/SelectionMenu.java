@@ -62,7 +62,7 @@ public class SelectionMenu implements App {
                     //System.out.println(eventPos._x + " " + eventPos._y);
                     int numGame = c1.getValue();
                     Game game = new Game(engine,numGame);
-                    while(!engine.initNewApp(game)) {}
+                    engine.initNewApp(game);
                 }
             });
 
@@ -75,7 +75,7 @@ public class SelectionMenu implements App {
                     //System.out.println(eventPos._x + " " + eventPos._y);
                     int numGame = c2.getValue();
                     Game game = new Game(engine,numGame);
-                    while(!engine.initNewApp(game)) {}
+                    engine.initNewApp(game);
                 }
             });
             gameObjects.add(c2);
@@ -87,7 +87,7 @@ public class SelectionMenu implements App {
                     //System.out.println(eventPos._x + " " + eventPos._y);
                     int numGame = c3.getValue();
                     Game game = new Game(engine,numGame);
-                    while(!engine.initNewApp(game)) {}
+                    engine.initNewApp(game);
                 }
             });
             gameObjects.add(c3);
@@ -99,7 +99,7 @@ public class SelectionMenu implements App {
                     //System.out.println(eventPos._x + " " + eventPos._y);
                     int numGame = c4.getValue();
                     Game game = new Game(engine,numGame);
-                    while(!engine.initNewApp(game)) {}
+                    engine.initNewApp(game);
                 }
             });
             gameObjects.add(c4);
@@ -111,7 +111,7 @@ public class SelectionMenu implements App {
                     //System.out.println(eventPos._x + " " + eventPos._y);
                     int numGame = c5.getValue();
                     Game game = new Game(engine,numGame);
-                    while(!engine.initNewApp(game)) {}
+                    engine.initNewApp(game);
                 }
             });
             gameObjects.add(c5);
@@ -123,7 +123,7 @@ public class SelectionMenu implements App {
                     //System.out.println(eventPos._x + " " + eventPos._y);
                     int numGame = c6.getValue();
                     Game game = new Game(engine,numGame);
-                    while(!engine.initNewApp(game)) {}
+                    engine.initNewApp(game);
                 }
             });
             gameObjects.add(c6);
